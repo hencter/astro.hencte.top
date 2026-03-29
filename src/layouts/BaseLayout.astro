@@ -1,0 +1,106 @@
+---
+import "../styles/global.css";
+import Meta from "@components/Meta.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale?: "zh-CN" | "en-US";
+  canonicalPath?: string;
+  keywords?: string[];
+}
+
+const {
+  title = "亦幸小阁 | Personal Brand Hub",
+  description = "把技术能力、内容表达和项目作品整合成可持续增长的个人品牌系统。",
+  locale = "zh-CN",
+  canonicalPath = Astro.url.pathname,
+  keywords = [],
+} = Astro.props;
+
+const isEnglish = locale === "en-US";
+const brandName = "亦幸小阁";
+const signatureName = "亦幸小阁";
+const authorName = "Hencter Lew";
+const brandTagline = isEnglish
+  ? "Build a memorable technical brand"
+  : "让技术能力成为长期影响力";
+const languageLink = isEnglish ? "/" : "/en";
+const languageLabel = isEnglish ? "中文" : "EN";
+const navLinks = isEnglish
+  ? [
+      { href: "/en", label: "Home" },
+      { href: "/en/projects", label: "Projects" },
+      { href: "/blog", label: "Blog" },
+      { href: "/en/about", label: "About" },
+      { href: "#contact", label: "Contact" },
+    ]
+  : [
+      { href: "/", label: "首页" },
+      { href: "/projects", label: "项目" },
+      { href: "/blog", label: "博客" },
+      { href: "/about", label: "关于" },
+      { href: "#contact", label: "联系" },
+    ];
+
+const canonical = new URL(canonicalPath, Astro.url).toString();
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang={isEnglish ? "en" : "zh-CN"}>
+  <head>
+    <Meta
+      title={title}
+      description={description}
+      locale={locale}
+      keywords={keywords}
+      canonical={canonical}
+      applicationName={brandName}
+      author={authorName}
+    />
+  </head>
+  <body>
+    <div class="ambient-bg" aria-hidden="true"></div>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand-link" href={isEnglish ? "/en" : "/"}>
+          <span class="brand-mark" aria-hidden="true">H</span>
+          <span class="brand-copy">
+            <strong>{brandName}</strong>
+            <small>{brandTagline}</small>
+          </span>
+        </a>
+
+        <nav aria-label={isEnglish ? "Primary navigation" : "主导航"}>
+          <ul class="nav-list">
+            {
+              navLinks.map((link) => (
+                <li>
+                  <a href={link.href}>{link.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <a class="language-link" href={languageLink}>
+          {languageLabel}
+        </a>
+      </header>
+
+      <main class="site-main">
+        <slot />
+      </main>
+
+      <footer class="site-footer" id="contact">
+        <p>
+          {isEnglish
+            ? `© ${year} ${signatureName}. Always a simple child who is happy to learn.`
+            : `© ${year} ${signatureName}。Always a simple child who is happy to learn.`}
+        </p>
+        <a href="mailto:hello@hencte.top">hello@hencte.top</a>
+      </footer>
+    </div>
+  </body>
+</html>

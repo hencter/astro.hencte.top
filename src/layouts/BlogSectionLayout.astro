@@ -1,0 +1,132 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface PostItem {
+  title: string;
+  href: string;
+  date?: Date;
+  description?: string;
+  tags?: string[];
+}
+
+interface SectionItem {
+  title: string;
+  href: string;
+  description?: string;
+  count: number;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalPath: string;
+  badge?: string;
+  posts: PostItem[];
+  sections?: SectionItem[];
+}
+
+const {
+  title,
+  description = "",
+  canonicalPath,
+  badge = "Blog",
+  posts,
+  sections = [],
+} = Astro.props;
+
+function formatDate(date?: Date): string {
+  if (!date) {
+    return "日期待补充";
+  }
+  return date.toLocaleDateString("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+}
+
+const blogNav = [
+  { href: "/blog", label: "全部" },
+  { href: "/blog/log", label: "日志" },
+  { href: "/blog/tech", label: "技术" },
+  { href: "/blog/ancient", label: "古文" },
+];
+
+const navActive = canonicalPath.replace(/\/+$/, "");
+---
+
+<BaseLayout
+  title={`${title} | 亦幸小阁`}
+  description={description || `${title} - 博客栏目`}
+  locale="zh-CN"
+  canonicalPath={canonicalPath}
+  keywords={["博客", "栏目", "亦幸小阁", title]}
+>
+  <section class="hero hero-compact">
+    <p class="hero-badge">{badge}</p>
+    <h1 class="hero-title">{title}</h1>
+    {description && <p class="hero-subtitle">{description}</p>}
+    <nav class="blog-subnav" aria-label="Blog navigation">
+      {
+        blogNav.map((link) => (
+          <a class={link.href === navActive ? "is-active" : undefined} href={link.href}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </section>
+
+  <section class="section">
+    <div class="post-prose">
+      <slot />
+    </div>
+
+    {sections.length > 0 && (
+      <div class="section-block">
+        <h2 class="section-title">子栏目</h2>
+        <div class="card-grid three">
+          {
+            sections.map((section) => (
+              <article class="project-card">
+                <p class="card-kicker">Section</p>
+                <h3>
+                  <a href={section.href}>{section.title}</a>
+                </h3>
+                {section.description && <p>{section.description}</p>}
+                <p class="result-line">{section.count} 篇文章</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    )}
+
+    <div class="section-block">
+      <h2 class="section-title">文章</h2>
+      {posts.length === 0 ? (
+        <p class="muted">这个栏目还没有公开文章。</p>
+      ) : (
+        <div class="blog-list-grid">
+          {
+            posts.map((post) => (
+              <article class="blog-post-card">
+                <h3>
+                  <a href={post.href}>{post.title}</a>
+                </h3>
+                <p class="post-meta-line">{formatDate(post.date)}</p>
+                {post.description && <p>{post.description}</p>}
+                {post.tags && post.tags.length > 0 && (
+                  <ul class="chip-list">
+                    {post.tags.slice(0, 4).map((tag) => <li>{tag}</li>)}
+                  </ul>
+                )}
+              </article>
+            ))
+          }
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

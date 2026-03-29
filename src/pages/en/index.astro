@@ -1,10 +1,10 @@
 ---
 import { getCollection, getEntry } from "astro:content";
-import Layout from "../layouts/BaseLayout.astro";
+import Layout from "../../layouts/BaseLayout.astro";
 
-const homeEntry = await getEntry("connect", "zh/home");
+const homeEntry = await getEntry("connect", "en/home");
 if (!homeEntry) {
-  throw new Error("Missing connect content: zh/home");
+  throw new Error("Missing connect content: en/home");
 }
 
 const home = homeEntry.data;
@@ -36,22 +36,23 @@ const latestPosts = allEntries
 
 function formatDate(date?: Date): string {
   if (!date) {
-    return "日期待补充";
+    return "Date pending";
   }
-  return date.toLocaleDateString("zh-CN", {
+  return date.toLocaleDateString("en-US", {
     timeZone: "Asia/Shanghai",
     year: "numeric",
-    month: "2-digit",
+    month: "short",
     day: "2-digit",
   });
 }
+
 ---
 
 <Layout
   title={home.title}
   description={home.description}
-  locale="zh-CN"
-  canonicalPath="/"
+  locale="en-US"
+  canonicalPath="/en"
   keywords={home.keywords ?? []}
 >
   <section class="hero" id="top">
@@ -74,16 +75,16 @@ function formatDate(date?: Date): string {
 
   <section class="section" id="focus">
     <div class="section-heading">
-      <h2 class="section-title">{focusSection?.title ?? "站点核心方向"}</h2>
+      <h2 class="section-title">{focusSection?.title ?? "Core Direction"}</h2>
       {focusSection?.subtitle && <p class="section-subtitle">{focusSection.subtitle}</p>}
     </div>
     <div class="card-grid three">
       {
-        focusAreas.map((pillar) => (
+        focusAreas.map((item) => (
           <article class="value-card">
-            <p class="card-kicker">{pillar.tag}</p>
-            <h3>{pillar.title}</h3>
-            <p>{pillar.text}</p>
+            <p class="card-kicker">{item.tag}</p>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
           </article>
         ))
       }
@@ -92,7 +93,7 @@ function formatDate(date?: Date): string {
 
   <section class="section" id="projects">
     <div class="section-heading">
-      <h2 class="section-title">{projectsSection?.title ?? "重点项目"}</h2>
+      <h2 class="section-title">{projectsSection?.title ?? "Featured Projects"}</h2>
       {projectsSection?.subtitle && <p class="section-subtitle">{projectsSection.subtitle}</p>}
     </div>
     <div class="card-grid three">
@@ -113,7 +114,7 @@ function formatDate(date?: Date): string {
                   target={project.url.startsWith("http") ? "_blank" : undefined}
                   rel={project.url.startsWith("http") ? "noreferrer" : undefined}
                 >
-                  {project.url.startsWith("http") ? "访问项目" : "查看页面"}
+                  {project.url.startsWith("http") ? "Visit project" : "Open page"}
                 </a>
               </p>
             )}
@@ -123,9 +124,9 @@ function formatDate(date?: Date): string {
     </div>
   </section>
 
-  <section class="section" id="playbook">
+  <section class="section" id="loop">
     <div class="section-heading">
-      <h2 class="section-title">{buildSection?.title ?? "持续构建节奏"}</h2>
+      <h2 class="section-title">{buildSection?.title ?? "Build Loop"}</h2>
       {buildSection?.subtitle && <p class="section-subtitle">{buildSection.subtitle}</p>}
     </div>
     <div class="timeline">
@@ -142,7 +143,7 @@ function formatDate(date?: Date): string {
 
   <section class="section" id="latest">
     <div class="section-heading">
-      <h2 class="section-title">{latestSection?.title ?? "最新博客文章"}</h2>
+      <h2 class="section-title">{latestSection?.title ?? "Latest Blog Posts"}</h2>
       {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
     </div>
     <div class="blog-list-grid">
@@ -154,7 +155,7 @@ function formatDate(date?: Date): string {
               <a href={`/blog/${post.id}`}>{post.data.title}</a>
             </h3>
             <p class="post-meta-line">{formatDate(post.data.date)}</p>
-            <p>{post.data.description || "点击查看全文。"}</p>
+            <p>{post.data.description || "Open to read the full post."}</p>
           </article>
         ))
       }
@@ -163,8 +164,8 @@ function formatDate(date?: Date): string {
 
   <section class="section" id="contact">
     <div class="cta-banner">
-      <h2>{cta?.title ?? "欢迎关注项目更新"}</h2>
-      <p>{cta?.text ?? "你可以从项目页快速了解主要产品，也可以在博客中查看详细技术实现与复盘记录。"}</p>
+      <h2>{cta?.title ?? "Follow project updates"}</h2>
+      <p>{cta?.text ?? "Start from the projects page for product overviews, then jump into the blog for implementation details and technical notes."}</p>
       <div class="hero-actions">
         {cta?.actions?.primary && (
           <a class="btn-primary" href={cta.actions.primary.href}>

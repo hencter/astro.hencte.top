@@ -1,46 +1,48 @@
-# Astro Starter Kit: Basics
+# hencte.top
 
-```sh
-pnpm create astro@latest -- --template basics
+Personal public website for project showcase + blog.
+
+## Local development
+
+```bash
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Build
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+pnpm build
+pnpm preview
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Migrate content from old Hugo site
 
-## 🧞 Commands
+This project includes a migration script that reads markdown from the old Hugo repository,
+converts TOML front matter to YAML, and writes posts into `src/content/blog`.
 
-All commands are run from the root of the project, from a terminal:
+Default source path:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+`D:\Hencter\hencte.top.hugo`
 
-## 👀 Want to learn more?
+Run migration:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+pnpm migrate:hugo
+```
+
+If your Hugo repo is elsewhere, set `HUGO_BLOG_ROOT` first:
+
+```bash
+set HUGO_BLOG_ROOT=D:\path\to\your\hugo\site
+pnpm migrate:hugo
+```
+
+## Key routes
+
+- `/` Home
+- `/projects` Project showcase
+- `/blog` Blog index
+- `/blog/[...slug]` Blog post pages
+- `/en` English home
+- `/en/projects` English projects

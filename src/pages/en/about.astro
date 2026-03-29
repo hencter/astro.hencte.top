@@ -1,0 +1,108 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../../layouts/BaseLayout.astro";
+
+const aboutEntry = await getEntry("connect", "en/about");
+if (!aboutEntry) {
+  throw new Error("Missing connect content: en/about");
+}
+
+const page = aboutEntry.data;
+const hero = page.hero;
+const panels = page.panels;
+const principles = page.principles ?? [];
+const milestones = page.milestones ?? [];
+const cta = page.cta;
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  locale="en-US"
+  canonicalPath="/en/about"
+  keywords={page.keywords ?? []}
+>
+  <section class="hero hero-compact">
+    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+  </section>
+
+  <section class="section">
+    <div class="about-split">
+      <article class="story-panel">
+        <h3>{panels?.left?.title ?? "What I focus on"}</h3>
+        {panels?.left?.body && <p>{panels.left.body}</p>}
+        {panels?.left?.bullets && panels.left.bullets.length > 0 && (
+          <ul class="detail-list">
+            {panels.left.bullets.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+      </article>
+
+      <article class="story-panel">
+        <h3>{panels?.right?.title ?? "How to read this site"}</h3>
+        {panels?.right?.body && <p>{panels.right.body}</p>}
+        {panels?.right?.bullets && panels.right.bullets.length > 0 && (
+          <ul class="detail-list">
+            {panels.right.bullets.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2 class="section-title">Working Principles</h2>
+      <p class="section-subtitle">Execution and documentation grow together.</p>
+    </div>
+    <div class="principle-grid">
+      {
+        principles.map((item) => (
+          <article class="principle-card">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2 class="section-title">Milestones</h2>
+      <p class="section-subtitle">Open process, iterate fast, document learnings.</p>
+    </div>
+    <div class="timeline">
+      {
+        milestones.map((item) => (
+          <article class="timeline-item">
+            <span>{item.year}</span>
+            <h3>{item.title}</h3>
+            <p>{item.detail}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="cta-banner">
+      <h2>{cta?.title ?? "Follow the next updates"}</h2>
+      <p>{cta?.text ?? "The site will keep publishing project updates and technical notes."}</p>
+      <div class="hero-actions">
+        {cta?.actions?.primary && (
+          <a class="btn-primary" href={cta.actions.primary.href}>
+            {cta.actions.primary.label}
+          </a>
+        )}
+        {cta?.actions?.secondary && (
+          <a class="btn-secondary" href={cta.actions.secondary.href}>
+            {cta.actions.secondary.label}
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>

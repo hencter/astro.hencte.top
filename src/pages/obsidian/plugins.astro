@@ -1,0 +1,47 @@
+---
+import { getEntry, render } from "astro:content";
+import Layout from "../../layouts/BaseLayout.astro";
+
+const entry = await getEntry("connect", "zh/obsidian/plugins");
+if (!entry) {
+  throw new Error("Missing connect content: zh/obsidian/plugins");
+}
+
+const page = entry.data;
+const hero = page.hero;
+const { Content } = await render(entry);
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  locale="zh-CN"
+  canonicalPath="/obsidian/plugins"
+  keywords={page.keywords ?? []}
+>
+  <section class="hero hero-compact">
+    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+    {hero?.actions && (
+      <div class="hero-actions">
+        {hero.actions.primary && (
+          <a class="btn-primary" href={hero.actions.primary.href}>
+            {hero.actions.primary.label}
+          </a>
+        )}
+        {hero.actions.secondary && (
+          <a class="btn-secondary" href={hero.actions.secondary.href}>
+            {hero.actions.secondary.label}
+          </a>
+        )}
+      </div>
+    )}
+  </section>
+
+  <section class="section">
+    <article class="post-prose">
+      <Content />
+    </article>
+  </section>
+</Layout>

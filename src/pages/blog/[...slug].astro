@@ -1,0 +1,217 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AncientPostLayout from "../../layouts/AncientPostLayout.astro";
+import BlogSectionLayout from "../../layouts/BlogSectionLayout.astro";
+
+export async function getStaticPaths() {
+  const allowedSections = new Set(["log", "tech", "ancient"]);
+  const inferSection = (entry: { id: string; data: { section?: string } }) =>
+    entry.data.section || entry.id.split("/")[0] || "blog";
+  const isIndexPage = (entry: { data: { legacyPath?: string } }) =>
+    Boolean(entry.data.legacyPath?.endsWith("_index.md"));
+
+  const allEntries = await getCollection("blog");
+  const publicEntries = allEntries
+    .filter((entry) => !entry.data.draft)
+    .filter((entry) => allowedSections.has(inferSection(entry)));
+
+  const indexEntries = publicEntries.filter((entry) => isIndexPage(entry));
+  const postEntries = publicEntries.filter((entry) => !isIndexPage(entry));
+
+  const childPostCount = new Map<string, number>();
+  for (const indexEntry of indexEntries) {
+    const prefix = `${indexEntry.id}/`;
+    childPostCount.set(
+      indexEntry.id,
+      postEntries.filter((entry) => entry.id.startsWith(prefix)).length
+    );
+  }
+
+  const posts = publicEntries.filter((entry) => {
+    if (!isIndexPage(entry)) {
+      return true;
+    }
+
+    // Always keep the main section landing pages like /blog/log and /blog/tech.
+    if (entry.id.split("/").length <= 1) {
+      return true;
+    }
+
+    // Only build deeper section pages when they have public child posts.
+    return (childPostCount.get(entry.id) || 0) > 0;
+  });
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const allowedSections = new Set(["log", "tech", "ancient"]);
+
+function inferSection(entry: { id: string; data: { section?: string } }): string {
+  return entry.data.section || entry.id.split("/")[0] || "blog";
+}
+
+function isIndexPage(entry: { data: { legacyPath?: string } }): boolean {
+  return Boolean(entry.data.legacyPath?.endsWith("_index.md"));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<"blog"> };
+const { Content, headings } = await render(post);
+
+const sectionKey = inferSection(post);
+const isAncient = sectionKey === "ancient";
+const isSectionLanding = isIndexPage(post);
+
+const sectionLabels: Record<string, string> = {
+  log: "日志",
+  tech: "技术",
+  ancient: "古文",
+};
+
+const wordCount = (post.body ?? "").replace(/\s+/g, "").length;
+const readingMinutes = Math.max(1, Math.round(wordCount / 900));
+
+function formatDate(date?: Date): string {
+  if (!date) {
+    return "日期待补充";
+  }
+  return date.toLocaleDateString("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+}
+
+const canonicalPath = `/blog/${post.id}`;
+const seoKeywords = [
+  ...(post.data.tags || []),
+  ...(post.data.categories || []),
+  "亦幸小阁",
+  "个人博客",
+];
+
+let landingSections: { title: string; href: string; description?: string; count: number }[] = [];
+let landingPosts: { title: string; href: string; date?: Date; description?: string; tags?: string[] }[] = [];
+
+if (isSectionLanding && !isAncient) {
+  const allEntries = await getCollection("blog");
+  const publicEntries = allEntries
+    .filter((entry) => !entry.data.draft)
+    .filter((entry) => allowedSections.has(inferSection(entry)));
+
+  const prefix = post.id;
+  const prefixDepth = prefix.split("/").length;
+  const descendants = publicEntries.filter((entry) => entry.id.startsWith(`${prefix}/`));
+
+  const immediateIndexPages = descendants
+    .filter((entry) => isIndexPage(entry))
+    .filter((entry) => entry.id.split("/").length === prefixDepth + 1)
+    .sort((a, b) => a.data.title.localeCompare(b.data.title, "zh-CN"));
+
+  landingSections = immediateIndexPages.map((entry) => {
+    const childCount = descendants
+      .filter((child) => child.id.startsWith(`${entry.id}/`))
+      .filter((child) => !isIndexPage(child)).length;
+
+    return {
+      title: entry.data.title,
+      href: `/blog/${entry.id}`,
+      description: entry.data.description,
+      count: childCount,
+    };
+  });
+
+  landingPosts = descendants
+    .filter((entry) => !isIndexPage(entry))
+    .sort((a, b) => {
+      const aTime = a.data.date ? a.data.date.getTime() : 0;
+      const bTime = b.data.date ? b.data.date.getTime() : 0;
+      return bTime - aTime;
+    })
+    .map((entry) => ({
+      title: entry.data.title,
+      href: `/blog/${entry.id}`,
+      date: entry.data.date,
+      description: entry.data.description,
+      tags: entry.data.tags,
+    }));
+}
+---
+
+{
+  isAncient ? (
+    <AncientPostLayout
+      title={post.data.title}
+      description={post.data.description}
+      date={post.data.date}
+      canonicalPath={canonicalPath}
+      readingMinutes={readingMinutes}
+      tags={post.data.tags}
+      categories={post.data.categories}
+      headings={headings}
+    >
+      <Content />
+    </AncientPostLayout>
+  ) : isSectionLanding ? (
+    <BlogSectionLayout
+      title={post.data.title}
+      description={post.data.description}
+      canonicalPath={canonicalPath}
+      badge={`Blog / ${sectionLabels[sectionKey] || sectionKey}`}
+      sections={landingSections}
+      posts={landingPosts}
+    >
+      <Content />
+    </BlogSectionLayout>
+  ) : (
+    <BaseLayout
+      title={`${post.data.title} | 亦幸小阁`}
+      description={post.data.description || `${post.data.title} - 博客文章`}
+      locale="zh-CN"
+      canonicalPath={canonicalPath}
+      keywords={seoKeywords}
+    >
+      <section class="section post-shell">
+        <a class="back-link" href="/blog">← 返回文章列表</a>
+
+        <header class="post-header">
+          <p class="card-kicker">{post.data.section || "blog"}</p>
+          <h1>{post.data.title}</h1>
+          <div class="post-meta-line">
+            <span>{formatDate(post.data.date)}</span>
+            <span>约 {readingMinutes} 分钟阅读</span>
+          </div>
+
+          {(post.data.tags.length > 0 || post.data.categories.length > 0) && (
+            <ul class="chip-list">
+              {post.data.categories.map((category) => <li>{category}</li>)}
+              {post.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </header>
+
+        {headings.length > 0 && (
+          <aside class="post-toc">
+            <h2>目录</h2>
+            <ul>
+              {headings.filter((item) => item.depth <= 3).map((item) => (
+                <li>
+                  <a href={`#${item.slug}`}>{item.text}</a>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
+
+        <article class="post-prose">
+          <Content />
+        </article>
+      </section>
+    </BaseLayout>
+  )
+}

@@ -1,0 +1,90 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../layouts/BaseLayout.astro";
+
+const projectsEntry = await getEntry("connect", "zh/projects");
+if (!projectsEntry) {
+  throw new Error("Missing connect content: zh/projects");
+}
+
+const page = projectsEntry.data;
+const hero = page.hero;
+const projects = page.featuredProjects ?? [];
+const timeline = page.timeline ?? [];
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  locale="zh-CN"
+  canonicalPath="/projects"
+  keywords={page.keywords ?? []}
+>
+  <section class="hero" id="top">
+    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+    <div class="hero-actions">
+      {hero?.actions?.primary && (
+        <a class="btn-primary" href={hero.actions.primary.href}>
+          {hero.actions.primary.label}
+        </a>
+      )}
+      {hero?.actions?.secondary && (
+        <a class="btn-secondary" href={hero.actions.secondary.href}>
+          {hero.actions.secondary.label}
+        </a>
+      )}
+    </div>
+  </section>
+
+  <section class="section" id="featured">
+    <div class="section-heading">
+      <h2 class="section-title">重点项目</h2>
+      <p class="section-subtitle">对外可访问、可验证、可持续迭代。</p>
+    </div>
+    <div class="card-grid three">
+      {
+        projects.map((project) => (
+          <article class="project-card">
+            <p class="card-kicker">{project.stage}</p>
+            <h3>{project.title}</h3>
+            <p>{project.description}</p>
+            {project.result && <p class="result-line">{project.result}</p>}
+            <ul class="chip-list">
+              {project.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+            {project.url && (
+              <p>
+                <a
+                  href={project.url}
+                  target={project.url.startsWith("http") ? "_blank" : undefined}
+                  rel={project.url.startsWith("http") ? "noreferrer" : undefined}
+                >
+                  {project.url.startsWith("http") ? "访问外站" : "查看详情"}
+                </a>
+              </p>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2 class="section-title">持续迭代节奏</h2>
+      <p class="section-subtitle">项目和内容共用一个增长循环。</p>
+    </div>
+    <div class="timeline">
+      {
+        timeline.map((item) => (
+          <article class="timeline-item">
+            <span>{item.phase}</span>
+            <p>{item.detail}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

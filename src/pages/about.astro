@@ -1,0 +1,108 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../layouts/BaseLayout.astro";
+
+const aboutEntry = await getEntry("connect", "zh/about");
+if (!aboutEntry) {
+  throw new Error("Missing connect content: zh/about");
+}
+
+const page = aboutEntry.data;
+const hero = page.hero;
+const panels = page.panels;
+const principles = page.principles ?? [];
+const milestones = page.milestones ?? [];
+const cta = page.cta;
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  locale="zh-CN"
+  canonicalPath="/about"
+  keywords={page.keywords ?? []}
+>
+  <section class="hero hero-compact">
+    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+  </section>
+
+  <section class="section">
+    <div class="about-split">
+      <article class="story-panel">
+        <h3>{panels?.left?.title ?? "我在做什么"}</h3>
+        {panels?.left?.body && <p>{panels.left.body}</p>}
+        {panels?.left?.bullets && panels.left.bullets.length > 0 && (
+          <ul class="detail-list">
+            {panels.left.bullets.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+      </article>
+
+      <article class="story-panel">
+        <h3>{panels?.right?.title ?? "这个站点如何阅读"}</h3>
+        {panels?.right?.body && <p>{panels.right.body}</p>}
+        {panels?.right?.bullets && panels.right.bullets.length > 0 && (
+          <ul class="detail-list">
+            {panels.right.bullets.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2 class="section-title">三条工作原则</h2>
+      <p class="section-subtitle">项目与内容保持同步增长。</p>
+    </div>
+    <div class="principle-grid">
+      {
+        principles.map((item) => (
+          <article class="principle-card">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2 class="section-title">品牌里程碑</h2>
+      <p class="section-subtitle">持续公开、持续迭代、持续沉淀。</p>
+    </div>
+    <div class="timeline">
+      {
+        milestones.map((item) => (
+          <article class="timeline-item">
+            <span>{item.year}</span>
+            <h3>{item.title}</h3>
+            <p>{item.detail}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="cta-banner">
+      <h2>{cta?.title ?? "欢迎继续关注后续更新"}</h2>
+      <p>{cta?.text ?? "站点会持续发布新的项目进展和技术文章。"}</p>
+      <div class="hero-actions">
+        {cta?.actions?.primary && (
+          <a class="btn-primary" href={cta.actions.primary.href}>
+            {cta.actions.primary.label}
+          </a>
+        )}
+        {cta?.actions?.secondary && (
+          <a class="btn-secondary" href={cta.actions.secondary.href}>
+            {cta.actions.secondary.label}
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>

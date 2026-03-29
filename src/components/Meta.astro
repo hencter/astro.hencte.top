@@ -1,0 +1,51 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  author?: string;
+  keywords?: string[];
+  applicationName?: string;
+  locale?: "zh-CN" | "en-US";
+  canonical?: string;
+  image?: string;
+}
+
+const {
+  title,
+  description = "",
+  author = "Hencter Lew",
+  keywords = [],
+  applicationName = "Hencter Studio",
+  locale = "zh-CN",
+  canonical,
+  image = "/favicon.svg",
+} = Astro.props;
+
+const localeTag = locale === "zh-CN" ? "zh_CN" : "en_US";
+const keywordContent = keywords.join(", ");
+const socialImage = new URL(image, Astro.url).toString();
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+{description && <meta name="description" content={description} />}
+{keywordContent && <meta name="keywords" content={keywordContent} />}
+<meta name="author" content={author} />
+<meta name="application-name" content={applicationName} />
+{canonical && <link rel="canonical" href={canonical} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:locale" content={localeTag} />
+<meta property="og:image" content={socialImage} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+{description && <meta name="twitter:description" content={description} />}
+<meta name="twitter:image" content={socialImage} />
+
+<slot />

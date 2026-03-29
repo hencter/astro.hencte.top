@@ -6,9 +6,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "migrate:hugo": "py scripts/migrate_hugo_content.py"
   },
   "dependencies": {
-    "astro": "^5.15.7"
+    "@astrojs/markdoc": "^0.15.8",
+    "@tailwindcss/vite": "^4.1.17",
+    "astro": "^5.15.7",
+    "heti": "^0.9.6",
+    "lunar-javascript": "^1.7.7",
+    "tailwindcss": "^4.1.17"
   }
 }

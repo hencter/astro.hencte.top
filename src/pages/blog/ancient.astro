@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import BlogSectionLayout from "../../layouts/BlogSectionLayout.astro";
+
+const allEntries = await getCollection("blog");
+const posts = allEntries
+  .filter((entry) => !entry.data.draft)
+  .filter((entry) => (entry.data.section || entry.id.split("/")[0]) === "ancient")
+  .sort((a, b) => {
+    const aTime = a.data.date ? a.data.date.getTime() : 0;
+    const bTime = b.data.date ? b.data.date.getTime() : 0;
+    return bTime - aTime;
+  })
+  .map((entry) => ({
+    title: entry.data.title,
+    href: `/blog/${entry.id}`,
+    date: entry.data.date,
+    description: entry.data.description,
+    tags: entry.data.tags,
+  }));
+---
+
+<BlogSectionLayout
+  title="古文"
+  description="收录古籍片段与古文排版实验，正文使用 Heti 进行中文排版增强。"
+  canonicalPath="/blog/ancient"
+  badge="Blog / 古文"
+  posts={posts}
+>
+  <p>
+    古文正文页会显示「公历 + 农历」日期，并自动进行中西文混排优化与标点挤压。
+  </p>
+</BlogSectionLayout>

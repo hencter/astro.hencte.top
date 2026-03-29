@@ -1,0 +1,123 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+import "heti/umd/heti.min.css";
+import hetiAddonUrl from "heti/umd/heti-addon.min.js?url";
+import { Solar } from "lunar-javascript";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  date?: Date;
+  canonicalPath: string;
+  readingMinutes?: number;
+  tags?: string[];
+  categories?: string[];
+  headings?: Heading[];
+}
+
+const {
+  title,
+  description = "",
+  date,
+  canonicalPath,
+  readingMinutes,
+  tags = [],
+  categories = [],
+  headings = [],
+} = Astro.props;
+
+function formatSolarDate(value?: Date): string {
+  if (!value) {
+    return "日期待补充";
+  }
+
+  return value.toLocaleDateString("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+}
+
+function ymdInShanghai(value: Date): { year: number; month: number; day: number } {
+  const text = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(value);
+  const [year, month, day] = text.split("-").map((item) => Number(item));
+  return { year, month, day };
+}
+
+const solarDateText = formatSolarDate(date);
+let lunarDateText = "";
+if (date) {
+  const { year, month, day } = ymdInShanghai(date);
+  lunarDateText = Solar.fromYmd(year, month, day).getLunar().toString();
+}
+
+const keywords = [...categories, ...tags, "古文", "中文排版", "亦幸小阁"];
+const hetiScopeId = "heti-ancient";
+---
+
+<BaseLayout
+  title={`${title} | 亦幸小阁`}
+  description={description || `${title} - 古文`}
+  locale="zh-CN"
+  canonicalPath={canonicalPath}
+  keywords={keywords}
+>
+  <section class="section post-shell">
+    <a class="back-link" href="/blog">← 返回文章列表</a>
+
+    <header class="post-header">
+      <p class="card-kicker">古文</p>
+      <h1>{title}</h1>
+      <div class="post-meta-line">
+        <span>{solarDateText}</span>
+        {lunarDateText && <span>农历 {lunarDateText}</span>}
+        {readingMinutes && <span>约 {readingMinutes} 分钟阅读</span>}
+      </div>
+
+      {(tags.length > 0 || categories.length > 0) && (
+        <ul class="chip-list">
+          {categories.map((category) => <li>{category}</li>)}
+          {tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      )}
+    </header>
+
+    {headings.length > 0 && (
+      <aside class="post-toc">
+        <h2>目录</h2>
+        <ul>
+          {headings.filter((item) => item.depth <= 3).map((item) => (
+            <li>
+              <a href={`#${item.slug}`}>{item.text}</a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+
+    <article id={hetiScopeId} class="post-prose heti heti--ancient">
+      <slot />
+    </article>
+
+    <script src={hetiAddonUrl}></script>
+    <script is:inline>
+      if (typeof Heti !== "undefined") {
+        const heti = new Heti("#heti-ancient");
+        heti.autoSpacing();
+      }
+    </script>
+  </section>
+</BaseLayout>
