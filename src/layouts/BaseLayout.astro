@@ -59,6 +59,13 @@ const year = new Date().getFullYear();
       applicationName={brandName}
       author={authorName}
     />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-0YT61J3M3T"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0YT61J3M3T');
+    </script>
   </head>
   <body>
     <div class="ambient-bg" aria-hidden="true"></div>
