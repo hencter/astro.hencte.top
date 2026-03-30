@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # Obsidian workspace (local UI state)
 .obsidian/workspace.json
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
