@@ -20,6 +20,7 @@ interface Props {
   tags?: string[];
   categories?: string[];
   headings?: Heading[];
+  layout?: "vertical" | "columns2";
 }
 
 const {
@@ -31,7 +32,10 @@ const {
   tags = [],
   categories = [],
   headings = [],
+  layout = "vertical",
 } = Astro.props;
+
+const hetiLayoutClass = layout === "columns2" ? "heti--columns-2" : "heti--vertical";
 
 function formatSolarDate(value?: Date): string {
   if (!value) {
@@ -76,7 +80,15 @@ const hetiScopeId = "heti-ancient";
   keywords={keywords}
 >
   <section class="section post-shell">
-    <a class="back-link" href="/blog">← 返回文章列表</a>
+    <nav class="breadcrumb">
+      <a href="/">首页</a>
+      <span class="separator">›</span>
+      <a href="/blog">博客</a>
+      <span class="separator">›</span>
+      <a href="/blog/ancient">古文</a>
+      <span class="separator">›</span>
+      <span class="current">{title}</span>
+    </nav>
 
     <header class="post-header">
       <p class="card-kicker">古文</p>
@@ -96,24 +108,31 @@ const hetiScopeId = "heti-ancient";
     </header>
 
     {headings.length > 0 && (
-      <aside class="post-toc">
-        <h2>目录</h2>
-        <ul>
-          {headings.filter((item) => item.depth <= 3).map((item) => (
-            <li>
-              <a href={`#${item.slug}`}>{item.text}</a>
-            </li>
-          ))}
-        </ul>
-      </aside>
+      <div class="heti-scroll-wrapper">
+        <aside class={`post-toc heti ${hetiLayoutClass}`}>
+          <h2>目录</h2>
+          <ul>
+            {headings.filter((item) => item.depth <= 3).map((item) => (
+              <li>
+                <a href={`#${item.slug}`}>{item.text}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
     )}
 
-    <article id={hetiScopeId} class="post-prose heti heti--ancient">
-      <slot />
-    </article>
+    <div class="heti-scroll-wrapper">
+      <article id={hetiScopeId} class={`post-prose heti heti--ancient ${hetiLayoutClass}`}>
+        <slot />
+      </article>
+    </div>
 
     <script src={hetiAddonUrl}></script>
     <script is:inline>
+      document.querySelectorAll(".heti-scroll-wrapper").forEach((wrapper) => {
+        wrapper.scrollLeft = wrapper.scrollWidth;
+      });
       if (typeof Heti !== "undefined") {
         const heti = new Heti("#heti-ancient");
         heti.autoSpacing();

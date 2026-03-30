@@ -9,3 +9,5 @@ legacyPath: "log/2025-08-15-Hugo-Obsidian-Plugin-Dev.md"
 本次开发采用 Trae Solo 模式进行开发
 
 <br>
+测试更新
+
