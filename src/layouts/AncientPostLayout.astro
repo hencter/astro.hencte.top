@@ -130,13 +130,20 @@ const hetiScopeId = "heti-ancient";
 
     <script src={hetiAddonUrl}></script>
     <script is:inline>
-      document.querySelectorAll(".heti-scroll-wrapper").forEach((wrapper) => {
-        wrapper.scrollLeft = wrapper.scrollWidth;
-      });
-      if (typeof Heti !== "undefined") {
-        const heti = new Heti("#heti-ancient");
-        heti.autoSpacing();
+      function initHeti() {
+        document.querySelectorAll(".heti-scroll-wrapper").forEach((wrapper) => {
+          wrapper.scrollLeft = wrapper.scrollWidth;
+        });
+        if (typeof Heti !== "undefined") {
+          const el = document.getElementById("heti-ancient");
+          if (el) {
+            const heti = new Heti("#heti-ancient");
+            heti.autoSpacing();
+          }
+        }
       }
+      initHeti();
+      document.addEventListener('astro:after-swap', initHeti);
     </script>
   </section>
 </BaseLayout>
