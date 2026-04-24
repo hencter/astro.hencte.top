@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import Meta from "@components/Meta.astro";
+import JsonLD from "@components/JsonLD.astro";
 
 interface Props {
   title?: string;
@@ -60,6 +61,8 @@ const year = new Date().getFullYear();
       applicationName={brandName}
       author={authorName}
     />
+    <JsonLD type="Organization" pageDescription={description} />
+    <JsonLD type="WebSite" pageDescription={description} />
     <ClientRouter />
     <script is:inline>
       // Theme initialization (before paint to prevent flash)

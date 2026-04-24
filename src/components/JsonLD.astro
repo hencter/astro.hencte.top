@@ -1,0 +1,123 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  type: "Organization" | "WebSite" | "Article" | "BreadcrumbList";
+  article?: CollectionEntry<"blog">;
+  breadcrumbs?: { name: string; url: string }[];
+  pageTitle?: string;
+  pageDescription?: string;
+  canonicalPath?: string;
+  datePublished?: Date;
+  dateModified?: Date;
+  tags?: string[];
+}
+
+const {
+  type,
+  article,
+  breadcrumbs = [],
+  pageTitle,
+  pageDescription,
+  canonicalPath = "",
+  datePublished,
+  dateModified,
+  tags = [],
+} = Astro.props;
+
+const siteUrl = "https://hencte.top";
+const fullUrl = siteUrl + canonicalPath;
+
+let jsonLd: Record<string, unknown>;
+
+if (type === "Organization") {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Hencter Lew",
+    alternateName: "亦幸",
+    url: siteUrl,
+    sameAs: [
+      "https://github.com/hencter",
+      "https://gitlab.com/hencter",
+      "https://www.v2ex.com/member/hencte",
+    ],
+    description: pageDescription || "TypeScript/Lua/Python 开发者，关注 AI、知识管理与产品实践。",
+    knowsAbout: [
+      "TypeScript",
+      "Lua",
+      "Python",
+      "AI",
+      "LLM",
+      "Agent",
+      "Obsidian",
+      "Knowledge Management",
+      "SEO",
+      "GEO",
+    ],
+  };
+} else if (type === "WebSite") {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "亦幸小阁",
+    url: siteUrl,
+    description: pageDescription || "亦幸（Hencter Lew）的个人品牌站点：技术博客、项目展示与知识管理实践。",
+    inLanguage: "zh-CN",
+    author: {
+      "@type": "Person",
+      name: "Hencter Lew",
+    },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteUrl}/search?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+} else if (type === "Article" && article) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.data.title,
+    description: article.data.description || `${article.data.title} - 亦幸小阁`,
+    author: {
+      "@type": "Person",
+      name: "Hencter Lew",
+      url: siteUrl,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Hencter Lew",
+      url: siteUrl,
+    },
+    datePublished: datePublished?.toISOString() || article.data.date?.toISOString(),
+    dateModified: dateModified?.toISOString() || article.data.lastmod || article.data.date?.toISOString(),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": fullUrl,
+    },
+    keywords: (tags.length > 0 ? tags : article.data.tags || [])?.join(", "),
+    inLanguage: "zh-CN",
+    wordCount: (article.body ?? "").replace(/\s+/g, "").length,
+  };
+} else if (type === "BreadcrumbList" && breadcrumbs.length > 0) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.url.startsWith("http") ? crumb.url : siteUrl + crumb.url,
+    })),
+  };
+} else {
+  jsonLd = {};
+}
+---
+
+{
+  Object.keys(jsonLd).length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  )
+}

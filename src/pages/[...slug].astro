@@ -4,6 +4,7 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AncientPostLayout from "../layouts/AncientPostLayout.astro";
 import BlogSectionLayout from "../layouts/BlogSectionLayout.astro";
+import JsonLD from "../components/JsonLD.astro";
 
 export async function getStaticPaths() {
   const allowedSections = new Set(["log", "tech", "ancient", "posts"]);
@@ -175,6 +176,24 @@ if (isSectionLanding && !isAncient) {
       canonicalPath={canonicalPath}
       keywords={seoKeywords}
     >
+      <JsonLD
+        type="Article"
+        article={post}
+        pageTitle={post.data.title}
+        pageDescription={post.data.description}
+        canonicalPath={canonicalPath}
+        datePublished={post.data.date}
+        dateModified={post.data.lastmod ? new Date(post.data.lastmod) : undefined}
+        tags={post.data.tags}
+      />
+      <JsonLD
+        type="BreadcrumbList"
+        breadcrumbs={[
+          { name: "首页", url: "/" },
+          { name: sectionLabels[sectionKey] || sectionKey, url: `/${sectionKey}` },
+          { name: post.data.title, url: canonicalPath },
+        ]}
+      />
       <section class="section post-shell">
         <a class="back-link" href="/">← 返回首页</a>
 

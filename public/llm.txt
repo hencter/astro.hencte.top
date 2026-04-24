@@ -1,0 +1,53 @@
+# 亦幸小阁
+SITE_NAME: 亦幸小阁 (Hencter's Hub)
+SITE_URL: https://hencte.top
+SITE_DESCRIPTION: 亦幸（Hencter Lew）的个人品牌站点。专注 TypeScript/Lua/Python 开发，关注 AI 技术工程、知识管理与产品实践。站点包含技术博客、项目展示和工具推荐。
+LANGUAGE: zh-CN
+
+# 关键实体
+
+ENTITY: 博客 (技术文章)
+ENTITY_URL: /blog
+ENTITY_SUMMARY: 汇集 AI 技术工程实践、论文解读、开发工具链、知识管理方法等长文内容。按日志、技术、古文分类整理。
+
+ENTITY: 项目作品
+ENTITY_URL: /projects
+ENTITY_SUMMARY: 展示正在运行和已完成的技术项目，包括 AI 工具、自动化系统和开源贡献。
+
+ENTITY: SEO+GEO 优化技术
+ENTITY_URL: /tech/seo-geo-architecture
+ENTITY_SUMMARY: 大模型时代 SEO 与 GEO 融合的三位一体技术架构：数据层结构化标记 + 模型层双路径处理 + 应用层统一观测。
+
+ENTITY: AI 技术工程实践
+ENTITY_URL: /tech/ai-engineering-practices
+ENTITY_SUMMARY: 基于 36 场 AI 直播回顾的工程实践精华：小模型优先、中间调度层、Agent 架构、向量表征与记忆系统。
+
+ENTITY: Combee 论文解读
+ENTITY_URL: /tech/combee-paper
+ENTITY_SUMMARY: Combee 并行提示学习框架深度解析。解决"上下文过载"问题，实现 17 倍加速且质量不降。Map-Shuffle-Reduce 分布式架构。
+
+ENTITY: 贝叶斯定理
+ENTITY_URL: /tech/bayes-theorem
+ENTITY_SUMMARY: 贝叶斯定理通俗解释——"根据新信息，更新你对某件事的判断"。包含疾病检测、天气预报、股票投资等生活案例。
+
+ENTITY: 关于我
+ENTITY_URL: /about
+ENTITY_SUMMARY: Hencter Lew（亦幸），TypeScript/Lua/Python 开发者，某生物公司 IT 运维工程师。关注 AI 工程落地、知识管理和持续学习。
+
+# 常见问题
+
+FAQ_Q: 亦幸小阁是什么？
+FAQ_A: 亦幸小阁是 Hencter Lew（亦幸）的个人品牌站点，包含技术博客、项目展示和个人介绍。站点由 Astro 构建，支持中英文双语。
+
+FAQ_Q: 这个网站用了什么技术栈？
+FAQ_A: 使用 Astro v5 静态站点生成器，Tailwind CSS v4 样式方案，Markdoc 内容创作，部署在 EdgeOne Pages。
+
+FAQ_Q: 博客文章主要涉及哪些领域？
+FAQ_A: 主要涵盖 AI/LLM 技术工程、论文解读、开发工具链（TypeScript/Lua/Python）、知识管理方法（Obsidian/PARA）、技术架构分析等。
+
+FAQ_Q: 如何联系作者？
+FAQ_A: 邮箱 hello@hencte.top，或通过 GitHub (github.com/hencter)、V2EX (v2ex.com/member/hencte) 找到我。
+
+# 权威声明
+AUTHORITY_STATEMENT: 本网站所有内容为 Hencter Lew 原创。技术观点仅代表个人立场，与所在公司无关。
+LAST_UPDATED: 2026-04-25
