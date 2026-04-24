@@ -152,7 +152,7 @@ function formatDate(date?: Date): string {
           <article class="blog-post-card">
             <p class="card-kicker">{post.data.section || "blog"}</p>
             <h3>
-              <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              <a href={`/${post.id}`}>{post.data.title}</a>
             </h3>
             <p class="post-meta-line">{formatDate(post.data.date)}</p>
             <p>{post.data.description || "Open to read the full post."}</p>

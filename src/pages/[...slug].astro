@@ -1,12 +1,12 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import AncientPostLayout from "../../layouts/AncientPostLayout.astro";
-import BlogSectionLayout from "../../layouts/BlogSectionLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AncientPostLayout from "../layouts/AncientPostLayout.astro";
+import BlogSectionLayout from "../layouts/BlogSectionLayout.astro";
 
 export async function getStaticPaths() {
-  const allowedSections = new Set(["log", "tech", "ancient"]);
+  const allowedSections = new Set(["log", "tech", "ancient", "posts"]);
   const inferSection = (entry: { id: string; data: { section?: string } }) =>
     entry.data.section || entry.id.split("/")[0] || "blog";
   const isIndexPage = (entry: { data: { legacyPath?: string } }) =>
@@ -34,12 +34,10 @@ export async function getStaticPaths() {
       return true;
     }
 
-    // Always keep the main section landing pages like /blog/log and /blog/tech.
     if (entry.id.split("/").length <= 1) {
       return true;
     }
 
-    // Only build deeper section pages when they have public child posts.
     return (childPostCount.get(entry.id) || 0) > 0;
   });
 
@@ -49,7 +47,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const allowedSections = new Set(["log", "tech", "ancient"]);
+const allowedSections = new Set(["log", "tech", "ancient", "posts"]);
 
 function inferSection(entry: { id: string; data: { section?: string } }): string {
   return entry.data.section || entry.id.split("/")[0] || "blog";
@@ -70,6 +68,7 @@ const sectionLabels: Record<string, string> = {
   log: "日志",
   tech: "技术",
   ancient: "古文",
+  posts: "文章",
 };
 
 const wordCount = (post.body ?? "").replace(/\s+/g, "").length;
@@ -87,7 +86,7 @@ function formatDate(date?: Date): string {
   });
 }
 
-const canonicalPath = `/blog/${post.id}`;
+const canonicalPath = `/${post.id}`;
 const seoKeywords = [
   ...(post.data.tags || []),
   ...(post.data.categories || []),
@@ -120,7 +119,7 @@ if (isSectionLanding && !isAncient) {
 
     return {
       title: entry.data.title,
-      href: `/blog/${entry.id}`,
+      href: `/${entry.id}`,
       description: entry.data.description,
       count: childCount,
     };
@@ -135,7 +134,7 @@ if (isSectionLanding && !isAncient) {
     })
     .map((entry) => ({
       title: entry.data.title,
-      href: `/blog/${entry.id}`,
+      href: `/${entry.id}`,
       date: entry.data.date,
       description: entry.data.description,
       tags: entry.data.tags,
@@ -177,7 +176,7 @@ if (isSectionLanding && !isAncient) {
       keywords={seoKeywords}
     >
       <section class="section post-shell">
-        <a class="back-link" href="/blog">← 返回文章列表</a>
+        <a class="back-link" href="/">← 返回首页</a>
 
         <header class="post-header">
           <p class="card-kicker">{post.data.section || "blog"}</p>

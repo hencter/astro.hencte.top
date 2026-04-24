@@ -36,7 +36,7 @@ legacyPath: "about/_index.md"
 
 1. [X] 目前已经完成站点的基本布局
 2. [ ] 引入[赫蹏](https://sivan.github.io/heti/) 添加了赫蹏的简码
-3. [ ] [整理 Hugo](/blog/tech/hugo)：亦幸自己写的一些关于 Hugo 文档教程，里面含有一些内容的测试。
+3. [ ] [整理 Hugo](/tech/hugo)：亦幸自己写的一些关于 Hugo 文档教程，里面含有一些内容的测试。
 4. [ ] 参考 [HTML 元素参考](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element "MDN Web Docs")
 
 ## 工具/教程

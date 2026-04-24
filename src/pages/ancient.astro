@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import BlogSectionLayout from "../../layouts/BlogSectionLayout.astro";
+import BlogSectionLayout from "../layouts/BlogSectionLayout.astro";
 
 const allEntries = await getCollection("blog");
 const posts = allEntries
@@ -13,7 +13,7 @@ const posts = allEntries
   })
   .map((entry) => ({
     title: entry.data.title,
-    href: `/blog/${entry.id}`,
+    href: `/${entry.id}`,
     date: entry.data.date,
     description: entry.data.description,
     tags: entry.data.tags,
@@ -23,8 +23,8 @@ const posts = allEntries
 <BlogSectionLayout
   title="古文"
   description="收录古籍片段与古文排版实验，正文使用 Heti 进行中文排版增强。"
-  canonicalPath="/blog/ancient"
-  badge="Blog / 古文"
+  canonicalPath="/ancient"
+  badge="古文"
   posts={posts}
 >
   <p>

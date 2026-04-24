@@ -27,15 +27,15 @@ sections:
   - key: "log"
     label: "日志"
     description: "日常折腾记录与阶段性复盘。"
-    href: "/blog/log"
+    href: "/log"
   - key: "tech"
     label: "技术"
     description: "工具链、实践笔记、实现细节与经验总结。"
-    href: "/blog/tech"
+    href: "/tech"
   - key: "ancient"
     label: "古文"
     description: "古籍摘录与中文排版实验（Heti + 农历）。"
-    href: "/blog/ancient"
+    href: "/ancient"
 latestTitle: "最新文章"
 ---
 

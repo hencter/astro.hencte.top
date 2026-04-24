@@ -132,7 +132,7 @@ https://hencter.top or <https://hencter.top>。
 
 ## 表情和图片
 
-表情，更多请参考[emoji](/blog/tech/hugo/emoji "表情列表")
+表情，更多请参考[emoji](/tech/hugo/emoji "表情列表")
 
 :smile:  :lying_face:
 

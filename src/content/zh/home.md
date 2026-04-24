@@ -24,7 +24,7 @@ hero:
       href: "/projects"
     secondary:
       label: "阅读博客"
-      href: "/blog"
+      href: "/log"
 focusSection:
   title: "我在长期做的三件事"
   subtitle: "写得清楚、做得出来、持续迭代。"
