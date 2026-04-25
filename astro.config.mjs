@@ -4,12 +4,16 @@ import tailwindcss from "@tailwindcss/vite";
 
 import markdoc from "@astrojs/markdoc";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+
   integrations: [markdoc()],
+
   i18n: {
     locales: [
       "zh-CN", {
@@ -24,5 +28,7 @@ export default defineConfig({
       }
     ],
     defaultLocale: "zh-CN",
-  }
+  },
+
+  adapter: cloudflare()
 });
