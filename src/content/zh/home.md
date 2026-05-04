@@ -78,7 +78,7 @@ novelSection:
   subtitle: "《我被AI反向驯化了》—— 当AI开始反向驯化人类，谁才是那个被驯服的对象？"
 cta:
   title: "想聊项目或合作？"
-  text: "欢迎邮件联系：hello@hencte.top"
+  text: "欢迎邮件联系：hello@hencte.top，或扫码关注右下角公众号。"
   actions:
     primary:
       label: "邮件联系"
