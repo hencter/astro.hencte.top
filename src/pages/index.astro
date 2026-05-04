@@ -188,22 +188,24 @@ function formatDate(date?: Date): string {
   </section>
 
   <section class="section reveal-on-scroll" id="contact">
-    <div class="cta-banner">
-      <h2>{cta?.title ?? "欢迎关注项目更新"}</h2>
-      <p>{cta?.text ?? "你可以从项目页快速了解主要产品，也可以在博客中查看详细技术实现与复盘记录。"}</p>
-      <img src="/qr-wechat.svg" alt="微信公众号二维码" width="140" height="140" style="margin:16px 0;border-radius:12px;background:#fff" loading="lazy" />
-      <div class="hero-actions">
-        {cta?.actions?.primary && (
-          <a class="btn-primary" href={cta.actions.primary.href}>
-            {cta.actions.primary.label}
-          </a>
-        )}
-        {cta?.actions?.secondary && (
-          <a class="btn-secondary" href={cta.actions.secondary.href}>
-            {cta.actions.secondary.label}
-          </a>
-        )}
+    <div class="cta-banner" style="display:flex;flex-wrap:wrap;align-items:center;gap:24px;justify-content:center">
+      <div style="flex:1;min-width:260px">
+        <h2>{cta?.title ?? "欢迎关注项目更新"}</h2>
+        <p>{cta?.text ?? "你可以从项目页快速了解主要产品，也可以在博客中查看详细技术实现与复盘记录。"}</p>
+        <div class="hero-actions">
+          {cta?.actions?.primary && (
+            <a class="btn-primary" href={cta.actions.primary.href}>
+              {cta.actions.primary.label}
+            </a>
+          )}
+          {cta?.actions?.secondary && (
+            <a class="btn-secondary" href={cta.actions.secondary.href}>
+              {cta.actions.secondary.label}
+            </a>
+          )}
+        </div>
       </div>
+      <img src="/qr-wechat.svg" alt="微信公众号二维码" width="140" height="140" style="border-radius:12px;background:#fff;flex-shrink:0" loading="lazy" />
     </div>
   </section>
 </Layout>
