@@ -1,0 +1,305 @@
+---
+import "heti/umd/heti.min.css";
+import hetiAddonUrl from "heti/umd/heti-addon.min.js?url";
+
+interface Props {
+  title: string;
+  description?: string;
+  layout?: "vertical" | "columns2";
+}
+
+const {
+  title,
+  description = "",
+  layout = "vertical",
+} = Astro.props;
+
+const hetiLayoutClass = layout === "columns2" ? "heti--columns-2" : "heti--vertical";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="color-scheme" content="light dark" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet" />
+    <script is:inline>
+      ;(function() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <style is:inline>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      :root {
+        --fs-bg: #f5f0e6;
+        --fs-ink: #2c2416;
+        --fs-ink-light: #5c5040;
+        --fs-accent: #8b5e3c;
+        --fs-control-bg: rgba(245, 240, 230, 0.85);
+        --fs-control-border: #d4c8b0;
+        --fs-control-hover: #e8dfd0;
+      }
+
+      html.dark {
+        --fs-bg: #1a1814;
+        --fs-ink: #e0d8c8;
+        --fs-ink-light: #a09880;
+        --fs-accent: #c9a87c;
+        --fs-control-bg: rgba(26, 24, 20, 0.85);
+        --fs-control-border: #3a3530;
+        --fs-control-hover: #2a2520;
+      }
+
+      body {
+        font-family: "ZCOOL XiaoWei", "Noto Serif SC", "SimSun", "STSong", serif;
+        color: var(--fs-ink);
+        background: var(--fs-bg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition: background 500ms ease, color 500ms ease;
+      }
+
+      .fullscreen-stage {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: auto;
+      }
+
+      .fullscreen-stage.vertical {
+        overflow-x: overlay;
+        overflow-y: hidden;
+        justify-content: flex-start;
+        align-items: stretch;
+        scroll-snap-type: x mandatory;
+      }
+
+      .fullscreen-stage.vertical::-webkit-scrollbar { height: 4px; }
+      .fullscreen-stage.vertical::-webkit-scrollbar-track { background: transparent; }
+      .fullscreen-stage.vertical::-webkit-scrollbar-thumb {
+        background: var(--fs-control-border);
+        border-radius: 999px;
+      }
+
+      .fullscreen-stage.columns2 {
+        overflow-y: overlay;
+        overflow-x: hidden;
+      }
+
+      .fullscreen-stage.columns2::-webkit-scrollbar { width: 4px; }
+      .fullscreen-stage.columns2::-webkit-scrollbar-track { background: transparent; }
+      .fullscreen-stage.columns2::-webkit-scrollbar-thumb {
+        background: var(--fs-control-border);
+        border-radius: 999px;
+      }
+
+      .fullscreen-stage .heti.heti--ancient {
+        padding: 3rem 2.5rem;
+        flex-shrink: 0;
+        scroll-snap-align: center;
+      }
+
+      .fullscreen-stage.vertical .fullscreen-stage .heti.heti--ancient {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+      }
+
+      .fullscreen-stage .heti.heti--ancient.heti--vertical {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 1.75rem;
+        line-height: 2.4;
+        letter-spacing: 0.15em;
+        height: 100vh;
+        max-height: 100vh;
+        overflow-y: visible;
+      }
+
+      .fullscreen-stage .heti.heti--ancient.heti--columns-2 {
+        column-count: 2;
+        column-gap: 3rem;
+        column-rule: 1px solid var(--fs-control-border);
+        max-width: 56rem;
+        width: 100%;
+        font-size: 1.15rem;
+        line-height: 2.1;
+        letter-spacing: 0.03em;
+      }
+
+      .fullscreen-stage .heti.heti--ancient h2,
+      .fullscreen-stage .heti.heti--ancient h3,
+      .fullscreen-stage .heti.heti--ancient h4 {
+        font-family: "ZCOOL XiaoWei", "Noto Serif SC", serif;
+        color: var(--fs-ink);
+        margin: 1.2em 0 0.5em;
+        line-height: 1.4;
+      }
+
+      .fullscreen-stage .heti.heti--ancient p,
+      .fullscreen-stage .heti.heti--ancient ul,
+      .fullscreen-stage .heti.heti--ancient ol,
+      .fullscreen-stage .heti.heti--ancient blockquote {
+        margin: 0.6em 0;
+      }
+
+      .fullscreen-stage .heti.heti--ancient .heti-meta,
+      .fullscreen-stage .heti.heti--ancient .heti-mark {
+        color: var(--fs-ink-light);
+      }
+
+      .fullscreen-controls {
+        position: fixed;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .fullscreen-controls.top-left   { top: 1.2rem; left: 1.2rem; }
+      .fullscreen-controls.top-right  { top: 1.2rem; right: 1.2rem; }
+
+      .fs-btn {
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        border: 1px solid var(--fs-control-border);
+        background: var(--fs-control-bg);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        color: var(--fs-ink-light);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: all 250ms ease;
+      }
+
+      .fs-btn:hover {
+        color: var(--fs-ink);
+        background: var(--fs-control-hover);
+        border-color: var(--fs-accent);
+      }
+
+      .fs-btn svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .fs-theme-icon-sun  { display: none; }
+      .fs-theme-icon-moon { display: block; }
+      html.dark .fs-theme-icon-sun  { display: block; }
+      html.dark .fs-theme-icon-moon { display: none; }
+
+      @media (max-width: 720px) {
+        .fullscreen-stage .heti.heti--ancient {
+          padding: 2.5rem 1.5rem;
+        }
+        .fullscreen-stage .heti.heti--ancient.heti--columns-2 {
+          column-count: 1;
+          column-gap: 0;
+          column-rule: none;
+          font-size: 1.05rem;
+        }
+        .fullscreen-stage .heti.heti--ancient.heti--vertical {
+          font-size: 1.5rem;
+          line-height: 2.2;
+          letter-spacing: 0.1em;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fullscreen-controls top-left">
+      <a href="/ancient" class="fs-btn" title="返回古文目录" aria-label="返回古文目录">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="fullscreen-controls top-right">
+      <button class="fs-btn" id="fs-theme-toggle" type="button" title="切换明暗模式" aria-label="切换明暗模式">
+        <svg class="fs-theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="fs-theme-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class={`fullscreen-stage ${hetiLayoutClass === "heti--vertical" ? "vertical" : "columns2"}`}>
+      <article class={`heti heti--ancient ${hetiLayoutClass}`}>
+        <slot />
+      </article>
+    </div>
+
+    <script src={hetiAddonUrl}></script>
+    <script is:inline>
+      const stage = document.querySelector(".fullscreen-stage");
+      if (stage) stage.scrollLeft = stage.scrollWidth;
+
+      function initFullscreenHeti() {
+        if (typeof Heti !== "undefined") {
+          const articles = document.querySelectorAll(".fullscreen-stage .heti.heti--ancient");
+          articles.forEach((el) => {
+            try { new Heti(el).autoSpacing(); } catch (_) {}
+          });
+        }
+        const s = document.querySelector(".fullscreen-stage");
+        if (s) {
+          s.scrollLeft = s.scrollWidth;
+        }
+      }
+
+      function initThemeToggle() {
+        const btn = document.getElementById("fs-theme-toggle");
+        if (!btn) return;
+        btn.addEventListener("click", () => {
+          const html = document.documentElement;
+          const isDark = html.classList.toggle("dark");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+        });
+      }
+
+      initFullscreenHeti();
+      initThemeToggle();
+      document.addEventListener("astro:after-swap", () => {
+        const saved = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const html = document.documentElement;
+        if (saved === "dark" || (!saved && prefersDark)) {
+          html.classList.add("dark");
+        } else {
+          html.classList.remove("dark");
+        }
+        initFullscreenHeti();
+        initThemeToggle();
+      });
+    </script>
+  </body>
+</html>
