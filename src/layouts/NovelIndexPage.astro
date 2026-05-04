@@ -1,0 +1,50 @@
+---
+interface Props {
+  novels: { title: string; description?: string; href: string }[];
+}
+
+const { novels } = Astro.props;
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>小说 | 亦幸小阁</title>
+    <meta name="description" content="原创小说作品。持续更新中。" />
+    <style is:global>
+      :root{--bg:#f3f7fb;--surface:#fff;--line:#d8e2ef;--ink:#102238;--muted:#4d6582;--brand:#0e7490;--accent:#dd6b20}
+      :root.dark{--bg:#0c1420;--surface:#15202e;--line:#243347;--ink:#e4ecf5;--muted:#7e97b2;--brand:#22d3ee;--accent:#fb923c}
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;padding:40px 24px;max-width:720px;margin:0 auto}
+      a{color:var(--brand);text-decoration:none}a:hover{color:var(--accent)}
+      .back{display:inline-block;margin-bottom:24px;font-size:14px}
+      h1{font-size:2em;margin-bottom:32px}
+      .grid{display:flex;flex-direction:column;gap:16px}
+      .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;transition:border-color .15s}
+      .card:hover{border-color:var(--brand)}
+      .card h2{font-size:1.2em;margin-bottom:8px}
+      .card p{color:var(--muted);font-size:14px;margin-bottom:12px}
+      .card .meta{font-size:12px;color:var(--muted)}
+    </style>
+    <script is:inline>
+      (function(){var s=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(s==='dark'||(!s&&d))document.documentElement.classList.add('dark')})();
+    </script>
+  </head>
+  <body>
+    <a href="/" class="back">&larr; 首页</a>
+    <h1>小说</h1>
+    <div class="grid">
+      {novels.map((n) => (
+        <a href={n.href}>
+          <div class="card">
+            <h2>{n.title}</h2>
+            {n.description && <p>{n.description}</p>}
+            <span class="meta">点击阅读</span>
+          </div>
+        </a>
+      ))}
+      {novels.length === 0 && <p style="color:var(--muted)">暂无小说，敬请期待。</p>}
+    </div>
+  </body>
+</html>

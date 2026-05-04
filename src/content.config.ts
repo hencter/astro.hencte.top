@@ -198,7 +198,28 @@ const connect = defineCollection({
     .passthrough(),
 });
 
+const novel = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/novel",
+  }),
+  schema: z
+    .object({
+      title: z.string(),
+      description: z.string().optional(),
+      date: z.coerce.date().optional(),
+      publishDate: z.string().optional(),
+      draft: z.boolean().default(false),
+      novel: z.string().optional(),
+      chapter: z.number().optional(),
+      order: z.number().optional(),
+      tags: z.array(z.string()).default([]),
+    })
+    .passthrough(),
+});
+
 export const collections = {
   blog,
   connect,
+  novel,
 };

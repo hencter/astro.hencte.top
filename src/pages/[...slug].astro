@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AncientPostLayout from "../layouts/AncientPostLayout.astro";
+import AncientPostLayout from "../layouts/FullscreenAncientLayout.astro";
 import BlogSectionLayout from "../layouts/BlogSectionLayout.astro";
 import JsonLD from "../components/JsonLD.astro";
 
@@ -148,12 +148,7 @@ if (isSectionLanding && !isAncient) {
     <AncientPostLayout
       title={post.data.title}
       description={post.data.description}
-      date={post.data.date}
-      canonicalPath={canonicalPath}
-      readingMinutes={readingMinutes}
-      tags={post.data.tags}
-      categories={post.data.categories}
-      headings={headings}
+      layout={"vertical"}
     >
       <Content />
     </AncientPostLayout>
@@ -226,9 +221,9 @@ if (isSectionLanding && !isAncient) {
           </aside>
         )}
 
-        <article class="post-prose">
+        <div class="post-prose">
           <Content />
-        </article>
+        </div>
       </section>
     </BaseLayout>
   )

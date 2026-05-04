@@ -1,0 +1,86 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import NovelLayout from "../../layouts/NovelLayout.astro";
+import NovelLandingPage from "../../layouts/NovelLandingPage.astro";
+import NovelIndexPage from "../../layouts/NovelIndexPage.astro";
+
+interface ChapterItem { title: string; href: string; current: boolean }
+
+export async function getStaticPaths() {
+  const entries = await getCollection("novel");
+  const publicEntries = entries.filter((e) => !e.data.draft);
+  return publicEntries.map((entry) => ({
+    params: { slug: entry.id === "novel" ? undefined : entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<"novel"> };
+const slug = Astro.params.slug as string | undefined;
+const { Content } = await render(entry);
+
+const isChapter = slug ? /-ch\d{2,}$/.test(slug) : false;
+
+let cr: {
+  novelTitle: string; novelSlug: string; chapters: ChapterItem[];
+  prevChapter: { title: string; href: string } | null;
+  nextChapter: { title: string; href: string } | null;
+} | null = null;
+
+let lr: {
+  novelTitle: string; novelDescription: string;
+  chapters: { title: string; href: string }[]; novelSlug: string;
+} | null = null;
+
+let novs: { title: string; description?: string; href: string }[] = [];
+
+if (isChapter && slug) {
+  const m = slug.match(/^(.+)-ch\d{2,}$/);
+  const ns = m ? m[1] : slug;
+  const ae = await getCollection("novel");
+  const ne = ae.find((e) => e.id === ns);
+  const nt = ne?.data.title || ns;
+  const ce = ae.filter((e) => !e.data.draft).filter((e) => {
+    const cn = e.data.novel || (e.id.match(/^(.+)-ch\d{2,}$/) ? e.id.match(/^(.+)-ch\d{2,}$/)![1] : null);
+    return cn === ns;
+  }).sort((a, b) => (a.data.chapter || 0) - (b.data.chapter || 0));
+  const ci = ce.findIndex((e) => e.id === entry.id);
+  cr = {
+    novelTitle: nt, novelSlug: ns,
+    chapters: ce.map((e) => ({ title: e.data.title, href: `/novel/${e.id}`, current: e.id === entry.id })),
+    prevChapter: ci > 0 ? { title: ce[ci - 1].data.title, href: `/novel/${ce[ci - 1].id}` } : null,
+    nextChapter: ci < ce.length - 1 ? { title: ce[ci + 1].data.title, href: `/novel/${ce[ci + 1].id}` } : null,
+  };
+} else if (slug) {
+  const ae = await getCollection("novel");
+  const ce = ae.filter((e) => !e.data.draft).filter((e) => {
+    const cn = e.data.novel || (e.id.match(/^(.+)-ch\d{2,}$/) ? e.id.match(/^(.+)-ch\d{2,}$/)![1] : null);
+    return cn === slug;
+  }).sort((a, b) => (a.data.chapter || 0) - (b.data.chapter || 0));
+  lr = {
+    novelTitle: entry.data.title, novelDescription: entry.data.description || "",
+    chapters: ce.map((ch) => ({ title: ch.data.title, href: `/novel/${ch.id}` })),
+    novelSlug: slug,
+  };
+} else {
+  const ae = await getCollection("novel");
+  novs = ae.filter((e) => !e.data.draft).filter((e) => !e.data.novel && !e.data.chapter && e.id !== "novel")
+    .map((n) => ({ title: n.data.title, description: n.data.description, href: `/novel/${n.id}` }));
+}
+---
+
+{cr ? (
+  <NovelLayout
+    title={entry.data.title} description={entry.data.description}
+    novelTitle={cr.novelTitle} novelHref={`/novel/${cr.novelSlug}`}
+    chapters={cr.chapters} prevChapter={cr.prevChapter} nextChapter={cr.nextChapter}
+    novelSlug={cr.novelSlug} chapterSlug={entry.id}
+  >
+    <Content />
+  </NovelLayout>
+) : lr ? (
+  <NovelLandingPage title={lr.novelTitle} description={lr.novelDescription} chapters={lr.chapters} novelSlug={lr.novelSlug} />
+) : (
+  <NovelIndexPage novels={novs} />
+)}

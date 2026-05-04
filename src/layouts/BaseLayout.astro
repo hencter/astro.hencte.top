@@ -3,6 +3,7 @@ import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import Meta from "@components/Meta.astro";
 import JsonLD from "@components/JsonLD.astro";
+import WechatWidget from "@components/WechatWidget.astro";
 
 interface Props {
   title?: string;
@@ -130,6 +131,8 @@ const year = new Date().getFullYear();
         <a href="mailto:hello@hencte.top">hello@hencte.top</a>
       </footer>
     </div>
+
+    <WechatWidget />
 
     <script>
       // Theme toggle logic

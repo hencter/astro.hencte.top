@@ -16,5 +16,8 @@
     "heti": "^0.9.6",
     "lunar-javascript": "^1.7.7",
     "tailwindcss": "^4.1.17"
+  },
+  "devDependencies": {
+    "qrcode": "^1.5.4"
   }
 }
