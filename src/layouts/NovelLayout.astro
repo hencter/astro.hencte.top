@@ -141,6 +141,14 @@ const {
         max-width: 680px;
         margin: 0 auto;
       }
+      .nv-prose .nv-title {
+        font-size: 1.6em;
+        text-align: center;
+        line-height: 1.5;
+        margin-bottom: 1.6em;
+        padding-bottom: 0.6em;
+        border-bottom: 1px solid var(--nv-border);
+      }
       .nv-prose h1 {
         font-size: 1.6em;
         margin-bottom: 1.2em;
@@ -304,6 +312,7 @@ const {
 
     <main class="nv-content" id="nvContent">
       <div class="nv-prose">
+        <h1 class="nv-title">{title}</h1>
         <slot />
       </div>
     </main>
