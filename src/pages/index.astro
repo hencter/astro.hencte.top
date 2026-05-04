@@ -16,6 +16,7 @@ const featuredProjects = home.featuredProjects ?? [];
 const buildSection = home.buildSection;
 const buildSteps = home.buildSteps ?? [];
 const latestSection = home.latestSection;
+const novelSection = home.novelSection;
 const cta = home.cta;
 
 const allowedSections = new Set(["log", "tech", "ancient"]);
@@ -33,6 +34,12 @@ const latestPosts = allEntries
     return bTime - aTime;
   })
   .slice(0, 6);
+
+// Fetch novels for homepage
+const novelEntries = await getCollection("novel");
+const homeNovels = novelEntries
+  .filter((e) => !e.data.draft)
+  .filter((e) => !e.data.chapter && !e.data.novel && e.id !== "novel");
 
 function formatDate(date?: Date): string {
   if (!date) {
@@ -122,6 +129,25 @@ function formatDate(date?: Date): string {
       }
     </div>
   </section>
+
+  {homeNovels.length > 0 && (
+    <section class="section reveal-on-scroll" id="novels">
+      <div class="section-heading">
+        <h2 class="section-title">{novelSection?.title ?? "原创小说"}</h2>
+        {novelSection?.subtitle && <p class="section-subtitle">{novelSection.subtitle}</p>}
+      </div>
+      <div class="card-grid three">
+        {homeNovels.map((novel) => (
+          <article class="project-card">
+            <p class="card-kicker">Novel</p>
+            <h3>{novel.data.title}</h3>
+            {novel.data.description && <p>{novel.data.description}</p>}
+            <a href={`/novel/${novel.id}`} class="btn-primary">开始阅读</a>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="section reveal-on-scroll" id="playbook">
     <div class="section-heading">

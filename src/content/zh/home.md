@@ -72,7 +72,10 @@ buildSteps:
     detail: "定期复盘，把改进点落到下一轮迭代。"
 latestSection:
   title: "最新博客文章"
-  subtitle: "从旧站迁移并在新站持续更新。"
+  subtitle: "持续更新中的思考与技术记录。"
+novelSection:
+  title: "原创小说"
+  subtitle: "《我被AI反向驯化了》—— 当AI开始反向驯化人类，谁才是那个被驯服的对象？"
 cta:
   title: "想聊项目或合作？"
   text: "欢迎邮件联系：hello@hencte.top"
