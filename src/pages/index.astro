@@ -79,6 +79,46 @@ function formatDate(date?: Date): string {
     </div>
   </section>
 
+  {homeNovels.length > 0 && (
+    <section class="section reveal-on-scroll" id="novels">
+      <div class="section-heading">
+        <h2 class="section-title">{novelSection?.title ?? "原创小说"}</h2>
+        {novelSection?.subtitle && <p class="section-subtitle">{novelSection.subtitle}</p>}
+      </div>
+      <div class="card-grid three">
+        {homeNovels.map((novel) => (
+          <article class="project-card">
+            <p class="card-kicker">Novel</p>
+            <h3>{novel.data.title}</h3>
+            {novel.data.description && <p>{novel.data.description}</p>}
+            <a href={`/novel/${novel.id}`} class="btn-primary">开始阅读</a>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="section reveal-on-scroll" id="latest">
+    <div class="section-heading">
+      <h2 class="section-title">{latestSection?.title ?? "最新博客文章"}</h2>
+      {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
+    </div>
+    <div class="blog-list-grid">
+      {
+        latestPosts.map((post) => (
+          <article class="blog-post-card">
+            <p class="card-kicker">{post.data.section || "blog"}</p>
+            <h3>
+              <a href={`/${post.id}`}>{post.data.title}</a>
+            </h3>
+            <p class="post-meta-line">{formatDate(post.data.date)}</p>
+            <p>{post.data.description || "点击查看全文。"}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
   <section class="section reveal-on-scroll" id="focus">
     <div class="section-heading">
       <h2 class="section-title">{focusSection?.title ?? "站点核心方向"}</h2>
@@ -130,25 +170,6 @@ function formatDate(date?: Date): string {
     </div>
   </section>
 
-  {homeNovels.length > 0 && (
-    <section class="section reveal-on-scroll" id="novels">
-      <div class="section-heading">
-        <h2 class="section-title">{novelSection?.title ?? "原创小说"}</h2>
-        {novelSection?.subtitle && <p class="section-subtitle">{novelSection.subtitle}</p>}
-      </div>
-      <div class="card-grid three">
-        {homeNovels.map((novel) => (
-          <article class="project-card">
-            <p class="card-kicker">Novel</p>
-            <h3>{novel.data.title}</h3>
-            {novel.data.description && <p>{novel.data.description}</p>}
-            <a href={`/novel/${novel.id}`} class="btn-primary">开始阅读</a>
-          </article>
-        ))}
-      </div>
-    </section>
-  )}
-
   <section class="section reveal-on-scroll" id="playbook">
     <div class="section-heading">
       <h2 class="section-title">{buildSection?.title ?? "持续构建节奏"}</h2>
@@ -160,27 +181,6 @@ function formatDate(date?: Date): string {
           <article class="timeline-item">
             <span>{item.phase}</span>
             <p>{item.detail}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="section reveal-on-scroll" id="latest">
-    <div class="section-heading">
-      <h2 class="section-title">{latestSection?.title ?? "最新博客文章"}</h2>
-      {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
-    </div>
-    <div class="blog-list-grid">
-      {
-        latestPosts.map((post) => (
-          <article class="blog-post-card">
-            <p class="card-kicker">{post.data.section || "blog"}</p>
-            <h3>
-              <a href={`/${post.id}`}>{post.data.title}</a>
-            </h3>
-            <p class="post-meta-line">{formatDate(post.data.date)}</p>
-            <p>{post.data.description || "点击查看全文。"}</p>
           </article>
         ))
       }

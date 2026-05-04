@@ -18,6 +18,9 @@ const publicEntries = allEntries
   .filter((entry) => !entry.data.draft)
   .filter((entry) => allowedSections.has(entry.data.section || entry.id.split("/")[0]));
 
+const novelEntries = await getCollection("novel");
+const novelCount = novelEntries.filter((e) => !e.data.draft && e.id !== "novel").length;
+
 const isIndexPage = (entry: (typeof publicEntries)[number]) =>
   Boolean(entry.data.legacyPath?.endsWith("_index.md"));
 
@@ -36,8 +39,10 @@ const sectionLabels = Object.fromEntries(
 const countsBySection = Object.fromEntries(
   sectionMeta.map((item) => [
     item.key,
-    posts.filter((entry) => (entry.data.section || entry.id.split("/")[0]) === item.key)
-      .length,
+    item.key === "novel"
+      ? novelCount
+      : posts.filter((entry) => (entry.data.section || entry.id.split("/")[0]) === item.key)
+        .length,
   ])
 ) as Record<string, number>;
 
@@ -105,7 +110,7 @@ function extractSummary(description: string | undefined, body: string | undefine
   <section class="section reveal-on-scroll">
     <div class="blog-stats">
       <p>
-        公开文章 <strong>{posts.length}</strong> 篇
+         公开文章 <strong>{posts.length + novelCount}</strong> 篇
       </p>
       {sectionMeta.map((item) => (
         <p>
