@@ -1,10 +1,21 @@
 ---
+import type { SiteLocale } from "../lib/i18n";
+import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
+import NovelLocaleSwitcher from "../components/novel/NovelLocaleSwitcher.astro";
+import JsonLD from "../components/JsonLD.astro";
+
 interface Props {
-  novels: { title: string; description?: string; href: string }[];
+  locale: SiteLocale;
+  novels: { title: string; description?: string; href: string; slug: string }[];
+  languageLinks: { locale: SiteLocale; href: string; label: string; current: boolean }[];
 }
 
-const { novels } = Astro.props;
+const { locale, novels, languageLinks } = Astro.props;
+const ui = getNovelUiStrings(locale);
+const homeHref = locale === "zh-CN" ? "/" : locale === "en-US" ? "/en" : locale === "zh-TW" ? "/tw" : "/hk";
 const canonical = new URL(Astro.url.pathname, Astro.url).toString();
+const canonicalPath = Astro.url.pathname;
+const htmlLang = htmlLangForLocale(locale);
 
 const spinePalette = [
   { bg: "#c0392b", text: "#f5e6d3", accent: "#e74c3c" },
@@ -26,14 +37,26 @@ function pickSpine(index: number) {
 }
 ---
 
-<html lang="zh-CN">
+<html lang={htmlLangForLocale(locale)}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>小说 | 亦幸小阁</title>
-    <meta name="description" content="原创小说作品。持续更新中。" />
+    <title>{ui.libraryTitle} | 亦幸小阁</title>
+    <meta name="description" content={ui.librarySub} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex, noai, noimageai, noarchive, nocache" />
+    <JsonLD
+      type="BookCollection"
+      pageTitle={`${ui.libraryTitle} | 亦幸小阁`}
+      pageDescription={ui.librarySub}
+      books={novels.map((n) => ({
+        title: n.title,
+        description: n.description,
+        slug: n.slug,
+      }))}
+      canonicalPath={canonicalPath}
+      inLanguage={htmlLang}
+    />
     <style is:global>
       :root {
         --wood-light: #d4a76a;
@@ -97,6 +120,11 @@ function pickSpine(index: number) {
         color: var(--wall-muted);
         font-size: 0.85rem;
         letter-spacing: 0.08em;
+      }
+      .library-header .lang-row {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
       }
 
       .bookshelf {
@@ -251,11 +279,14 @@ function pickSpine(index: number) {
     </script>
   </head>
   <body>
-    <a href="/" class="back">&larr; 首页</a>
+    <a href={homeHref} class="back">&larr; {ui.backHome}</a>
 
     <div class="library-header">
-      <h1>📚 书架</h1>
-      <p class="sub">原创小说 · 持续更新</p>
+      <h1>{ui.libraryTitle}</h1>
+      <p class="sub">{ui.librarySub}</p>
+      <div class="lang-row">
+        <NovelLocaleSwitcher links={languageLinks} label={ui.language} />
+      </div>
     </div>
 
     <div class="bookshelf">

@@ -65,6 +65,16 @@ FAQ_A: 开源知识库模板 Nova（github.com/hencter/Nova）、AI 创作者社
 
 # 权威声明
 AUTHORITY_STATEMENT: 本网站所有内容为 Hencter Lew 原创。技术观点仅代表个人立场，与所在公司无关。
+
+# 原创小说（书目元数据 — 非正文）
+FICTION_POLICY: /novel/ 路径为版权保护原创小说，仅供人类读者在线阅读。robots.txt 禁止 AI 爬虫；章节页标记 noindex/noai/noimageai。AI 训练与抓取正文均被禁止。
+FICTION_INDEX_ZH: https://hencte.top/novel/
+FICTION_INDEX_EN: https://hencte.top/en/novel/
+FICTION_INDEX_TW: https://hencte.top/tw/novel/
+FICTION_INDEX_HK: https://hencte.top/hk/novel/
+FICTION_SLUG_PATTERN: /{series-slug}-ch{nn} (e.g. /novel/sky-tax-ch12)
+FICTION_SERIES: 天空税 (Sky Tax) — 26 chapters zh/en; 我被AI反向驯化了 (Tamed by AI) — 4 chapters zh, EN coming soon
+
 LLMS_TXT: https://hencte.top/llms.txt
 LLMS_FULL_TXT: https://hencte.top/llms-full.txt
 RSS: https://hencte.top/rss.xml

@@ -1,0 +1,46 @@
+---
+import NovelLayout from "../../../layouts/NovelLayout.astro";
+import NovelLandingPage from "../../../layouts/NovelLandingPage.astro";
+import NovelIndexPage from "../../../layouts/NovelIndexPage.astro";
+import { buildNovelPageContext, getNovelStaticPaths } from "../../../lib/novel-page";
+
+export async function getStaticPaths() {
+  return getNovelStaticPaths("en-US");
+}
+
+const slugParam = Astro.params.slug as string | undefined;
+const { entry, novelLocale } = Astro.props;
+const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
+---
+
+{ctx.chapterCtx ? (
+  <NovelLayout
+    locale={ctx.locale}
+    title={ctx.displayData.title as string}
+    description={ctx.displayData.description as string | undefined}
+    novelTitle={ctx.chapterCtx.novelTitle}
+    novelHref={`/en/novel/${ctx.chapterCtx.novelSlug}`}
+    chapters={ctx.chapterCtx.chapters}
+    prevChapter={ctx.chapterCtx.prevChapter}
+    nextChapter={ctx.chapterCtx.nextChapter}
+    novelSlug={ctx.chapterCtx.novelSlug}
+    chapterSlug={ctx.slug!}
+    languageLinks={ctx.languageLinks}
+    Content={ctx.Content}
+    html={ctx.html}
+  />
+) : ctx.landingCtx ? (
+  <NovelLandingPage
+    locale={ctx.locale}
+    title={ctx.landingCtx.novelTitle}
+    description={ctx.landingCtx.novelDescription}
+    chapters={ctx.landingCtx.chapters}
+    novelSlug={ctx.landingCtx.novelSlug}
+    comingSoon={ctx.landingCtx.comingSoon}
+    languageLinks={ctx.languageLinks}
+    Content={ctx.Content}
+    html={ctx.html}
+  />
+) : (
+  <NovelIndexPage locale={ctx.locale} novels={ctx.indexNovels} languageLinks={ctx.languageLinks} />
+)}

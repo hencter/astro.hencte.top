@@ -7,6 +7,9 @@ tags:
   - 传播学
   - 社会
 section: log
+aliases:
+  - /2026-05-19-cancer-village
+legacyPath: "2026-05-19-cancer-village.md"
 ---
 
 > 2026-05-19 | 不追问发生了什么，追问什么机制让这类事件反复发生又反复冷却。

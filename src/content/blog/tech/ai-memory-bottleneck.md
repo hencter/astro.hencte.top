@@ -6,6 +6,9 @@ tags:
   - 技术
   - 观点
 section: tech
+aliases:
+  - /ai-memory-bottleneck
+legacyPath: "ai-memory-bottleneck.md"
 ---
 
 你让 AI 订机票，它查了。

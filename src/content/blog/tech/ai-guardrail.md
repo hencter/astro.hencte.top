@@ -6,6 +6,9 @@ tags:
   - 技术
   - 观点
 section: tech
+aliases:
+  - /ai-guardrail
+legacyPath: "ai-guardrail.md"
 ---
 
 2026 年 7 月 23 日，TechCrunch 登了一篇报道。标题不算耸人听闻，但里面的声音值得你花五分钟读完：多位安全研究者说，OpenAI 和 Anthropic 的安全护栏正在阻碍他们的合法工作。

@@ -1,4 +1,8 @@
 import { getCollection } from "astro:content";
+import {
+  formatNovelBibliographyMarkdown,
+  getNovelBibliography,
+} from "../lib/novel-bibliography";
 
 export async function GET() {
   const posts = (
@@ -16,6 +20,8 @@ export async function GET() {
       : `- [${post.data.title}](https://hencte.top/${post.id})`;
   });
 
+  const novelEntries = await getNovelBibliography();
+  const novelSection = formatNovelBibliographyMarkdown(novelEntries);
   const lastUpdated = new Date().toISOString().slice(0, 10);
 
   const content = `# 亦幸小阁
@@ -50,6 +56,7 @@ export async function GET() {
 
 ${blogLines.join("\n")}
 
+${novelSection}
 ## 作者资产
 
 - [GitHub (@hencter)](https://github.com/hencter): 开源项目与代码

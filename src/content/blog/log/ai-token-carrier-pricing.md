@@ -8,6 +8,9 @@ tags:
   - AI商业化
   - 运营商
 section: log
+aliases:
+  - /2026-05-19-ai-token-plan
+legacyPath: "2026-05-19-ai-token-plan.md"
 ---
 > 2026-05-19 | 运营商推Token套餐不是卖新产品，是在重新定义"谁给AI定价"。
 

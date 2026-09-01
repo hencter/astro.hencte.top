@@ -1,0 +1,11 @@
+---
+import NovelIndexPage from "../../../layouts/NovelIndexPage.astro";
+import { getCollection } from "astro:content";
+import { buildNovelPageContext, findNovelIndexEntry } from "../../../lib/novel-page";
+
+const entries = await getCollection("novel");
+const entry = findNovelIndexEntry(entries, "zh-CN");
+const ctx = await buildNovelPageContext("zh-TW", entry, undefined);
+---
+
+<NovelIndexPage locale={ctx.locale} novels={ctx.indexNovels} languageLinks={ctx.languageLinks} />

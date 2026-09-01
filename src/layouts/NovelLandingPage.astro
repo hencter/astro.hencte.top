@@ -1,16 +1,42 @@
 ---
+import type { SiteLocale } from "../lib/i18n";
+import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
+import NovelLocaleSwitcher from "../components/novel/NovelLocaleSwitcher.astro";
+import JsonLD from "../components/JsonLD.astro";
+
 interface Props {
+  locale: SiteLocale;
   title: string;
   description: string;
   chapters: { title: string; href: string }[];
   novelSlug: string;
+  comingSoon?: boolean;
+  languageLinks: { locale: SiteLocale; href: string; label: string; current: boolean }[];
+  Content?: AstroComponentFactory | null;
+  html?: string | null;
 }
 
-const { title, description, chapters, novelSlug } = Astro.props;
+const {
+  locale,
+  title,
+  description,
+  chapters,
+  novelSlug,
+  comingSoon = false,
+  languageLinks,
+  Content,
+  html = null,
+} = Astro.props;
+
+const ui = getNovelUiStrings(locale);
+const homeHref = locale === "zh-CN" ? "/" : locale === "en-US" ? "/en" : locale === "zh-TW" ? "/tw" : "/hk";
+const novelIndexHref = getNovelHref(locale);
 const canonical = new URL(Astro.url.pathname, Astro.url).toString();
+const canonicalPath = Astro.url.pathname;
+const htmlLang = htmlLangForLocale(locale);
 ---
 
-<html lang="zh-CN">
+<html lang={htmlLangForLocale(locale)}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,6 +44,18 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex, noai, noimageai, noarchive, nocache" />
+    <JsonLD
+      type="Book"
+      book={{
+        title,
+        description,
+        slug: novelSlug,
+        chapterCount: chapters.length,
+        genre: ["Fiction"],
+      }}
+      canonicalPath={canonicalPath}
+      inLanguage={htmlLang}
+    />
     <style is:global>
       :root{--bg:#faf9f6;--surface:#fff;--line:#dce5e8;--ink:#1a2332;--muted:#5a7a8a;--brand:#1a7f8c;--accent:#e76f51}
       :root.dark{--bg:#0d1117;--surface:#161b22;--line:#21262d;--ink:#e6edf3;--muted:#6e7681;--brand:#58a6ff;--accent:#f97316}
@@ -25,6 +63,7 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
       body{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;background:var(--bg);color:var(--ink);line-height:1.9;padding:40px 24px;max-width:720px;margin:0 auto}
       a{color:var(--brand);text-decoration:none}a:hover{color:var(--accent)}
       .back{display:inline-block;margin-bottom:24px;font-size:14px}
+      .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px;flex-wrap:wrap}
       h1{font-size:1.8em;margin-bottom:8px}
       .desc{color:var(--muted);margin-bottom:32px;font-size:15px}
       .cl{list-style:none;display:flex;flex-direction:column;gap:8px}
@@ -33,26 +72,48 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
       .cl a{display:block;padding:14px 20px;font-size:16px}
       .pb{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin-bottom:28px;display:none}
       .pb a{font-weight:600}
+      .coming-soon{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:20px;margin-bottom:24px}
+      .prose{margin-bottom:24px}
     </style>
     <script is:inline>
       (function(){var s=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(s==='dark'||(!s&&d))document.documentElement.classList.add('dark')})();
     </script>
   </head>
   <body>
-    <a href="/novel" class="back">&larr; 小说目录</a>
+    <div class="top-row">
+      <a href={novelIndexHref} class="back">&larr; {ui.novelIndex}</a>
+      <NovelLocaleSwitcher links={languageLinks} label={ui.language} />
+    </div>
     <h1>{title}</h1>
     {description && <p class="desc">{description}</p>}
-    <div class="pb" id="pb">
-      <p>上次读到：<a id="pl" href="#">—</a></p>
-    </div>
-    <ul class="cl">
-      {chapters.map((ch) => <li><a href={ch.href}>{ch.title}</a></li>)}
-    </ul>
-    <div id="nvd" hidden data-ns={novelSlug}></div>
-    <script is:inline>
+    {comingSoon && (
+      <div class="coming-soon">
+        <p>{ui.comingSoon}</p>
+        <p><a href={getNovelHref("zh-CN", novelSlug)}>{ui.readZh}</a></p>
+      </div>
+    )}
+    {(html || Content) && (
+      <div class="prose">
+        {html ? <div set:html={html} /> : Content ? <Content /> : null}
+      </div>
+    )}
+    {!comingSoon && (
+      <>
+        <div class="pb" id="pb">
+          <p>{ui.lastRead}：<a id="pl" href="#">—</a></p>
+        </div>
+        <ul class="cl">
+          {chapters.map((ch) => <li><a href={ch.href}>{ch.title}</a></li>)}
+        </ul>
+      </>
+    )}
+    <div id="nvd" hidden data-ns={novelSlug} data-locale={locale}></div>
+    <script is:inline define:vars={{ novelSlug, locale, novelIndexHref }}>
       var d = document.getElementById('nvd');
       var ns = d.dataset.ns;
-      try{var p=localStorage.getItem('novel-progress-'+ns);if(p){var d=JSON.parse(p),b=document.getElementById('pb'),l=document.getElementById('pl');if(b&&l&&d.chapter){b.style.display='block';l.href='/novel/'+d.chapter;l.textContent=d.title||d.chapter}}}catch(e){}
+      var loc = d.dataset.locale;
+      var prefix = loc === 'en-US' ? '/en/novel/' : loc === 'zh-TW' ? '/tw/novel/' : loc === 'zh-HK' ? '/hk/novel/' : '/novel/';
+      try{var p=localStorage.getItem('novel-progress-'+ns);if(p){var data=JSON.parse(p),b=document.getElementById('pb'),l=document.getElementById('pl');if(b&&l&&data.chapter){b.style.display='block';l.href=prefix+data.chapter;l.textContent=data.title||data.chapter}}}catch(e){}
     </script>
   </body>
 </html>

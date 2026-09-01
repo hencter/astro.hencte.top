@@ -8,6 +8,9 @@ tags:
   - 半导体
   - 芯片
 section: log
+aliases:
+  - /2026-05-19-changxin-chip
+legacyPath: "2026-05-19-changxin-chip.md"
 ---
 
 > 2026-05-19 | 国产芯片在狂欢，产业老兵在泼冷水。两个信号指向相反方向——信哪个？

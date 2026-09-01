@@ -62,5 +62,13 @@ export default defineConfig({
       },
     ],
     defaultLocale: "zh-CN",
-  }
+  },
+  redirects: {
+    "/2026-05-19-ai-token-plan": "/log/ai-token-carrier-pricing",
+    "/2026-05-19-cancer-village": "/log/cancer-village-news-cycle",
+    "/2026-05-19-changxin-chip": "/log/changxin-chip-semiconductor",
+    "/ai-guardrail": "/tech/ai-guardrail",
+    "/ai-memory-bottleneck": "/tech/ai-memory-bottleneck",
+    "/chatgpt-health-data": "/tech/chatgpt-health-data",
+  },
 });

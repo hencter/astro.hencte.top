@@ -6,6 +6,9 @@ tags:
   - 技术
   - 观点
 section: tech
+aliases:
+  - /chatgpt-health-data
+legacyPath: "chatgpt-health-data.md"
 ---
 
 2026年7月23日，OpenAI 发布了一项更新：ChatGPT 可以连接你的 Apple Health 和医疗记录了。它叫 "Health in ChatGPT"。

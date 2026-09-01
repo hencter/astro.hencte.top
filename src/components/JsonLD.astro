@@ -1,8 +1,17 @@
 ---
 import type { CollectionEntry } from "astro:content";
 
+interface BookMeta {
+  title: string;
+  description?: string;
+  slug: string;
+  chapterCount?: number;
+  genre?: string[];
+  alternateName?: string;
+}
+
 interface Props {
-  type: "Organization" | "WebSite" | "Article" | "BreadcrumbList";
+  type: "Organization" | "WebSite" | "Article" | "BreadcrumbList" | "Book" | "BookCollection";
   article?: CollectionEntry<"blog">;
   breadcrumbs?: { name: string; url: string }[];
   pageTitle?: string;
@@ -12,6 +21,8 @@ interface Props {
   dateModified?: Date;
   tags?: string[];
   inLanguage?: string;
+  book?: BookMeta;
+  books?: BookMeta[];
 }
 
 const {
@@ -25,6 +36,8 @@ const {
   dateModified,
   tags = [],
   inLanguage = "zh-CN",
+  book,
+  books = [],
 } = Astro.props;
 
 const siteUrl = "https://hencte.top";
@@ -113,6 +126,52 @@ if (type === "Organization") {
       position: index + 1,
       name: crumb.name,
       item: crumb.url.startsWith("http") ? crumb.url : siteUrl + crumb.url,
+    })),
+  };
+} else if (type === "Book" && book) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "@id": `${fullUrl}#book`,
+    name: book.title,
+    ...(book.alternateName ? { alternateName: book.alternateName } : {}),
+    description: book.description || pageDescription,
+    author: {
+      "@type": "Person",
+      name: "Hencter Lew",
+      alternateName: "亦幸",
+      url: siteUrl,
+    },
+    inLanguage,
+    genre: book.genre?.length ? book.genre : ["Fiction"],
+    url: fullUrl,
+    ...(book.chapterCount
+      ? { numberOfPages: book.chapterCount, abridged: false }
+      : {}),
+    isAccessibleForFree: true,
+    copyrightNotice: "Original fiction by Hencter Lew. Not licensed for AI training or reproduction.",
+  };
+} else if (type === "BookCollection" && books.length > 0) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: pageTitle || "亦幸小阁 · 原创小说",
+    description:
+      pageDescription ||
+      "Bibliographic index of original fiction. Chapter text is reader-only and excluded from AI indexing.",
+    itemListElement: books.map((b, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Book",
+        name: b.title,
+        ...(b.alternateName ? { alternateName: b.alternateName } : {}),
+        description: b.description,
+        url: `${siteUrl}/novel/${b.slug}`,
+        author: { "@type": "Person", name: "Hencter Lew" },
+        inLanguage,
+        ...(b.chapterCount ? { numberOfPages: b.chapterCount } : {}),
+      },
     })),
   };
 } else {

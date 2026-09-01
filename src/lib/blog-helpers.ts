@@ -1,4 +1,7 @@
 import { getCollection } from "astro:content";
+import type { SiteLocale } from "./i18n";
+import { getNovelHref } from "./i18n";
+import { mirrorNovelData } from "./novel-helpers";
 
 const allowedSections = new Set(["log", "tech", "ancient"]);
 
@@ -19,9 +22,18 @@ export async function getLatestPosts(limit = 6) {
     .slice(0, limit);
 }
 
-export async function getHomeNovels() {
+const NOVEL_INDEX_IDS = new Set(["novel", "zh-CN/novel", "en/novel"]);
+
+export async function getHomeNovels(locale: SiteLocale = "zh-CN") {
+  const prefix = locale === "en-US" ? "en/" : "zh-CN/";
   const novelEntries = await getCollection("novel");
   return novelEntries
     .filter((e) => !e.data.draft)
-    .filter((e) => !e.data.chapter && !e.data.novel && e.id !== "novel");
+    .filter((e) => e.id.startsWith(prefix))
+    .filter((e) => !e.data.chapter && !e.data.novel && !NOVEL_INDEX_IDS.has(e.id))
+    .map((e) => ({
+      id: e.id.replace(/^(zh-CN|en)\//, ""),
+      data: locale === "zh-CN" || locale === "en-US" ? e.data : mirrorNovelData(e.data, locale),
+      href: getNovelHref(locale, e.id.replace(/^(zh-CN|en)\//, "")),
+    }));
 }
