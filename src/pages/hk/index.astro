@@ -8,7 +8,7 @@ import { getLatestPosts, getHomeNovels } from "../../lib/blog-helpers";
 
 const home = await getMirroredConnect("home", "hk");
 const latestPosts = await getLatestPosts();
-const homeNovels = await getHomeNovels();
+const homeNovels = await getHomeNovels("zh-HK");
 const locale = "zh-HK";
 ---
 

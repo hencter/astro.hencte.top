@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "migrate:hugo": "py scripts/migrate_hugo_content.py"
+    "migrate:hugo": "py scripts/migrate_hugo_content.py",
+    "import:novels": "node scripts/import-novels.mjs"
   },
   "dependencies": {
     "@astrojs/markdoc": "^0.15.8",

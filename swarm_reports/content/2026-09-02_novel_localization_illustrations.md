@@ -84,9 +84,11 @@ Nutstore 中有 ai-counter 分镜 PNG，未批量导入（避免性能/版权过
 
 ## 验证
 
-- [ ] `pnpm build` 通过
-- [ ] `/novel/sky-tax`, `/en/novel/sky-tax`, `/novel/sky-tax-ch01` 渲染 cover/头图
-- [ ] TW/HK 镜像页正常
+- [x] `pnpm build` 通过（199 pages）
+- [x] `/novel/sky-tax` — `series-cover` + `/img/novel/sky-tax-cover.svg` 已渲染
+- [x] `/novel/sky-tax-ch01` — `nv-chapter-illustration` + ch01.svg 已渲染
+- [x] TW/HK 路由在 build 中生成正常
+- [x] Git push `a59a172` → `origin/main` 成功
 
 ## 后续建议
 
