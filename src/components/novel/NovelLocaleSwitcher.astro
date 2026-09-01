@@ -1,0 +1,52 @@
+---
+interface Props {
+  links: { locale: string; href: string; label: string; current: boolean }[];
+  label?: string;
+}
+
+const { links, label = "语言" } = Astro.props;
+---
+
+<div class="nv-lang-switcher">
+  <span class="nv-lang-label">{label}</span>
+  {links.map((link) => (
+    link.current ? (
+      <span class="nv-lang-current" aria-current="true">{link.label}</span>
+    ) : (
+      <a href={link.href} hreflang={link.locale} rel="alternate">{link.label}</a>
+    )
+  ))}
+</div>
+
+<style>
+  .nv-lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-family: system-ui, sans-serif;
+    font-size: 12px;
+  }
+  .nv-lang-label {
+    color: var(--nv-ink-muted, #5a7a8a);
+    margin-right: 2px;
+  }
+  .nv-lang-switcher a,
+  .nv-lang-current {
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .nv-lang-switcher a {
+    color: var(--nv-brand, #1a7f8c);
+    border: 1px solid transparent;
+  }
+  .nv-lang-switcher a:hover {
+    border-color: var(--nv-border, #dce5e8);
+  }
+  .nv-lang-current {
+    color: var(--nv-ink, #1a2332);
+    background: var(--nv-border, #dce5e8);
+    font-weight: 600;
+  }
+</style>
