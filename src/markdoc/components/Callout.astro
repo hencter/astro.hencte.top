@@ -1,0 +1,39 @@
+---
+interface Props {
+  type?: string
+  title?: string
+}
+
+const { type = "note", title } = Astro.props as Props
+
+const typeLabel = title || type.charAt(0).toUpperCase() + type.slice(1)
+
+const iconMap: Record<string, string> = {
+  note: "&#9998;",
+  info: "&#8505;",
+  tip: "&#128161;",
+  success: "&#9989;",
+  question: "&#10067;",
+  warning: "&#9888;",
+  danger: "&#128293;",
+  bug: "&#128030;",
+  example: "&#128220;",
+  quote: "&#8220;",
+  abstract: "&#128196;",
+  todo: "&#9744;",
+  failure: "&#10060;",
+  important: "&#11088;",
+}
+
+const icon = iconMap[type] || iconMap.note
+---
+
+<div class={`callout callout-${type}`}>
+  <div class="callout-header">
+    <span class="callout-icon" set:html={icon} />
+    <strong class="callout-title">{typeLabel}</strong>
+  </div>
+  <div class="callout-body">
+    <Astro.slot />
+  </div>
+</div>

@@ -1,0 +1,45 @@
+---
+import { codeToHtml } from "shiki"
+
+interface Props {
+  language?: string
+  content?: string
+}
+
+const { language = "text", content = "" } = Astro.props as Props
+
+const supportedLanguages = new Set([
+  "js", "jsx", "ts", "tsx", "json", "html", "css", "scss",
+  "md", "mdx", "yaml", "yml", "toml", "xml", "svg",
+  "py", "rs", "go", "java", "c", "cpp", "cs", "rb",
+  "sh", "bash", "zsh", "ps1", "pwsh", "bat", "cmd",
+  "sql", "graphql", "dockerfile", "makefile",
+  "tsv", "csv", "text", "txt", "plaintext",
+  "astro", "svelte", "vue", "vim", "viml",
+  "diff", "ini", "conf", "nginx", "apache",
+  "lua", "r", "matlab", "proto", "prisma",
+])
+
+let highlighted = ""
+try {
+  const lang = supportedLanguages.has(language) ? language : "text"
+  highlighted = await codeToHtml(content, {
+    lang,
+    themes: {
+      light: "github-light-default",
+      dark: "github-dark-default",
+    },
+    defaultColor: false,
+  })
+} catch {
+  highlighted = ""
+}
+---
+
+{
+  highlighted ? (
+    <div class="code-block-wrapper" set:html={highlighted} />
+  ) : (
+    <pre class="code-block-fallback"><code>{content}</code></pre>
+  )
+}
