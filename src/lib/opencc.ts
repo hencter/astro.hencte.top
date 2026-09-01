@@ -1,5 +1,6 @@
 import OpenCC from "opencc-js";
 import type { TraditionalVariant } from "./i18n";
+import { NOVEL_GLOSSARY_PROTECTED_TERMS } from "./novel-glossary";
 
 const converters: Record<TraditionalVariant, (text: string) => string> = {
   tw: OpenCC.Converter({ from: "cn", to: "tw" }),
@@ -33,6 +34,7 @@ const PROTECTED_TERMS = [
   "MIT",
   "V2EX",
   "DeepSeek",
+  ...NOVEL_GLOSSARY_PROTECTED_TERMS,
 ];
 
 function protectTerms(text: string): { protectedText: string; placeholders: Map<string, string> } {

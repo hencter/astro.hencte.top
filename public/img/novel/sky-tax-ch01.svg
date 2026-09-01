@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" role="img" aria-labelledby="title desc">
+  <title id="title">Sky Tax Chapter 1  Copper Tier Life</title>
+  <desc id="desc">Hospital corridor with tiered LED floor lines: copper, silver, gold, platinum</desc>
+  <defs>
+    <linearGradient id="hall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef4f7"/>
+      <stop offset="100%" stop-color="#dce5e8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="400" fill="url(#hall)"/>
+  <rect y="320" width="1200" height="80" fill="#1a2332" opacity="0.08"/>
+  <!-- tier lines -->
+  <rect x="0" y="340" width="300" height="8" fill="#b87333" opacity="0.9"/>
+  <rect x="300" y="340" width="300" height="8" fill="#c0c0c0" opacity="0.8"/>
+  <rect x="600" y="340" width="300" height="8" fill="#d4af37" opacity="0.8"/>
+  <rect x="900" y="340" width="300" height="8" fill="#e5e4e2" opacity="0.9"/>
+  <text x="150" y="375" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#5a7a8a">COPPER</text>
+  <text x="450" y="375" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#5a7a8a">SILVER</text>
+  <text x="750" y="375" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#5a7a8a">GOLD</text>
+  <text x="1050" y="375" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#5a7a8a">PLATINUM</text>
+  <text x="600" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#1a2332">Chapter 1 · Copper Tier Life</text>
+  <text x="600" y="160" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" fill="#1a7f8c">Sky Tax · 2057 Shenzhen</text>
+</svg>

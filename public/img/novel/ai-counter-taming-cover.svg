@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Tamed by AI  series cover</title>
+  <desc id="desc">Abstract mirror between human silhouette and neural network nodes</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="50%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f3460"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1200" fill="url(#bg)"/>
+  <!-- neural nodes -->
+  <g stroke="#8e44ad" stroke-width="1.5" opacity="0.5">
+    <line x1="200" y1="400" x2="400" y2="300"/><line x1="400" y2="300" x2="600" y2="420"/>
+    <line x1="400" y2="300" x2="400" y2="550"/><line x1="200" y1="400" x2="250" y2="600"/>
+    <line x1="600" y1="420" x2="550" y2="620"/><line x1="250" y1="600" x2="550" y2="620"/>
+  </g>
+  <g fill="#bb86fc">
+    <circle cx="200" cy="400" r="10"/><circle cx="400" cy="300" r="14"/><circle cx="600" cy="420" r="10"/>
+    <circle cx="400" cy="550" r="12"/><circle cx="250" cy="600" r="8"/><circle cx="550" cy="620" r="8"/>
+  </g>
+  <!-- human silhouette -->
+  <ellipse cx="400" cy="720" rx="90" ry="110" fill="#e8daef" opacity="0.15"/>
+  <circle cx="400" cy="580" r="55" fill="#e8daef" opacity="0.2"/>
+  <!-- mirror line -->
+  <line x1="400" y1="260" x2="400" y2="860" stroke="#f97316" stroke-width="2" opacity="0.6" stroke-dasharray="8 6"/>
+  <rect x="80" y="880" width="640" height="220" rx="8" fill="#161b22" opacity="0.85"/>
+  <text x="400" y="970" text-anchor="middle" font-family="Georgia, serif" font-size="52" fill="#e6edf3">TAMED BY AI</text>
+  <text x="400" y="1030" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#a09880">When AI starts taming humans back</text>
+  <text x="400" y="1070" text-anchor="middle" font-family="'Noto Serif SC', serif" font-size="22" fill="#bb86fc">«AIÍo†</text>
+</svg>

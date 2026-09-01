@@ -11,6 +11,8 @@ interface Props {
   chapters: { title: string; href: string }[];
   novelSlug: string;
   comingSoon?: boolean;
+  cover?: string;
+  imageAlt?: string;
   languageLinks: { locale: SiteLocale; href: string; label: string; current: boolean }[];
   Content?: AstroComponentFactory | null;
   html?: string | null;
@@ -23,6 +25,8 @@ const {
   chapters,
   novelSlug,
   comingSoon = false,
+  cover,
+  imageAlt = "",
   languageLinks,
   Content,
   html = null,
@@ -74,6 +78,8 @@ const htmlLang = htmlLangForLocale(locale);
       .pb a{font-weight:600}
       .coming-soon{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:20px;margin-bottom:24px}
       .prose{margin-bottom:24px}
+      .series-cover{margin:0 auto 24px;max-width:320px;border-radius:10px;overflow:hidden;border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+      .series-cover img{display:block;width:100%;height:auto}
     </style>
     <script is:inline>
       (function(){var s=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(s==='dark'||(!s&&d))document.documentElement.classList.add('dark')})();
@@ -85,6 +91,11 @@ const htmlLang = htmlLangForLocale(locale);
       <NovelLocaleSwitcher links={languageLinks} label={ui.language} />
     </div>
     <h1>{title}</h1>
+    {cover && (
+      <figure class="series-cover">
+        <img src={cover} alt={imageAlt || title} width="320" height="480" loading="lazy" decoding="async" />
+      </figure>
+    )}
     {description && <p class="desc">{description}</p>}
     {comingSoon && (
       <div class="coming-soon">

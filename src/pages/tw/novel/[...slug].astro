@@ -26,6 +26,8 @@ const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
     novelSlug={ctx.chapterCtx.novelSlug}
     chapterSlug={ctx.slug!}
     languageLinks={ctx.languageLinks}
+    chapterImage={ctx.displayData.chapterImage as string | undefined}
+    imageAlt={ctx.displayData.imageAlt as string | undefined}
     Content={ctx.Content}
     html={ctx.html}
   />
@@ -37,7 +39,11 @@ const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
     chapters={ctx.landingCtx.chapters}
     novelSlug={ctx.landingCtx.novelSlug}
     comingSoon={ctx.landingCtx.comingSoon}
+    cover={ctx.displayData.cover as string | undefined}
+    imageAlt={ctx.displayData.imageAlt as string | undefined}
     languageLinks={ctx.languageLinks}
+    chapterImage={ctx.displayData.chapterImage as string | undefined}
+    imageAlt={ctx.displayData.imageAlt as string | undefined}
     Content={ctx.Content}
     html={ctx.html}
   />

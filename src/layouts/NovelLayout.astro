@@ -1,4 +1,8 @@
 ---
+import type { SiteLocale } from "../lib/i18n";
+import { htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
+import NovelLocaleSwitcher from "../components/novel/NovelLocaleSwitcher.astro";
+
 interface ChapterInfo {
   title: string;
   href: string;
@@ -6,6 +10,7 @@ interface ChapterInfo {
 }
 
 interface Props {
+  locale: SiteLocale;
   title: string;
   description?: string;
   novelTitle: string;
@@ -15,9 +20,15 @@ interface Props {
   nextChapter?: { title: string; href: string } | null;
   novelSlug: string;
   chapterSlug: string;
+  languageLinks: { locale: SiteLocale; href: string; label: string; current: boolean }[];
+  chapterImage?: string;
+  imageAlt?: string;
+  Content?: AstroComponentFactory | null;
+  html?: string | null;
 }
 
 const {
+  locale,
   title,
   description = "",
   novelTitle,
@@ -27,13 +38,20 @@ const {
   nextChapter,
   novelSlug,
   chapterSlug,
+  languageLinks,
+  chapterImage,
+  imageAlt = "",
+  Content,
+  html = null,
 } = Astro.props;
 
+const ui = getNovelUiStrings(locale);
+const homeHref = locale === "zh-CN" ? "/" : locale === "en-US" ? "/en" : locale === "zh-TW" ? "/tw" : "/hk";
 const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={htmlLangForLocale(locale)}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -118,7 +136,10 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
         flex-shrink: 0;
       }
       .nv-top-bar a:hover { color: var(--nv-accent); }
-      .nv-top-bar .divider { color: var(--nv-border); user-select: none; }
+      .nv-top-bar .nv-lang-slot {
+        margin-left: auto;
+        flex-shrink: 0;
+      }
 
       .nv-chapter-select {
         flex: 1; min-width: 0;
@@ -152,6 +173,20 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
         margin-bottom: 1.6em;
         padding-bottom: 0.6em;
         border-bottom: 1px solid var(--nv-border);
+      }
+      .nv-chapter-illustration {
+        max-width: 100%;
+        margin: 0 auto 1.6em;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--nv-border);
+      }
+      .nv-chapter-illustration img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 220px;
+        object-fit: cover;
       }
       .nv-prose h1 {
         font-size: 1.6em;
@@ -296,20 +331,28 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
   </head>
   <body>
     <nav class="nv-top-bar" aria-label="小说导航">
-      <a href="/">&larr; 首页</a>
+      <a href={homeHref}>&larr; {ui.home}</a>
       <span class="divider" aria-hidden="true">|</span>
       <a href={novelHref}>{novelTitle}</a>
-      <select class="nv-chapter-select" id="chapterSelect" aria-label="章节目录">
+      <select class="nv-chapter-select" id="chapterSelect" aria-label={ui.chapterSelect}>
         {chapters.map((ch) => (
           <option value={ch.href} selected={ch.current}>{ch.title}</option>
         ))}
       </select>
+      <div class="nv-lang-slot">
+        <NovelLocaleSwitcher links={languageLinks} label={ui.language} />
+      </div>
     </nav>
 
     <main class="nv-content" id="nvContent">
       <div class="nv-prose">
         <h1 class="nv-title">{title}</h1>
-        <slot />
+        {chapterImage && (
+          <figure class="nv-chapter-illustration">
+            <img src={chapterImage} alt={imageAlt || title} width="680" height="227" loading="lazy" decoding="async" />
+          </figure>
+        )}
+        {html ? <div set:html={html} /> : Content ? <Content /> : null}
       </div>
     </main>
 
@@ -331,8 +374,8 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 
     <div class="nv-wechat-widget">
       <div class="nv-wechat-popup">
-        <img src="/qr-wechat.svg" alt="微信公众号二维码" width="130" height="130" loading="lazy" />
-        <p>扫码关注微信公众号<br/>阅读更多独家内容</p>
+        <img src="/qr-wechat.svg" alt={ui.wechatAlt} width="130" height="130" loading="lazy" />
+        <p>{ui.wechatHint}<br/>{ui.wechatMore}</p>
       </div>
     </div>
 

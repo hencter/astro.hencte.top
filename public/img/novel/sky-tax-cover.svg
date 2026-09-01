@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Sky Tax  series cover</title>
+  <desc id="desc">Near-future cyberpunk: Starlink dome over Earth, pigeon silhouette against satellite grid</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="55%" stop-color="#1a3a5c"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="35%" r="45%">
+      <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#58a6ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1200" fill="url(#sky)"/>
+  <rect width="800" height="1200" fill="url(#glow)"/>
+  <!-- satellite grid -->
+  <g fill="#58a6ff" opacity="0.25">
+    <circle cx="120" cy="180" r="3"/><circle cx="280" cy="120" r="2"/><circle cx="440" cy="200" r="3"/>
+    <circle cx="600" cy="140" r="2"/><circle cx="720" cy="220" r="3"/><circle cx="200" cy="320" r="2"/>
+    <circle cx="380" cy="280" r="3"/><circle cx="560" cy="340" r="2"/><circle cx="680" cy="300" r="2"/>
+    <circle cx="100" cy="420" r="2"/><circle cx="500" cy="420" r="3"/><circle cx="750" cy="380" r="2"/>
+  </g>
+  <!-- dome arc -->
+  <path d="M -20 520 Q 400 180 820 520" fill="none" stroke="#1a7f8c" stroke-width="2" opacity="0.6"/>
+  <path d="M 40 560 Q 400 240 760 560" fill="none" stroke="#e76f51" stroke-width="1.5" opacity="0.45"/>
+  <!-- pigeon -->
+  <g transform="translate(400,680)" fill="#f5e6d3" opacity="0.9">
+    <ellipse cx="0" cy="0" rx="48" ry="18"/>
+    <circle cx="38" cy="-8" r="14"/>
+    <path d="M -30 -5 L -70 -25 L -55 -5 Z"/>
+    <path d="M 10 8 L 20 35 L 0 15 Z"/>
+    <path d="M -10 8 L -20 35 L 0 15 Z"/>
+  </g>
+  <!-- title block -->
+  <rect x="80" y="880" width="640" height="220" rx="8" fill="#161b22" opacity="0.85"/>
+  <text x="400" y="980" text-anchor="middle" font-family="Georgia, 'Noto Serif SC', serif" font-size="72" fill="#e6edf3" letter-spacing="6">SKY TAX</text>
+  <text x="400" y="1040" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#7e97b2">2057 · When the sky belongs to one company</text>
+  <text x="400" y="1080" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#1a7f8c">freedom travels by pigeon</text>
+</svg>

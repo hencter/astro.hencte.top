@@ -104,6 +104,7 @@ export function formatNovelBibliographyMarkdown(entries: NovelBibliographyEntry[
     if (entry.descriptionEn) lines.push(`- 简介（en）: ${entry.descriptionEn}`);
     lines.push(`- 入口: [简体](${entry.urls.zh}) · [English](${entry.urls.en}) · [繁體 TW](${entry.urls.tw}) · [繁體 HK](${entry.urls.hk})`);
     lines.push(`- 章节目录模式: \`/${entry.slug}-ch{nn}\`（例: \`/${entry.slug}-ch01\`）`);
+    lines.push(`- 插图: 系列封面（\`cover\`）+ 可选章节头图（\`chapterImage\`），见 landing/chapter 页；章节仍为 noindex/noai`);
     lines.push("");
   }
 
