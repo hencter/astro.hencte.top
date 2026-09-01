@@ -2,13 +2,15 @@
 page: projects
 locale: zh-CN
 title: "项目经历 | 亦幸小阁"
-description: "亦幸（Hencter Lew）的公开项目：AI.LinkTrust.Top、hencte.top、Hugo->Astro 迁移，以及 Obsidian 工具链实践。"
+description: "亦幸（Hencter Lew）的公开项目：Nova、通天路、AI.LinkTrust.Top、hencte.top、Hugo->Astro 迁移，以及 Obsidian 工具链实践。"
 keywords:
   - "项目展示"
   - "产品经历"
   - "AI.LinkTrust.Top"
   - "LinkTrust"
   - "Obsidian"
+  - "Nova"
+  - "通天路"
   - "Hencter Lew"
 hero:
   badge: "Projects Showcase"
@@ -24,6 +26,24 @@ hero:
       label: "进入博客"
       href: "/blog"
 featuredProjects:
+  - stage: "开源模板"
+    title: "Nova · AI 自举知识库"
+    description: "自举式个人知识库系统（self-bootstrapping knowledge vault），由 AI 代理持续维护：自动摄入知识、交叉链接、健康检查与自动 git 提交，你只需要负责跟它对话。每个克隆者通过强制初始化问答获得「属于自己的 Nova」，避免身份继承。"
+    result: "GitHub 官方模板仓库，可一键使用并 2 分钟启动；开箱即用，当前仍在快速迭代中。"
+    tags: ["AI Agent", "Obsidian", "Zettelkasten", "Knowledge Vault"]
+    url: "https://github.com/hencter/Nova"
+  - stage: "社区运营"
+    title: "通天路 tongtianlu.cn"
+    description: "由我构建并运营的邀请制中文社区论坛，让每一个人都能用 AI 工具做出属于自己的第一条内容——不是等准备好了再开始，而是现在就动手。站内 AI 智能体辅助运营，人工管理 + 智能体协作，让每个认真赶路的人被看见、被接住、被鼓舞。技术栈：Tailwind CSS + htmx 轻交互前端，CSP 安全加固，支持深色模式。"
+    result: "邀请制注册，板块覆盖发现、知识库、技能库、提示词库等。Slogan：每一步都算数。"
+    tags: ["Community", "AI Creator", "Invite-only"]
+    url: "https://tongtianlu.cn"
+  - stage: "开源游戏"
+    title: "商业帝国 3D · AI 大富翁"
+    description: "Three.js 3D 大富翁游戏：DeepSeek AI 对手、卡牌玩法、行业景气与银行金融系统，支持 2~34 人同屏与回合制联机对战。配套零依赖规则引擎 monopoly-engine，纯逻辑设计可驱动任意表现层。"
+    result: "MIT 开源，持续迭代中。"
+    tags: ["Three.js", "AI", "Multiplayer", "WebSocket"]
+    url: "https://github.com/hencter/monopoly-3d-ai"
   - stage: "外站产品"
     title: "AI.LinkTrust.Top"
     description: "一个面向公开用户的外站项目，聚焦 AI 场景下的链接可信度与信息筛选体验，帮助用户更快判断内容质量。"

@@ -11,6 +11,7 @@ interface Props {
   datePublished?: Date;
   dateModified?: Date;
   tags?: string[];
+  inLanguage?: string;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   datePublished,
   dateModified,
   tags = [],
+  inLanguage = "zh-CN",
 } = Astro.props;
 
 const siteUrl = "https://hencte.top";
@@ -41,6 +43,7 @@ if (type === "Organization") {
       "https://github.com/hencter",
       "https://gitlab.com/hencter",
       "https://www.v2ex.com/member/hencte",
+      "https://tongtianlu.cn",
     ],
     description: pageDescription || "TypeScript/Lua/Python 开发者，关注 AI、知识管理与产品实践。",
     knowsAbout: [
@@ -63,15 +66,10 @@ if (type === "Organization") {
     name: "亦幸小阁",
     url: siteUrl,
     description: pageDescription || "亦幸（Hencter Lew）的个人品牌站点：技术博客、项目展示与知识管理实践。",
-    inLanguage: "zh-CN",
+    inLanguage: ["zh-CN", "en-US"],
     author: {
       "@type": "Person",
       name: "Hencter Lew",
-    },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteUrl}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
     },
   };
 } else if (type === "Article" && article) {
@@ -86,10 +84,13 @@ if (type === "Organization") {
       url: siteUrl,
     },
     publisher: {
-      "@type": "Person",
-      name: "Hencter Lew",
+      "@type": "Organization",
+      name: "亦幸小阁",
       url: siteUrl,
     },
+    image: article.data.images?.[0]
+      ? new URL(article.data.images[0], siteUrl).toString()
+      : new URL("/favicon.svg", siteUrl).toString(),
     datePublished: datePublished?.toISOString() || article.data.date?.toISOString(),
     dateModified: dateModified?.toISOString() || article.data.lastmod || article.data.date?.toISOString(),
     mainEntityOfPage: {
@@ -97,7 +98,7 @@ if (type === "Organization") {
       "@id": fullUrl,
     },
     keywords: (tags.length > 0 ? tags : article.data.tags || [])?.join(", "),
-    inLanguage: "zh-CN",
+    inLanguage,
     wordCount: (article.body ?? "").replace(/\s+/g, "").length,
   };
 } else if (type === "BreadcrumbList" && breadcrumbs.length > 0) {

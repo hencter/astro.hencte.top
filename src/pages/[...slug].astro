@@ -61,6 +61,9 @@ function isIndexPage(entry: { data: { legacyPath?: string } }): boolean {
 const { post } = Astro.props as { post: CollectionEntry<"blog"> };
 const { Content, headings } = await render(post);
 
+const hasMath = post.data.math || (post.body ?? "").includes("$$");
+const hasMermaid = (post.body ?? "").includes("```mermaid");
+
 const sectionKey = inferSection(post);
 const isAncient = sectionKey === "ancient";
 const isSectionLanding = isIndexPage(post);
@@ -71,6 +74,73 @@ const sectionLabels: Record<string, string> = {
   ancient: "古文",
   posts: "文章",
 };
+
+// ---- 相关文章计算（内容互链，仅对非 ancient、非栏目落地页的文章页生效）----
+let relatedPosts: {
+  id: string;
+  title: string;
+  date?: Date;
+  excerpt?: string;
+}[] = [];
+
+if (!isAncient && !isSectionLanding) {
+  const relatedSectionAllow = new Set(["log", "tech", "posts"]);
+  const truncateExcerpt = (text: string, max = 80): string =>
+    text.length > max ? `${text.slice(0, max)}…` : text;
+
+  const allEntries = await getCollection("blog");
+  const currentTags = new Set(post.data.tags || []);
+  const currentCategories = new Set(post.data.categories || []);
+
+  const relatedCandidates = allEntries.filter((entry) => {
+    if (entry.id === post.id) return false;
+    if (entry.data.draft) return false;
+    if (isIndexPage(entry)) return false;
+    return relatedSectionAllow.has(inferSection(entry));
+  });
+
+  const byDateDesc = (a: { data: { date?: Date } }, b: { data: { date?: Date } }): number => {
+    const aTime = a.data.date ? a.data.date.getTime() : 0;
+    const bTime = b.data.date ? b.data.date.getTime() : 0;
+    return bTime - aTime;
+  };
+
+  // 打分：共享 tag ×3 + 共享 category ×2 + 同 section +1，取分 >0 的前 3 篇
+  const scored = relatedCandidates
+    .map((entry) => {
+      const sharedTags = (entry.data.tags || []).filter((tag) => currentTags.has(tag)).length;
+      const sharedCategories = (entry.data.categories || []).filter((category) =>
+        currentCategories.has(category)
+      ).length;
+      const score = sharedTags * 3 + sharedCategories * 2 + (inferSection(entry) === sectionKey ? 1 : 0);
+      return { entry, score };
+    })
+    .filter((item) => item.score > 0)
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return byDateDesc(a.entry, b.entry);
+    })
+    .slice(0, 3);
+
+  const picked = scored.map((item) => item.entry);
+
+  // 不足 3 篇时，用同 section 最新文章补足（去重）
+  if (picked.length < 3) {
+    const pickedIds = new Set(picked.map((entry) => entry.id));
+    const fallback = relatedCandidates
+      .filter((entry) => inferSection(entry) === sectionKey && !pickedIds.has(entry.id))
+      .sort(byDateDesc)
+      .slice(0, 3 - picked.length);
+    picked.push(...fallback);
+  }
+
+  relatedPosts = picked.map((entry) => ({
+    id: entry.id,
+    title: entry.data.title,
+    date: entry.data.date,
+    excerpt: entry.data.description ? truncateExcerpt(entry.data.description) : undefined,
+  }));
+}
 
 const wordCount = (post.body ?? "").replace(/\s+/g, "").length;
 const readingMinutes = Math.max(1, Math.round(wordCount / 900));
@@ -190,9 +260,16 @@ if (isSectionLanding && !isAncient) {
         ]}
       />
       <section class="section post-shell">
-        <a class="back-link" href="/">← 返回首页</a>
-
         <header class="post-header">
+          <nav class="breadcrumb" aria-label="面包屑">
+            <ol>
+              <li><a href="/">首页</a></li>
+              <li aria-hidden="true" class="breadcrumb-separator">›</li>
+              <li><a href={`/${sectionKey}`}>{sectionLabels[sectionKey] || sectionKey}</a></li>
+              <li aria-hidden="true" class="breadcrumb-separator">›</li>
+              <li class="breadcrumb-current" aria-current="page">{post.data.title}</li>
+            </ol>
+          </nav>
           <p class="card-kicker">{post.data.section || "blog"}</p>
           <h1>{post.data.title}</h1>
           <div class="post-meta-line">
@@ -224,7 +301,42 @@ if (isSectionLanding && !isAncient) {
         <div class="post-prose">
           <Content />
         </div>
+
+        {relatedPosts.length > 0 && (
+          <aside class="related-posts reveal-on-scroll">
+            <h2 class="section-title related-title">相关文章</h2>
+            <div class="related-grid">
+              {relatedPosts.map((related) => (
+                <article class="related-card">
+                  <h3 class="related-card-title">
+                    <a href={`/${related.id}`} data-astro-prefetch="hover">{related.title}</a>
+                  </h3>
+                  <p class="post-meta-line related-card-meta">{formatDate(related.date)}</p>
+                  {related.excerpt && <p class="related-card-excerpt">{related.excerpt}</p>}
+                </article>
+              ))}
+            </div>
+          </aside>
+        )}
       </section>
+      {hasMath && (
+        <>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js">
+          </script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js">
+          </script>
+          <script defer>
+            document.addEventListener("DOMContentLoaded", () => { renderMathInElement(document.body, { delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }, { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }] }) })
+          </script>
+        </>
+      )}
+      {hasMermaid && (
+        <script type="module">
+          import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
+          mermaid.initialize({ startOnLoad: true, theme: "default", securityLevel: "loose" })
+        </script>
+      )}
     </BaseLayout>
   )
 }

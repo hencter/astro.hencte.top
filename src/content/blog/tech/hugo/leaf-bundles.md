@@ -1,5 +1,6 @@
 ---
 title: "页捆绑（Leaf Bundles）"
+description: "Hugo 页捆绑入门：当页面除 Markdown 外还涉及图片、PDF 等资源时，把 index.md 与相关文件放进同一文件夹管理更清晰，文中给出 Leaf Bundle 的目录组织示例与官方文档链接。"
 date: "2023-04-12T23:25:25+08:00"
 draft: false
 slug: "tech/hugo/leaf-bundles"

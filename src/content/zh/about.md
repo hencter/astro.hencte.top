@@ -14,6 +14,8 @@ keywords:
   - "Obsidian"
   - "LinkTrust"
   - "公开构建"
+  - "Nova"
+  - "通天路"
 hero:
   badge: "About"
   headline: "亦幸（Hencter Lew）"
@@ -31,12 +33,14 @@ panels:
       - "环境：Neovim（LazyVim）"
       - "知识管理：Obsidian（模板驱动 + 定期复盘）"
       - "方向：可信信息、产品迭代、工具链建设"
+      - "最新构建：Nova · AI 自举知识库（github.com/hencter/Nova）"
+      - "社区：通天路 tongtianlu.cn —— 邀请制 AI 创作者互助社区"
   right:
     title: "联系与链接"
     body: |
       欢迎交流项目、合作或开源相关问题。
     bullets:
-      - "邮箱：hello@hencte.top"
+      - "邮箱：hencter@linktrust.top"
       - "GitHub：github.com/hencter"
       - "ORCID：0009-0007-7990-0106"
 principles:
@@ -56,13 +60,16 @@ milestones:
   - year: "2026"
     title: "迁移到 Astro，升级为双语项目站"
     detail: "统一内容规范与发布流程，持续迭代主站与外站产品。"
+  - year: "2026"
+    title: "推出 Nova 与通天路社区"
+    detail: "开源 AI 自举知识库模板 Nova；创建邀请制 AI 创作者互助社区「通天路」。"
 cta:
   title: "邮件联系我"
-  text: "hello@hencte.top"
+  text: "hencter@linktrust.top"
   actions:
     primary:
       label: "发送邮件"
-      href: "mailto:hello@hencte.top"
+      href: "mailto:hencter@linktrust.top"
     secondary:
       label: "查看项目"
       href: "/projects"

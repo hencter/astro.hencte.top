@@ -8,6 +8,7 @@ interface Props {
   locale?: "zh-CN" | "en-US";
   canonical?: string;
   image?: string;
+  hreflang?: { "zh-CN"?: string; "en-US"?: string; "x-default"?: string };
 }
 
 const {
@@ -19,11 +20,17 @@ const {
   locale = "zh-CN",
   canonical,
   image = "/favicon.svg",
+  hreflang,
 } = Astro.props;
 
 const localeTag = locale === "zh-CN" ? "zh_CN" : "en_US";
 const keywordContent = keywords.join(", ");
 const socialImage = new URL(image, Astro.url).toString();
+const hreflangLinks = hreflang
+  ? Object.entries(hreflang)
+      .filter((entry): entry is [string, string] => Boolean(entry[1]))
+      .map(([lang, path]) => ({ lang, href: new URL(path, Astro.url).toString() }))
+  : [];
 ---
 
 <meta charset="utf-8" />
@@ -36,11 +43,16 @@ const socialImage = new URL(image, Astro.url).toString();
 <meta name="author" content={author} />
 <meta name="application-name" content={applicationName} />
 {canonical && <link rel="canonical" href={canonical} />}
+{hreflangLinks.map(({ lang, href }) => (
+  <link rel="alternate" hreflang={lang} href={href} />
+))}
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />
 {description && <meta property="og:description" content={description} />}
 <meta property="og:locale" content={localeTag} />
+<meta property="og:site_name" content="亦幸小阁" />
+{canonical && <meta property="og:url" content={canonical} />}
 <meta property="og:image" content={socialImage} />
 
 <meta name="twitter:card" content="summary_large_image" />

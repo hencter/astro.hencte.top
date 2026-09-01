@@ -1,5 +1,6 @@
 ---
 title: "Markdown"
+description: "Markdown 语法速查表：解释 Markdown 快速排版转 HTML 的定位，逐节给出标题、强调、列表、链接、图片、代码高亮、表格、水平线的写法与效果示例。"
 date: "2022-04-22T22:22:28+08:00"
 draft: false
 tags:

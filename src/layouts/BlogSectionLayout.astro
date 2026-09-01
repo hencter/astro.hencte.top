@@ -91,9 +91,8 @@ const navActive = canonicalPath.replace(/\/+$/, "");
           {
             sections.map((section) => (
               <article class="project-card">
-                <p class="card-kicker">Section</p>
                 <h3>
-                  <a href={section.href}>{section.title}</a>
+                  <a href={section.href} class="card-link">{section.title}</a>
                 </h3>
                 {section.description && <p>{section.description}</p>}
                 <p class="result-line">{section.count} 篇文章</p>
@@ -114,7 +113,7 @@ const navActive = canonicalPath.replace(/\/+$/, "");
             posts.map((post) => (
               <article class="blog-post-card">
                 <h3>
-                  <a href={post.href}>{post.title}</a>
+                  <a href={post.href} class="card-link" data-astro-prefetch="hover">{post.title}</a>
                 </h3>
                 <p class="post-meta-line">{formatDate(post.date)}</p>
                 {post.description && <p>{post.description}</p>}

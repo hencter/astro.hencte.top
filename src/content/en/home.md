@@ -11,12 +11,15 @@ keywords:
   - "LinkTrust"
   - "Obsidian"
   - "AI.LinkTrust.Top"
+  - "Nova"
+  - "tongtianlu"
 hero:
   badge: "Products x Notes x Systems"
   headline: "I'm Hencter Lew, building products and knowledge systems in public"
   subtitle: |
     Based in China. I primarily work with TypeScript / Lua / Python and keep a long-term workflow with Obsidian and templates.
     This site showcases live projects (like AI.LinkTrust.Top) and continuous build notes.
+    Latest moves: launched Nova, a self-bootstrapping knowledge vault template (github.com/hencter/Nova), and founded Tongtianlu (tongtianlu.cn), an invite-only AI creator community.
   actions:
     primary:
       label: "View projects"
@@ -41,6 +44,24 @@ projectsSection:
   title: "Featured Projects"
   subtitle: "Publicly reachable, verifiable, and continuously improved."
 featuredProjects:
+  - stage: "Open-source Template"
+    title: "Nova — Self-Bootstrapping Knowledge Vault"
+    description: "A self-bootstrapping knowledge vault maintained by an AI agent: automatic intake, cross-linking, health checks, and auto commits."
+    outcome: "Official GitHub template repository, ready out of the box, iterating fast."
+    tags: ["AI Agent", "Obsidian", "Zettelkasten", "Knowledge Vault"]
+    url: "https://github.com/hencter/Nova"
+  - stage: "Community Operations"
+    title: "Tongtianlu Community"
+    description: "An invite-only community where AI creators make their first piece of content with AI tools."
+    outcome: "Human management with on-site AI agents. Slogan: every step counts."
+    tags: ["Community", "AI Creator", "Invite-only"]
+    url: "https://tongtianlu.cn"
+  - stage: "Open-source Game"
+    title: "Monopoly 3D — AI Business Empire"
+    description: "A Three.js 3D monopoly with DeepSeek AI opponents, cards, industry cycles, and banking, for 2-34 players on one screen or in turn-based online matches."
+    outcome: "MIT open source, actively iterating."
+    tags: ["Three.js", "AI", "Multiplayer", "WebSocket"]
+    url: "https://github.com/hencter/monopoly-3d-ai"
   - stage: "External Product"
     title: "AI.LinkTrust.Top"
     description: "A public-facing product focused on link trust assessment and information quality filtering in AI workflows."
@@ -74,11 +95,11 @@ latestSection:
   subtitle: "Migrated from legacy Hugo and now maintained here."
 cta:
   title: "Want to talk projects or collaboration?"
-  text: "Email: hello@hencte.top"
+  text: "Email: hencter@linktrust.top"
   actions:
     primary:
       label: "Email me"
-      href: "mailto:hello@hencte.top"
+      href: "mailto:hencter@linktrust.top"
     secondary:
       label: "View projects"
       href: "/en/projects"

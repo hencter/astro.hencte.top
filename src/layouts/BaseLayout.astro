@@ -11,6 +11,8 @@ interface Props {
   locale?: "zh-CN" | "en-US";
   canonicalPath?: string;
   keywords?: string[];
+  alternateEn?: string;
+  alternateZh?: string;
 }
 
 const {
@@ -19,6 +21,8 @@ const {
   locale = "zh-CN",
   canonicalPath = Astro.url.pathname,
   keywords = [],
+  alternateEn,
+  alternateZh,
 } = Astro.props;
 
 const isEnglish = locale === "en-US";
@@ -47,6 +51,13 @@ const navLinks = isEnglish
     ];
 
 const canonical = new URL(canonicalPath, Astro.url).toString();
+const hreflang = isEnglish
+  ? alternateZh
+    ? { "zh-CN": alternateZh, "en-US": canonicalPath, "x-default": alternateZh }
+    : undefined
+  : alternateEn
+    ? { "zh-CN": canonicalPath, "en-US": alternateEn, "x-default": canonicalPath }
+    : undefined;
 const year = new Date().getFullYear();
 ---
 
@@ -59,6 +70,7 @@ const year = new Date().getFullYear();
       locale={locale}
       keywords={keywords}
       canonical={canonical}
+      hreflang={hreflang}
       applicationName={brandName}
       author={authorName}
     />
@@ -85,8 +97,9 @@ const year = new Date().getFullYear();
   </head>
   <body>
     <div class="ambient-bg" aria-hidden="true"></div>
+    <div class="noise-overlay" aria-hidden="true"></div>
     <div class="page-shell">
-      <header class="site-header" transition:persist>
+      <header class="site-header">
         <a class="brand-link" href={isEnglish ? "/en" : "/"}>
           <span class="brand-mark" aria-hidden="true">H</span>
           <span class="brand-copy">
@@ -128,7 +141,7 @@ const year = new Date().getFullYear();
             ? `© ${year} ${signatureName}. Always a simple child who is happy to learn.`
             : `© ${year} ${signatureName}。Always a simple child who is happy to learn.`}
         </p>
-        <a href="mailto:hello@hencte.top">hello@hencte.top</a>
+        <a href="mailto:hencter@linktrust.top">hencter@linktrust.top</a>
       </footer>
     </div>
 

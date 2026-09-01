@@ -1,5 +1,6 @@
 ---
 title: "关于"
+description: "「亦幸小阁」博客的关于页：说明站点由 Hugo 构建、采用自定义布局的理由，整理建站用到的生成器、CSS 引擎与编辑器工具清单，并汇总作者的 GitHub、哔哩哔哩、掘金等社区主页入口。"
 draft: false
 tags:
   - "about"
@@ -36,7 +37,7 @@ legacyPath: "about/_index.md"
 
 1. [X] 目前已经完成站点的基本布局
 2. [ ] 引入[赫蹏](https://sivan.github.io/heti/) 添加了赫蹏的简码
-3. [ ] [整理 Hugo](/tech/hugo)：亦幸自己写的一些关于 Hugo 文档教程，里面含有一些内容的测试。
+3. [ ] [整理 Hugo](/tech)：亦幸自己写的一些关于 Hugo 文档教程，里面含有一些内容的测试。
 4. [ ] 参考 [HTML 元素参考](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element "MDN Web Docs")
 
 ## 工具/教程

@@ -20,6 +20,7 @@ const cta = page.cta;
   description={page.description}
   locale="en-US"
   canonicalPath="/en/about"
+  alternateZh="/about"
   keywords={page.keywords ?? []}
 >
   <section class="hero hero-compact">
@@ -30,15 +31,17 @@ const cta = page.cta;
 
   <section class="section reveal-on-scroll">
     <div class="about-split">
-      <article class="story-panel">
-        <h3>{panels?.left?.title ?? "What I focus on"}</h3>
-        {panels?.left?.body && <p>{panels.left.body}</p>}
-        {panels?.left?.bullets && panels.left.bullets.length > 0 && (
-          <ul class="detail-list">
-            {panels.left.bullets.map((item) => <li>{item}</li>)}
-          </ul>
-        )}
-      </article>
+      <div style="background:linear-gradient(var(--card-bg),var(--card-bg)) padding-box,linear-gradient(135deg,var(--brand),var(--highlight),var(--accent)) border-box;border:2px solid transparent;border-radius:var(--radius-lg);padding:1rem">
+        <article class="story-panel" style="border:none;padding:0">
+          <h3>{panels?.left?.title ?? "What I focus on"}</h3>
+          {panels?.left?.body && <p>{panels.left.body}</p>}
+          {panels?.left?.bullets && panels.left.bullets.length > 0 && (
+            <ul class="detail-list">
+              {panels.left.bullets.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </article>
+      </div>
 
       <article class="story-panel">
         <h3>{panels?.right?.title ?? "How to read this site"}</h3>
@@ -59,12 +62,15 @@ const cta = page.cta;
     </div>
     <div class="principle-grid">
       {
-        principles.map((item) => (
-          <article class="principle-card">
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-          </article>
-        ))
+        principles.map((item, i) => {
+          const accentColors = ["var(--brand)", "var(--accent)", "var(--highlight)"];
+          return (
+            <article class="card-accent-stripe" style={`border-left-color:${accentColors[i % 3]}`}>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          );
+        })
       }
     </div>
   </section>
@@ -77,8 +83,8 @@ const cta = page.cta;
     <div class="timeline">
       {
         milestones.map((item) => (
-          <article class="timeline-item">
-            <span>{item.year}</span>
+          <article class="card-accent-stripe">
+            <p class="card-kicker">{item.year}</p>
             <h3>{item.title}</h3>
             <p>{item.detail}</p>
           </article>

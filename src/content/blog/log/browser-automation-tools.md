@@ -1,5 +1,6 @@
 ---
 title: "浏览器自动化测试工具和库"
+description: "对比 Selenium、Playwright、Cypress 三款浏览器自动化测试工具的特点与适用场景，讲解 Chrome 与 ChromeDriver 的安装及版本对应要点，并附 Python Selenium 打开网页、定位元素、模拟输入的示例代码。"
 date: "2023-03-11T23:44:25+08:00"
 draft: false
 tags:

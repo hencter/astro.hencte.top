@@ -1,5 +1,6 @@
 ---
 title: "一次的 Linux 全盘数据丢失经历"
+description: "一次惨痛的 Linux 装机事故：迁移文件到 ext4 后关机导致全盘数据丢失，随后在 PE 与 DiskGenius 间反复折腾，经历 Win7 缺驱动、镜像下载中断等波折，最终重装 Windows 收场。"
 date: "2020-04-07T20:26:58+08:00"
 publishDate: "2022-05-22T13:55:55.518Z"
 draft: false

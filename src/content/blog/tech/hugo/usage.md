@@ -1,5 +1,6 @@
 ---
 title: "Hugo 使用"
+description: "Hugo 命令行使用手册：给出 hugo help 帮助信息的中文翻译，涵盖 server、new、mod 等子命令与常用构建参数，并演示 hugo config mounts 与 hugo convert 格式转换。"
 date: "2022-07-18T10:12:44+08:00"
 draft: false
 tags:

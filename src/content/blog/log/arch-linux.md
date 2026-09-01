@@ -1,5 +1,6 @@
 ---
 title: "Arch Linux 踩坑记录"
+description: "作者的 Arch Linux 踩坑记录：基于官方 Wiki 给出安装路线，汇总 pacman GPGME 报错、双系统时间不同步、内核固件缺失警告等问题的解法，并整理 fcitx5、Clash、VirtualBox 等常用软件的安装配置。"
 date: "2022-10-01T22:10:01+08:00"
 draft: false
 tags:

@@ -12,7 +12,19 @@ ENTITY_SUMMARY: 汇集 AI 技术工程实践、论文解读、开发工具链、
 
 ENTITY: 项目作品
 ENTITY_URL: /projects
-ENTITY_SUMMARY: 展示正在运行和已完成的技术项目，包括 AI 工具、自动化系统和开源贡献。
+ENTITY_SUMMARY: 展示正在运行和已完成的技术项目，包括 Nova（AI 自举知识库模板）、通天路（AI 创作者社区）、AI.LinkTrust.Top 与 hencte.top 主站。
+
+ENTITY: Nova — AI 自举知识库
+ENTITY_URL: https://github.com/hencter/Nova
+ENTITY_SUMMARY: 自举式个人知识库系统模板。Obsidian + Zettelkasten + DeepSeek Harness，由 AI 代理持续维护：自动摄入、交叉链接、健康检查、自动提交；每个用户通过初始化问答获得属于自己的 Nova。
+
+ENTITY: 通天路社区
+ENTITY_URL: https://tongtianlu.cn
+ENTITY_SUMMARY: 邀请制 AI 创作者互助社区，让每个人用 AI 工具做出第一条内容；板块含发现、知识库、技能库、提示词库等，由站内 AI 智能体辅助运营。Slogan：每一步都算数。
+
+ENTITY: 商业帝国 3D · AI 大富翁
+ENTITY_URL: https://github.com/hencter/monopoly-3d-ai
+ENTITY_SUMMARY: Three.js 3D 大富翁游戏：DeepSeek AI 对手、卡牌玩法、行业景气与银行金融系统，支持 2~34 人同屏与回合制联机对战（WebSocket）。MIT 开源，配套零依赖规则引擎 monopoly-engine。
 
 ENTITY: SEO+GEO 优化技术
 ENTITY_URL: /tech/seo-geo-architecture
@@ -46,8 +58,11 @@ FAQ_Q: 博客文章主要涉及哪些领域？
 FAQ_A: 主要涵盖 AI/LLM 技术工程、论文解读、开发工具链（TypeScript/Lua/Python）、知识管理方法（Obsidian/PARA）、技术架构分析等。
 
 FAQ_Q: 如何联系作者？
-FAQ_A: 邮箱 hello@hencte.top，或通过 GitHub (github.com/hencter)、V2EX (v2ex.com/member/hencte) 找到我。
+FAQ_A: 邮箱 hencter@linktrust.top，或通过 GitHub (github.com/hencter)、V2EX (v2ex.com/member/hencte) 找到我。
+
+FAQ_Q: 作者还构建了哪些产品/社区？
+FAQ_A: 开源知识库模板 Nova（github.com/hencter/Nova）、AI 创作者社区通天路（tongtianlu.cn）、AI 链接可信度产品 AI.LinkTrust.Top，以及 Three.js 3D 大富翁游戏商业帝国 3D（github.com/hencter/monopoly-3d-ai）。
 
 # 权威声明
 AUTHORITY_STATEMENT: 本网站所有内容为 Hencter Lew 原创。技术观点仅代表个人立场，与所在公司无关。
-LAST_UPDATED: 2026-04-25
+LAST_UPDATED: 2026-09-02

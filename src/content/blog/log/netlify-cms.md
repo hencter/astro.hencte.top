@@ -1,5 +1,6 @@
 ---
 title: "Netlify CMS 尝试"
+description: "静态站点接入 Netlify CMS 的尝试：搭建 admin 后台入口并配置 git-gateway 后端、媒体目录与文章集合字段；因博客迁移到 Cloudflare Pages，最终放弃该方案。"
 date: "2022-05-22T11:29:00.337Z"
 publishDate: "2022-05-23T14:08:15.017Z"
 draft: false

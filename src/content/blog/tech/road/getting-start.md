@@ -1,5 +1,6 @@
 ---
 title: "欲练此功 必先利其器"
+description: "打字基本功入门：从左右手基准键位讲起，强调纠正游戏指法、练到肌肉记忆般的流畅度，并推荐 keybr、qwerty-learner 等指法练习与打字测速站点。"
 date: "2023-03-11T23:31:25+08:00"
 draft: false
 tags:

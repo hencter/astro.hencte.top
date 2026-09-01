@@ -1,5 +1,6 @@
 ---
 title: "WSL 问题记录"
+description: "WSL 使用笔记：通过微软商店或 wsl --list --online 安装 Debian 系发行版，并用 netsh interface portproxy 将主机端口转发到 WSL 地址，配合 Clash 等代理使用。"
 date: "2022-10-01T17:01:53+08:00"
 draft: false
 tags:

@@ -1,5 +1,6 @@
 ---
 title: "Page Resources"
+description: "Hugo 页面资源概念说明：图像、其他页面、文档等与页面关联的资源拥有自己的 URL 和元数据，可通过页捆绑机制统一管理。"
 date: "2023-04-12T23:53:33+08:00"
 draft: false
 tags:

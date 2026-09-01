@@ -1,5 +1,6 @@
 ---
 title: "代理配置"
+description: "常用命令行工具的代理配置速查：Git 全局代理设置与清除、curl 配置文件与临时免代理参数、shell 中 setproxy/unsetproxy 快捷开关，及 GitHub SSH 走代理的方法。"
 date: "2022-10-05T12:25:57+08:00"
 draft: false
 tags:

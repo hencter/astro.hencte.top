@@ -12,6 +12,8 @@ keywords:
   - "Python"
   - "Obsidian"
   - "LinkTrust"
+  - "Nova"
+  - "tongtianlu"
 hero:
   badge: "About"
   headline: "Hencter Lew"
@@ -29,12 +31,14 @@ panels:
       - "Editor: Neovim (LazyVim)"
       - "Knowledge system: Obsidian (templates + reviews)"
       - "Themes: trust, product iteration, toolchains"
+      - "Latest build: Nova — self-bootstrapping AI knowledge vault (github.com/hencter/Nova)"
+      - "Community: Tongtianlu tongtianlu.cn — invite-only AI creator community"
   right:
     title: "Contact and links"
     body: |
       Happy to connect about projects, collaboration, or open source.
     bullets:
-      - "Email: hello@hencte.top"
+      - "Email: hencter@linktrust.top"
       - "GitHub: github.com/hencter"
       - "ORCID: 0009-0007-7990-0106"
 principles:
@@ -54,13 +58,16 @@ milestones:
   - year: "2026"
     title: "Upgraded to Astro and bilingual site"
     detail: "Unified content workflow and kept iterating both main site and external products."
+  - year: "2026"
+    title: "Launched Nova and the Tongtianlu community"
+    detail: "Released Nova, an open-source self-bootstrapping knowledge vault template; founded Tongtianlu, an invite-only community for AI creators."
 cta:
   title: "Email me"
-  text: "hello@hencte.top"
+  text: "hencter@linktrust.top"
   actions:
     primary:
       label: "Send email"
-      href: "mailto:hello@hencte.top"
+      href: "mailto:hencter@linktrust.top"
     secondary:
       label: "View projects"
       href: "/en/projects"

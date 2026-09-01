@@ -53,6 +53,7 @@ function formatDate(date?: Date): string {
   description={home.description}
   locale="en-US"
   canonicalPath="/en"
+  alternateZh="/"
   keywords={home.keywords ?? []}
 >
   <section class="hero" id="top">
@@ -96,32 +97,65 @@ function formatDate(date?: Date): string {
       <h2 class="section-title">{projectsSection?.title ?? "Featured Projects"}</h2>
       {projectsSection?.subtitle && <p class="section-subtitle">{projectsSection.subtitle}</p>}
     </div>
-    <div class="card-grid three">
-      {
-        featuredProjects.map((project) => (
-          <article class="project-card">
-            <p class="card-kicker">{project.stage}</p>
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
-            <p class="result-line">{project.outcome}</p>
+    {
+      featuredProjects.length > 0 && (
+        <article class="card-featured">
+          <div class="card-featured-visual" aria-hidden="true">
+            {featuredProjects[0].title?.includes("astro") || featuredProjects[0].title?.includes("site") ? "🛰" : featuredProjects[0].title?.includes("Agent") || featuredProjects[0].title?.includes("Swarm") ? "🐝" : featuredProjects[0].title?.includes("Knowledge") || featuredProjects[0].title?.includes("Obsidian") ? "🧠" : "✦"}
+          </div>
+          <div class="card-featured-body">
+            <p class="card-kicker">{featuredProjects[0].stage}</p>
+            <h3>{featuredProjects[0].title}</h3>
+            <p>{featuredProjects[0].description}</p>
+            <p class="result-line">{featuredProjects[0].outcome}</p>
             <ul class="chip-list">
-              {project.tags.map((tag) => <li>{tag}</li>)}
+              {featuredProjects[0].tags.map((tag) => <li>{tag}</li>)}
             </ul>
-            {project.url && (
+            {featuredProjects[0].url && (
               <p>
-                <a
-                  href={project.url}
-                  target={project.url.startsWith("http") ? "_blank" : undefined}
-                  rel={project.url.startsWith("http") ? "noreferrer" : undefined}
+                <a class="btn-secondary" style="display:inline-flex;margin-top:0.5rem"
+                  href={featuredProjects[0].url}
+                  target={featuredProjects[0].url.startsWith("http") ? "_blank" : undefined}
+                  rel={featuredProjects[0].url.startsWith("http") ? "noreferrer" : undefined}
                 >
-                  {project.url.startsWith("http") ? "Visit project" : "Open page"}
+                  {featuredProjects[0].url.startsWith("http") ? "Visit project" : "Open page"}
                 </a>
               </p>
             )}
-          </article>
-        ))
-      }
-    </div>
+          </div>
+        </article>
+      )
+    }
+    {
+      featuredProjects.length > 1 && (
+        <div class="card-grid three" style="margin-top:1rem">
+          {
+            featuredProjects.slice(1).map((project) => (
+              <article class="project-card">
+                <p class="card-kicker">{project.stage}</p>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <p class="result-line">{project.outcome}</p>
+                <ul class="chip-list">
+                  {project.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+                {project.url && (
+                  <p>
+                    <a
+                      href={project.url}
+                      target={project.url.startsWith("http") ? "_blank" : undefined}
+                      rel={project.url.startsWith("http") ? "noreferrer" : undefined}
+                    >
+                      {project.url.startsWith("http") ? "Visit project" : "Open page"}
+                    </a>
+                  </p>
+                )}
+              </article>
+            ))
+          }
+        </div>
+      )
+    }
   </section>
 
   <section class="section reveal-on-scroll" id="loop">
@@ -132,8 +166,8 @@ function formatDate(date?: Date): string {
     <div class="timeline">
       {
         buildSteps.map((item) => (
-          <article class="timeline-item">
-            <span>{item.phase}</span>
+          <article class="card-accent-stripe">
+            <p class="card-kicker">{item.phase}</p>
             <p>{item.detail}</p>
           </article>
         ))

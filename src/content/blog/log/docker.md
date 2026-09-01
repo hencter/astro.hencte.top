@@ -1,5 +1,6 @@
 ---
 title: "Docker"
+description: "Docker 使用备忘：记录用 docker run 一条命令启动 MySQL 5.7 容器的写法，映射 3306 端口并通过 MYSQL_ROOT_PASSWORD 环境变量设置 root 密码。"
 date: "2022-10-05T12:19:04+08:00"
 draft: false
 tags:

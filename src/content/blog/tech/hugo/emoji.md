@@ -1,5 +1,6 @@
 ---
 title: "Emoji"
+description: "Hugo 表情速查：在站点配置中开启 enableEmoji 后，即可用短代码输出表情，文中按 People、Nature、Objects、Places、Symbols 五类整理完整短代码列表。"
 date: "2022-10-11T14:30:55+08:00"
 draft: false
 tags:

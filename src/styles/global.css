@@ -2,84 +2,83 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design Tokens — Light
+   Design Tokens — Light  (Ocean Depths)
    ============================================================ */
 :root {
-  --bg: #f3f7fb;
+  --bg: #faf9f6;
   --surface: #ffffff;
-  --surface-glass: rgba(255, 255, 255, 0.88);
-  --line: #d8e2ef;
-  --ink-900: #102238;
-  --ink-700: #2a4360;
-  --ink-500: #4d6582;
-  --ink-400: #6b8299;
-  --brand: #0e7490;
-  --brand-deep: #0b556d;
-  --accent: #dd6b20;
-  --highlight: #0f766e;
-  --shadow-soft: 0 22px 60px rgba(15, 41, 72, 0.14);
-  --shadow-card: 0 18px 30px rgba(16, 34, 56, 0.09);
+  --surface-glass: rgba(255, 255, 255, 0.9);
+  --line: #dce5e8;
+  --ink-900: #1a2332;
+  --ink-700: #2d4a5a;
+  --ink-500: #5a7a8a;
+  --ink-400: #7a95a3;
+  --brand: #1a7f8c;
+  --brand-deep: #145f6b;
+  --accent: #e76f51;
+  --highlight: #2d8b8b;
+  --shadow-soft: 0 22px 60px rgba(26, 35, 50, 0.1);
+  --shadow-card: 0 18px 30px rgba(26, 35, 50, 0.07);
   --radius-lg: 1.1rem;
   --radius-xl: 1.6rem;
   --font-sans: "Manrope", "Noto Sans SC", "Segoe UI", sans-serif;
   --font-display: "ZCOOL XiaoWei", "Noto Sans SC", serif;
 
-  /* gradient stops for ambient backgrounds */
-  --grad-hero-a: rgba(14, 116, 144, 0.18);
-  --grad-hero-b: rgba(221, 107, 32, 0.2);
-  --grad-ambient-a: rgba(15, 118, 110, 0.08);
-  --grad-ambient-b: rgba(14, 116, 144, 0.08);
+  --grad-hero-a: rgba(26, 127, 140, 0.12);
+  --grad-hero-b: rgba(231, 111, 81, 0.14);
+  --grad-ambient-a: rgba(45, 139, 139, 0.06);
+  --grad-ambient-b: rgba(26, 127, 140, 0.06);
   --card-bg: #fff;
-  --card-border: #d6e3f3;
-  --card-hover-border: #b7cae2;
-  --code-bg: #f6faff;
-  --code-border: #d2e1f1;
-  --toc-bg: #f8fbff;
-  --chip-bg: #f7fbff;
-  --chip-border: #cfddf0;
-  --nav-hover-bg: #ecf4ff;
-  --blockquote-bg: #f7fbff;
-  --blockquote-border: #98bbdc;
-  --th-bg: #f4f9ff;
-  --footer-border: #c0d2e7;
+  --card-border: #e2e8ea;
+  --card-hover-border: #c5d4d8;
+  --code-bg: #f7faf5;
+  --code-border: #e0e8e4;
+  --toc-bg: #f9faf7;
+  --chip-bg: #f7faf8;
+  --chip-border: #d8e4e2;
+  --nav-hover-bg: #eff7f6;
+  --blockquote-bg: #f8faf9;
+  --blockquote-border: #b0cdc8;
+  --th-bg: #f6faf7;
+  --footer-border: #d0dcd8;
 }
 
 /* ============================================================
-   Design Tokens — Dark
+   Design Tokens — Dark  (Midnight Tech)
    ============================================================ */
 :root.dark {
-  --bg: #0c1420;
-  --surface: #15202e;
-  --surface-glass: rgba(21, 32, 46, 0.88);
-  --line: #243347;
-  --ink-900: #e4ecf5;
-  --ink-700: #b0c4db;
-  --ink-500: #7e97b2;
-  --ink-400: #5c7a99;
-  --brand: #22d3ee;
-  --brand-deep: #67e8f9;
-  --accent: #fb923c;
-  --highlight: #2dd4bf;
-  --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.4);
-  --shadow-card: 0 18px 30px rgba(0, 0, 0, 0.3);
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-glass: rgba(22, 27, 34, 0.9);
+  --line: #21262d;
+  --ink-900: #e6edf3;
+  --ink-700: #8b949e;
+  --ink-500: #6e7681;
+  --ink-400: #484f58;
+  --brand: #58a6ff;
+  --brand-deep: #79c0ff;
+  --accent: #f97316;
+  --highlight: #3fb950;
+  --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 18px 30px rgba(0, 0, 0, 0.4);
 
-  --grad-hero-a: rgba(14, 116, 144, 0.12);
-  --grad-hero-b: rgba(221, 107, 32, 0.1);
-  --grad-ambient-a: rgba(15, 118, 110, 0.05);
-  --grad-ambient-b: rgba(14, 116, 144, 0.05);
-  --card-bg: #1a2736;
-  --card-border: #2a3d52;
-  --card-hover-border: #3a5570;
-  --code-bg: #1a2736;
-  --code-border: #2a3d52;
-  --toc-bg: #152030;
-  --chip-bg: #152030;
-  --chip-border: #2a3d52;
-  --nav-hover-bg: rgba(34, 211, 238, 0.1);
-  --blockquote-bg: #152030;
-  --blockquote-border: #3a5570;
-  --th-bg: #1a2736;
-  --footer-border: #243347;
+  --grad-hero-a: rgba(88, 166, 255, 0.08);
+  --grad-hero-b: rgba(249, 115, 22, 0.06);
+  --grad-ambient-a: rgba(63, 185, 80, 0.04);
+  --grad-ambient-b: rgba(88, 166, 255, 0.05);
+  --card-bg: #161b22;
+  --card-border: #30363d;
+  --card-hover-border: #484f58;
+  --code-bg: #161b22;
+  --code-border: #30363d;
+  --toc-bg: #0d1117;
+  --chip-bg: #161b22;
+  --chip-border: #30363d;
+  --nav-hover-bg: rgba(88, 166, 255, 0.1);
+  --blockquote-bg: #0d1117;
+  --blockquote-border: #30363d;
+  --th-bg: #161b22;
+  --footer-border: #21262d;
 }
 
 /* ============================================================
@@ -125,6 +124,21 @@ a {
     radial-gradient(circle at 22% 78%, var(--grad-ambient-b), transparent 24%);
   pointer-events: none;
   z-index: -1;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+.dark .noise-overlay {
+  opacity: 0.055;
 }
 
 /* ============================================================
@@ -178,6 +192,13 @@ a {
   background: linear-gradient(135deg, var(--brand) 0%, var(--highlight) 100%);
   font-weight: 800;
   transition: transform 300ms ease;
+  animation: brand-pulse 800ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes brand-pulse {
+  0%   { transform: scale(0.8); opacity: 0.5; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .brand-link:hover .brand-mark {
@@ -227,6 +248,7 @@ a {
   color: var(--ink-900);
   background: var(--nav-hover-bg);
   transform: translateY(-1px);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--brand) 30%, transparent);
 }
 
 /* ============================================================
@@ -415,6 +437,12 @@ a {
   border-radius: 999px;
   padding: 0.3rem 0.75rem;
   position: relative;
+  animation: float-badge 3s ease-in-out infinite;
+}
+
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 .hero-title {
@@ -424,6 +452,17 @@ a {
   line-height: 1.15;
   letter-spacing: -0.01em;
   position: relative;
+  background: linear-gradient(90deg, var(--ink-900) 0%, var(--ink-700) 50%, var(--brand) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: hero-reveal 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes hero-reveal {
+  from { background-position: 120% 0; }
+  to   { background-position: 0% 0; }
 }
 
 .hero-subtitle {
@@ -521,20 +560,121 @@ a {
 }
 
 /* ============================================================
+   Asymmetric Layouts
+   ============================================================ */
+.layout-asymmetric {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 0.95rem;
+}
+
+.layout-asymmetric-reverse {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 0.95rem;
+}
+
+.card-featured {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  transition: transform 350ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 350ms ease,
+              border-color 350ms ease;
+}
+
+.card-featured:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--card-hover-border);
+}
+
+.card-featured-visual {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(135deg, var(--grad-hero-a) 0%, var(--grad-hero-b) 100%);
+  display: grid;
+  place-items: center;
+  font-size: 2.8rem;
+  color: var(--brand-deep);
+  overflow: hidden;
+  position: relative;
+}
+
+.card-featured-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 70%, var(--accent) 0%, transparent 60%);
+  opacity: 0.15;
+}
+
+.card-featured-body {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.card-featured-body h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.card-featured-body p {
+  margin: 0;
+  color: var(--ink-700);
+}
+
+.card-accent-stripe {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--brand);
+  background: var(--card-bg);
+  padding: 1rem 1rem 1rem 1.2rem;
+  transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 300ms ease,
+              border-color 300ms ease;
+}
+
+.card-accent-stripe:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--card-hover-border);
+  border-left-color: var(--accent);
+}
+
+/* ============================================================
    Cards
    ============================================================ */
 .value-card,
 .project-card,
 .story-panel,
 .timeline-item,
-.principle-card {
+.principle-card,
+.blog-post-card {
   border-radius: var(--radius-lg);
   border: 1px solid var(--card-border);
   background: var(--card-bg);
   padding: 1rem;
-  transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1),
-              box-shadow 300ms ease,
-              border-color 300ms ease;
+  position: relative;
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 350ms ease,
+              border-color 350ms ease;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Stretched link — makes the entire card clickable */
+.card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .value-card:hover,
@@ -542,9 +682,11 @@ a {
 .story-panel:hover,
 .timeline-item:hover,
 .principle-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
   border-color: var(--card-hover-border);
-  box-shadow: var(--shadow-card);
+  box-shadow:
+    var(--shadow-card),
+    0 0 30px color-mix(in srgb, var(--brand) 12%, transparent);
 }
 
 .card-kicker {
@@ -609,6 +751,27 @@ a {
 .chip-list li:hover {
   border-color: var(--brand);
   color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 8%, var(--chip-bg) 92%);
+  transform: scale(1.05);
+}
+
+/* decorative dot on every 3rd blog post card */
+.blog-post-card:nth-child(3n) {
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-post-card:nth-child(3n)::after {
+  content: "";
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  opacity: 0.22;
+  pointer-events: none;
 }
 
 /* ============================================================
@@ -736,6 +899,7 @@ a {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.95rem;
+  align-items: start;
 }
 
 /* ============================================================
@@ -746,14 +910,19 @@ a {
   border: 1px solid var(--card-border);
   background: var(--card-bg);
   padding: 1rem;
-  transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1),
-              box-shadow 300ms ease,
-              border-color 300ms ease;
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 350ms ease,
+              border-color 350ms ease;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  position: relative;
 }
 
 .blog-post-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    var(--shadow-card),
+    0 0 30px color-mix(in srgb, var(--brand) 10%, transparent);
   border-color: var(--card-hover-border);
 }
 
@@ -767,7 +936,8 @@ a {
 .blog-post-card h2 a,
 .blog-post-card h3 a {
   text-decoration: none;
-  transition: color 200ms ease;
+  background: linear-gradient(currentColor, currentColor) 0% 100% / 0% 2px no-repeat;
+  transition: background-size 350ms ease, color 200ms ease;
 }
 
 .blog-post-card h2 a:hover,
@@ -775,6 +945,7 @@ a {
 .blog-post-card h3 a:hover,
 .blog-post-card h3 a:focus-visible {
   color: var(--brand-deep);
+  background-size: 100% 2px;
 }
 
 /* ============================================================
@@ -847,6 +1018,14 @@ a {
   font-size: clamp(1.75rem, 3.2vw, 2.45rem);
   line-height: 1.2;
   letter-spacing: -0.02em;
+}
+
+.post-header,
+.post-toc {
+  max-width: 78ch;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 /* ============================================================
@@ -990,6 +1169,222 @@ a {
 }
 
 /* ============================================================
+   Obsidian Callouts
+   ============================================================ */
+.callout {
+  margin: 1.2em 0;
+  border-radius: 0.65rem;
+  border: 1px solid var(--card-border);
+  background: var(--toc-bg);
+  overflow: hidden;
+}
+
+.callout-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.93rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--blockquote-bg);
+}
+
+.callout-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.callout-title {
+  font-weight: 700;
+  color: var(--ink-900);
+  text-transform: capitalize;
+}
+
+.callout-body {
+  padding: 0.65rem 0.9rem;
+}
+
+.callout-body > :first-child { margin-top: 0; }
+.callout-body > :last-child  { margin-bottom: 0; }
+
+/* Callout variants */
+.callout-note    { border-left: 4px solid #448aff; }
+.callout-info    { border-left: 4px solid #00b8d4; }
+.callout-tip     { border-left: 4px solid #00bfa5; }
+.callout-success { border-left: 4px solid #4caf50; }
+.callout-question{ border-left: 4px solid #64b5f6; }
+.callout-warning { border-left: 4px solid #ff9800; }
+.callout-danger  { border-left: 4px solid #f44336; }
+.callout-bug     { border-left: 4px solid #e91e63; }
+.callout-example { border-left: 4px solid #9c27b0; }
+.callout-quote   { border-left: 4px solid #9e9e9e; }
+.callout-abstract{ border-left: 4px solid #00acc1; }
+.callout-todo    { border-left: 4px solid #2196f3; }
+.callout-failure { border-left: 4px solid #f44336; }
+.callout-important{ border-left: 4px solid #e040fb; }
+
+.callout-note    > .callout-header { color: #448aff; }
+.callout-info    > .callout-header { color: #00b8d4; }
+.callout-tip     > .callout-header { color: #00bfa5; }
+.callout-success > .callout-header { color: #4caf50; }
+.callout-question> .callout-header { color: #64b5f6; }
+.callout-warning > .callout-header { color: #ff9800; }
+.callout-danger  > .callout-header { color: #f44336; }
+.callout-bug     > .callout-header { color: #e91e63; }
+.callout-example > .callout-header { color: #9c27b0; }
+.callout-quote   > .callout-header { color: #9e9e9e; }
+.callout-abstract> .callout-header { color: #00acc1; }
+.callout-todo    > .callout-header { color: #2196f3; }
+.callout-failure > .callout-header { color: #f44336; }
+.callout-important> .callout-header { color: #e040fb; }
+
+/* Dark mode callout adjustments */
+.dark .callout {
+  background: #1a2332;
+}
+
+.dark .callout-header {
+  background: rgba(255,255,255,0.03);
+}
+
+/* ============================================================
+   Code Block (Shiki two-theme)
+   ============================================================ */
+.code-block-wrapper {
+  margin: 0.9em 0;
+  border-radius: 0.9rem;
+  border: 1px solid var(--code-border);
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 0.85rem;
+  overflow-x: auto;
+  background: var(--code-bg) !important;
+}
+
+.code-block-wrapper code {
+  font-family: "Cascadia Mono", "Consolas", "SFMono-Regular", monospace;
+  font-size: 0.93em;
+}
+
+.code-block-fallback {
+  overflow-x: auto;
+  border-radius: 0.9rem;
+  border: 1px solid var(--code-border);
+  padding: 0.85rem;
+  background: var(--code-bg);
+  font-family: "Cascadia Mono", "Consolas", "SFMono-Regular", monospace;
+  font-size: 0.93em;
+}
+
+/* ============================================================
+   Math (KaTeX)
+   ============================================================ */
+.math-block {
+  margin: 1.2em 0;
+  padding: 0.8rem 1rem;
+  border-radius: 0.65rem;
+  background: var(--toc-bg);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.math-inline {
+  padding: 0.1em 0.2em;
+}
+
+/* KaTeX overrides */
+.katex-display {
+  margin: 0 !important;
+}
+
+.katex {
+  font-size: 1.1em !important;
+}
+
+/* ============================================================
+   Mermaid Diagrams
+   ============================================================ */
+.mermaid-container {
+  margin: 0.9em 0;
+  border-radius: 0.9rem;
+  border: 1px solid var(--code-border);
+  background: var(--code-bg);
+  padding: 0.85rem;
+  overflow-x: auto;
+}
+
+.mermaid-container pre.mermaid {
+  margin: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   Highlights (==text== → <mark>)
+   ============================================================ */
+.post-prose mark {
+  background: color-mix(in srgb, var(--highlight) 28%, transparent 72%);
+  color: inherit;
+  padding: 0.1em 0.25em;
+  border-radius: 0.25em;
+}
+
+.dark .post-prose mark {
+  background: color-mix(in srgb, var(--highlight) 35%, transparent 65%);
+}
+
+/* ============================================================
+   Task Lists (GFM)
+   ============================================================ */
+.post-prose ul > li > input[type="checkbox"] {
+  margin-right: 0.4rem;
+  accent-color: var(--brand);
+  vertical-align: middle;
+  transform: scale(1.1);
+}
+
+/* ============================================================
+   Footnotes
+   ============================================================ */
+.post-prose .footnotes {
+  margin-top: 2.5em;
+  border-top: 1px solid var(--line);
+  padding-top: 1em;
+  font-size: 0.9em;
+  color: var(--ink-700);
+}
+
+.post-prose .footnotes ol {
+  padding-left: 1.5em;
+}
+
+.post-prose .footnotes li {
+  margin: 0.4em 0;
+}
+
+.post-prose sup > a {
+  color: var(--brand-deep);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.post-prose sup > a:hover {
+  color: var(--brand);
+}
+
+/* ============================================================
    Footer
    ============================================================ */
 .site-footer {
@@ -1051,8 +1446,15 @@ a {
   .card-grid.three,
   .principle-grid,
   .about-split,
-  .blog-list-grid {
+  .blog-list-grid,
+  .layout-asymmetric,
+  .layout-asymmetric-reverse {
     grid-template-columns: 1fr;
+  }
+
+  .card-featured {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
@@ -1111,8 +1513,185 @@ a {
     transform: none;
   }
 
+  .hero-title {
+    animation: none !important;
+    -webkit-text-fill-color: var(--ink-900);
+  }
+
+  .hero-badge {
+    animation: none !important;
+  }
+
+  .brand-mark {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none !important;
+  }
+}
+
+/* ============================================================
+   Breadcrumb (visible, post header)
+   ============================================================ */
+.breadcrumb ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--ink-500);
+}
+
+.breadcrumb a {
+  color: var(--ink-500);
+  font-weight: 600;
+  transition: color 200ms ease, opacity 200ms ease;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  color: var(--brand-deep);
+  opacity: 0.85;
+}
+
+.breadcrumb .breadcrumb-separator {
+  color: var(--ink-400);
+  user-select: none;
+}
+
+.breadcrumb .breadcrumb-current {
+  color: var(--ink-500);
+  overflow-wrap: anywhere;
+}
+
+.dark .breadcrumb li,
+.dark .breadcrumb a {
+  color: var(--ink-500);
+}
+
+.dark .breadcrumb a:hover,
+.dark .breadcrumb a:focus-visible {
+  color: var(--brand-deep);
+}
+
+.dark .breadcrumb .breadcrumb-separator {
+  color: var(--ink-400);
+}
+
+/* ============================================================
+   Related Posts (content interlinking)
+   ============================================================ */
+.related-posts {
+  max-width: 78ch;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.related-title {
+  font-size: clamp(1.24rem, 2vw, 1.5rem);
+  margin-bottom: 0.9rem;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+.related-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 1rem;
+  display: grid;
+  gap: 0.15rem;
+  align-content: start;
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 350ms ease,
+              border-color 350ms ease;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.related-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    var(--shadow-card),
+    0 0 30px color-mix(in srgb, var(--brand) 10%, transparent);
+  border-color: var(--card-hover-border);
+}
+
+.related-card-title {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+
+.related-card-title a {
+  text-decoration: none;
+  color: var(--ink-900);
+  background: linear-gradient(currentColor, currentColor) 0% 100% / 0% 2px no-repeat;
+  transition: background-size 350ms ease, color 200ms ease;
+}
+
+.related-card-title a:hover,
+.related-card-title a:focus-visible {
+  color: var(--brand-deep);
+  background-size: 100% 2px;
+}
+
+.related-card-meta {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+}
+
+.related-card-excerpt {
+  margin: 0.45rem 0 0;
+  color: var(--ink-700);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Dark theme adjustments for related cards */
+.dark .related-card {
+  background: var(--card-bg);
+  border-color: var(--card-border);
+}
+
+.dark .related-card:hover {
+  border-color: var(--card-hover-border);
+  box-shadow:
+    var(--shadow-card),
+    0 0 30px color-mix(in srgb, var(--brand) 14%, transparent);
+}
+
+.dark .related-card-title a {
+  color: var(--ink-900);
+}
+
+.dark .related-card-excerpt {
+  color: var(--ink-700);
+}
+
+@media (max-width: 920px) {
+  .related-grid {
+    grid-template-columns: 1fr;
   }
 }

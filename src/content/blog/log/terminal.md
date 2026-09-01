@@ -1,5 +1,6 @@
 ---
 title: "终端模拟器"
+description: "Windows Terminal 小技巧：将图标文件放进 RoamingState 目录，在 settings.json 中用 ms-appdata 地址引用，即可自定义标题栏图标；也可用 Ctrl+, 进入图形化配置。"
 date: "2022-07-27T21:05:30+08:00"
 draft: false
 tags:

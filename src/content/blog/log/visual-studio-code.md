@@ -1,5 +1,6 @@
 ---
 title: "Visual Studio Code"
+description: "VS Code 问题记录：package.json 报错无法加载 schemastore 校验模式，成因是同源策略拦截 JSON Schema 下载，启用 json.schemaDownload.enable 配置即可解决。"
 date: "2022-07-27T21:01:31+08:00"
 draft: false
 tags:

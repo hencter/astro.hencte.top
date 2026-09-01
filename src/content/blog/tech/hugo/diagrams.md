@@ -1,5 +1,6 @@
 ---
 title: "Diagrams"
+description: "在 Hugo 中使用图表：用 GoAT 语法绘制 ASCII 图表并推荐 Diagon 在线生成器，用 Mermaid 编写流程图、时序图，文中附立方体、光线折射等示例代码。"
 date: "2022-07-09T23:08:54+08:00"
 draft: false
 tags:

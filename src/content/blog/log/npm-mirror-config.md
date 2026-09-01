@@ -1,5 +1,6 @@
 ---
 title: "Npm Mirror 配置"
+description: "npm 镜像源切换笔记：用 yrm 工具添加并启用 npmmirror 源，或用 npm config set registry 直接设置，并附清空缓存、检查配置的验证命令。"
 date: "2023-03-11T23:22:52+08:00"
 draft: false
 tags:

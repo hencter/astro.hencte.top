@@ -1,5 +1,6 @@
 ---
 title: "Windows 基本安装与维护"
+description: "Windows 10 安装与维护笔记：涵盖 DiskGenius 分区、Dism++ 释放映像装机、初始化引导设置，以及 Windows Terminal 美化、脚本执行策略调整、KMS 激活与符号链接等问题处理。"
 date: "2022-10-01T17:05:56+08:00"
 draft: false
 tags:

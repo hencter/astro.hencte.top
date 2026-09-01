@@ -1,5 +1,6 @@
 ---
 title: "Tomcat8 问题记录"
+description: "Tomcat 8 问题记录：采用 zip 免安装方式部署以便配合 IDEA 开发；针对 Linux 下配置文件复制报错与 8080 端口占用问题，给出对 conf 目录统一赋权的解法。"
 date: "2023-03-11T23:16:01+08:00"
 draft: false
 tags:
