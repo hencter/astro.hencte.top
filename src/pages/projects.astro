@@ -1,6 +1,9 @@
 ---
 import { getEntry } from "astro:content";
 import Layout from "../layouts/BaseLayout.astro";
+import ProjectsSections from "../components/connect/ProjectsSections.astro";
+import { getPageAlternates } from "../lib/i18n";
+import { getProjectsStrings } from "../lib/ui-strings";
 
 const projectsEntry = await getEntry("connect", "zh/projects");
 if (!projectsEntry) {
@@ -8,117 +11,17 @@ if (!projectsEntry) {
 }
 
 const page = projectsEntry.data;
-const hero = page.hero;
-const projects = page.featuredProjects ?? [];
-const timeline = page.timeline ?? [];
+const locale = "zh-CN";
 ---
 
 <Layout
   title={page.title}
   description={page.description}
-  locale="zh-CN"
+  locale={locale}
   canonicalPath="/projects"
-  alternateEn="/en/projects"
+  connectPage="projects"
+  alternates={getPageAlternates("projects")}
   keywords={page.keywords ?? []}
 >
-  <section class="hero" id="top">
-    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
-    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
-    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
-    <div class="hero-actions">
-      {hero?.actions?.primary && (
-        <a class="btn-primary" href={hero.actions.primary.href}>
-          {hero.actions.primary.label}
-        </a>
-      )}
-      {hero?.actions?.secondary && (
-        <a class="btn-secondary" href={hero.actions.secondary.href}>
-          {hero.actions.secondary.label}
-        </a>
-      )}
-    </div>
-  </section>
-
-  <section class="section reveal-on-scroll" id="featured">
-    <div class="section-heading">
-      <h2 class="section-title">重点项目</h2>
-      <p class="section-subtitle">对外可访问、可验证、可持续迭代。</p>
-    </div>
-    {
-      projects.length > 0 && (
-        <article class="card-featured">
-          <div class="card-featured-visual" aria-hidden="true">
-            {projects[0].title?.includes("astro") || projects[0].title?.includes("站") ? "🛰" : projects[0].title?.includes("Agent") || projects[0].title?.includes("蜂群") ? "🐝" : projects[0].title?.includes("知识") || projects[0].title?.includes("Obsidian") ? "🧠" : "✦"}
-          </div>
-          <div class="card-featured-body">
-            <p class="card-kicker">{projects[0].stage}</p>
-            <h3>{projects[0].title}</h3>
-            <p>{projects[0].description}</p>
-            {projects[0].result && <p class="result-line">{projects[0].result}</p>}
-            <ul class="chip-list">
-              {projects[0].tags.map((tag) => <li>{tag}</li>)}
-            </ul>
-            {projects[0].url && (
-              <p>
-                <a class="btn-secondary" style="display:inline-flex;margin-top:0.5rem"
-                  href={projects[0].url}
-                  target={projects[0].url.startsWith("http") ? "_blank" : undefined}
-                  rel={projects[0].url.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  {projects[0].url.startsWith("http") ? "访问外站" : "查看详情"}
-                </a>
-              </p>
-            )}
-          </div>
-        </article>
-      )
-    }
-    {
-      projects.length > 1 && (
-        <div class="blog-list-grid" style="margin-top:1rem">
-          {
-            projects.slice(1).map((project) => (
-              <article class="project-card">
-                <p class="card-kicker">{project.stage}</p>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                {project.result && <p class="result-line">{project.result}</p>}
-                <ul class="chip-list">
-                  {project.tags.map((tag) => <li>{tag}</li>)}
-                </ul>
-                {project.url && (
-                  <p>
-                    <a
-                      href={project.url}
-                      target={project.url.startsWith("http") ? "_blank" : undefined}
-                      rel={project.url.startsWith("http") ? "noreferrer" : undefined}
-                    >
-                      {project.url.startsWith("http") ? "访问外站" : "查看详情"}
-                    </a>
-                  </p>
-                )}
-              </article>
-            ))
-          }
-        </div>
-      )
-    }
-  </section>
-
-  <section class="section reveal-on-scroll">
-    <div class="section-heading">
-      <h2 class="section-title">持续迭代节奏</h2>
-      <p class="section-subtitle">项目和内容共用一个增长循环。</p>
-    </div>
-    <div class="timeline">
-      {
-        timeline.map((item) => (
-          <article class="card-accent-stripe">
-            <p class="card-kicker">{item.phase}</p>
-            <p>{item.detail}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
+  <ProjectsSections page={page} locale={locale} strings={getProjectsStrings(locale)} />
 </Layout>

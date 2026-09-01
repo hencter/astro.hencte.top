@@ -1,0 +1,136 @@
+---
+import type { SiteLocale } from "../../lib/i18n";
+
+interface AboutData {
+  hero?: {
+    badge?: string;
+    headline?: string;
+    subtitle?: string;
+  };
+  panels?: {
+    left?: { title?: string; body?: string; bullets?: string[] };
+    right?: { title?: string; body?: string; bullets?: string[] };
+  };
+  principles?: { title: string; text: string }[];
+  milestones?: { year: string; title: string; detail: string }[];
+  cta?: {
+    title?: string;
+    text?: string;
+    actions?: {
+      primary?: { label: string; href: string };
+      secondary?: { label: string; href: string };
+    };
+  };
+}
+
+interface Props {
+  page: AboutData;
+  locale: SiteLocale;
+  strings: {
+    leftPanelTitle: string;
+    rightPanelTitle: string;
+    principlesTitle: string;
+    principlesSubtitle: string;
+    milestonesTitle: string;
+    milestonesSubtitle: string;
+    ctaTitle: string;
+    ctaText: string;
+  };
+}
+
+const { page, locale, strings } = Astro.props;
+const hero = page.hero;
+const panels = page.panels;
+const principles = page.principles ?? [];
+const milestones = page.milestones ?? [];
+const cta = page.cta;
+---
+
+<section class="hero hero-compact">
+  {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+  {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+  {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+</section>
+
+<section class="section reveal-on-scroll">
+  <div class="about-split">
+    <div style="background:linear-gradient(var(--card-bg),var(--card-bg)) padding-box,linear-gradient(135deg,var(--brand),var(--highlight),var(--accent)) border-box;border:2px solid transparent;border-radius:var(--radius-lg);padding:1rem">
+      <article class="story-panel" style="border:none;padding:0">
+        <h3>{panels?.left?.title ?? strings.leftPanelTitle}</h3>
+        {panels?.left?.body && <p>{panels.left.body}</p>}
+        {panels?.left?.bullets && panels.left.bullets.length > 0 && (
+          <ul class="detail-list">
+            {panels.left.bullets.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+      </article>
+    </div>
+
+    <article class="story-panel">
+      <h3>{panels?.right?.title ?? strings.rightPanelTitle}</h3>
+      {panels?.right?.body && <p>{panels.right.body}</p>}
+      {panels?.right?.bullets && panels.right.bullets.length > 0 && (
+        <ul class="detail-list">
+          {panels.right.bullets.map((item) => <li>{item}</li>)}
+        </ul>
+      )}
+    </article>
+  </div>
+</section>
+
+<section class="section reveal-on-scroll">
+  <div class="section-heading">
+    <h2 class="section-title">{strings.principlesTitle}</h2>
+    <p class="section-subtitle">{strings.principlesSubtitle}</p>
+  </div>
+  <div class="principle-grid">
+    {
+      principles.map((item, i) => {
+        const accentColors = ["var(--brand)", "var(--accent)", "var(--highlight)"];
+        return (
+          <article class="card-accent-stripe" style={`border-left-color:${accentColors[i % 3]}`}>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        );
+      })
+    }
+  </div>
+</section>
+
+<section class="section reveal-on-scroll">
+  <div class="section-heading">
+    <h2 class="section-title">{strings.milestonesTitle}</h2>
+    <p class="section-subtitle">{strings.milestonesSubtitle}</p>
+  </div>
+  <div class="timeline">
+    {
+      milestones.map((item) => (
+        <article class="card-accent-stripe">
+          <p class="card-kicker">{item.year}</p>
+          <h3>{item.title}</h3>
+          <p>{item.detail}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<section class="section reveal-on-scroll" id="contact">
+  <div class="cta-banner">
+    <h2>{cta?.title ?? strings.ctaTitle}</h2>
+    <p>{cta?.text ?? strings.ctaText}</p>
+    <div class="hero-actions">
+      {cta?.actions?.primary && (
+        <a class="btn-primary" href={cta.actions.primary.href}>
+          {cta.actions.primary.label}
+        </a>
+      )}
+      {cta?.actions?.secondary && (
+        <a class="btn-secondary" href={cta.actions.secondary.href}>
+          {cta.actions.secondary.label}
+        </a>
+      )}
+    </div>
+  </div>
+</section>

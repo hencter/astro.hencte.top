@@ -20,7 +20,7 @@ export async function GET() {
 
   const content = `# 亦幸小阁
 
-> 个人品牌站点：技术博客（AI 工程实践、论文解读、开发工具链、知识管理）、项目展示。作者：亦幸（Hencter Lew）。语言：zh-CN（默认）/ en-US。联系：hencter@linktrust.top
+> 个人品牌站点：技术博客（AI 工程实践、论文解读、开发工具链、知识管理）、项目展示。作者：亦幸（Hencter Lew）。语言：zh-CN（默认）/ zh-TW（/tw）/ zh-HK（/hk）/ en-US。联系：hencter@linktrust.top
 
 ## 核心页面
 
@@ -36,6 +36,15 @@ export async function GET() {
 - [Projects (EN)](https://hencte.top/en/projects): Project portfolio
 - [About (EN)](https://hencte.top/en/about): Author bio
 - [Obsidian Plugins (EN)](https://hencte.top/en/obsidian/plugins): Plugin documentation
+
+## 繁体中文页面
+
+- [首頁（台灣）](https://hencte.top/tw): 繁體中文（台灣）首頁
+- [項目（台灣）](https://hencte.top/tw/projects): 繁體中文（台灣）項目展示
+- [關於（台灣）](https://hencte.top/tw/about): 繁體中文（台灣）作者介紹
+- [首頁（香港）](https://hencte.top/hk): 繁體中文（香港）首頁
+- [項目（香港）](https://hencte.top/hk/projects): 繁體中文（香港）項目展示
+- [關於（香港）](https://hencte.top/hk/about): 繁體中文（香港）作者介紹
 
 ## 博客文章
 

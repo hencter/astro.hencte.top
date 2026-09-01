@@ -4,8 +4,6 @@ novel: "ai-counter-taming"
 chapter: 1
 draft: false
 ---
----
-
 *陆征后来才知道，那条消息改变了一切。但当时他只是觉得——这个AI的文案真他妈烂。*
 
 ### 失业的五一

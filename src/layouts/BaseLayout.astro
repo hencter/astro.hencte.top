@@ -4,15 +4,23 @@ import "../styles/global.css";
 import Meta from "@components/Meta.astro";
 import JsonLD from "@components/JsonLD.astro";
 import WechatWidget from "@components/WechatWidget.astro";
+import {
+  type SiteLocale,
+  LOCALE_CONFIG,
+  getNavLinks,
+  getLanguageLinks,
+  getBrandTagline,
+  type ConnectPage,
+} from "../lib/i18n";
 
 interface Props {
   title?: string;
   description?: string;
-  locale?: "zh-CN" | "en-US";
+  locale?: SiteLocale;
   canonicalPath?: string;
   keywords?: string[];
-  alternateEn?: string;
-  alternateZh?: string;
+  connectPage?: ConnectPage;
+  alternates?: Record<string, string>;
   ogType?: "website" | "article";
   image?: string;
   publishedTime?: string;
@@ -26,8 +34,8 @@ const {
   locale = "zh-CN",
   canonicalPath = Astro.url.pathname,
   keywords = [],
-  alternateEn,
-  alternateZh,
+  connectPage,
+  alternates,
   ogType = "website",
   image,
   publishedTime,
@@ -35,44 +43,22 @@ const {
   robots,
 } = Astro.props;
 
-const isEnglish = locale === "en-US";
+const localeConfig = LOCALE_CONFIG[locale];
 const brandName = "亦幸小阁";
 const signatureName = "亦幸小阁";
 const authorName = "Hencter Lew";
-const brandTagline = isEnglish
-  ? "Build a memorable technical brand"
-  : "让技术能力成为长期影响力";
-const languageLink = isEnglish ? "/" : "/en";
-const languageLabel = isEnglish ? "中文" : "EN";
-const navLinks = isEnglish
-  ? [
-      { href: "/en", label: "Home" },
-      { href: "/en/projects", label: "Projects" },
-      { href: "/blog", label: "Blog" },
-      { href: "/en/about", label: "About" },
-      { href: "#contact", label: "Contact" },
-    ]
-  : [
-      { href: "/", label: "首页" },
-      { href: "/projects", label: "项目" },
-      { href: "/blog", label: "博客" },
-      { href: "/about", label: "关于" },
-      { href: "#contact", label: "联系" },
-    ];
+const brandTagline = getBrandTagline(locale);
+const navLinks = getNavLinks(locale);
+const languageLinks = connectPage ? getLanguageLinks(locale, connectPage) : [];
 
 const canonical = new URL(canonicalPath, Astro.url).toString();
-const hreflang = isEnglish
-  ? alternateZh
-    ? { "zh-CN": alternateZh, "en-US": canonicalPath, "x-default": alternateZh }
-    : undefined
-  : alternateEn
-    ? { "zh-CN": canonicalPath, "en-US": alternateEn, "x-default": canonicalPath }
-    : undefined;
+const hreflang = alternates;
 const year = new Date().getFullYear();
+const homeHref = localeConfig.path === "/" ? "/" : localeConfig.path;
 ---
 
 <!doctype html>
-<html lang={isEnglish ? "en" : "zh-CN"}>
+<html lang={localeConfig.htmlLang}>
   <head>
     <Meta
       title={title}
@@ -115,7 +101,7 @@ const year = new Date().getFullYear();
     <div class="noise-overlay" aria-hidden="true"></div>
     <div class="page-shell">
       <header class="site-header">
-        <a class="brand-link" href={isEnglish ? "/en" : "/"}>
+        <a class="brand-link" href={homeHref}>
           <span class="brand-mark" aria-hidden="true">H</span>
           <span class="brand-copy">
             <strong>{brandName}</strong>
@@ -123,7 +109,7 @@ const year = new Date().getFullYear();
           </span>
         </a>
 
-        <nav aria-label={isEnglish ? "Primary navigation" : "主导航"}>
+        <nav aria-label={locale === "en-US" ? "Primary navigation" : "主导航"}>
           <ul class="nav-list">
             {
               navLinks.map((link) => (
@@ -140,9 +126,17 @@ const year = new Date().getFullYear();
             <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
-          <a class="language-link" href={languageLink}>
-            {languageLabel}
-          </a>
+          {languageLinks.length > 0 ? (
+            <div class="language-switcher" role="navigation" aria-label={locale === "en-US" ? "Language" : "语言切换"}>
+              {languageLinks.map((link) => (
+                link.current ? (
+                  <span class="language-link current" aria-current="true">{link.label}</span>
+                ) : (
+                  <a class="language-link" href={link.href}>{link.label}</a>
+                )
+              ))}
+            </div>
+          ) : null}
         </div>
       </header>
 
@@ -152,9 +146,7 @@ const year = new Date().getFullYear();
 
       <footer class="site-footer" id="contact">
         <p>
-          {isEnglish
-            ? `© ${year} ${signatureName}. Always a simple child who is happy to learn.`
-            : `© ${year} ${signatureName}。Always a simple child who is happy to learn.`}
+          © {year} {signatureName}。Always a simple child who is happy to learn.
         </p>
         <a href="mailto:hencter@linktrust.top">hencter@linktrust.top</a>
       </footer>
@@ -191,12 +183,10 @@ const year = new Date().getFullYear();
         els.forEach((el) => observer.observe(el));
       }
 
-      // Run on initial load and after each view transition
       initThemeToggle();
       initScrollReveal();
 
       document.addEventListener('astro:after-swap', () => {
-        // Re-apply theme class after swap
         const saved = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (saved === 'dark' || (!saved && prefersDark)) {
@@ -210,3 +200,20 @@ const year = new Date().getFullYear();
     </script>
   </body>
 </html>
+
+<style>
+  .language-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: center;
+    max-width: 14rem;
+    justify-content: flex-end;
+  }
+
+  .language-link.current {
+    opacity: 0.65;
+    cursor: default;
+    font-weight: 600;
+  }
+</style>

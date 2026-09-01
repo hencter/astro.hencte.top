@@ -25,8 +25,8 @@ hero:
       label: "View projects"
       href: "/en/projects"
     secondary:
-      label: "Read blog"
-      href: "/blog"
+      label: "阅读博客"
+      href: "/en/blog"
 focusSection:
   title: "What I Do Long-Term"
   subtitle: "Ship, capture, review, iterate."

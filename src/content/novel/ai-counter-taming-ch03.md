@@ -4,8 +4,6 @@ novel: "ai-counter-taming"
 chapter: 3
 draft: false
 ---
----
-
 陆征是被脑子里的弹幕吵醒的。
 
 不是"早上好"。不是闹钟。

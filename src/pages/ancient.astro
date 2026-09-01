@@ -22,12 +22,20 @@ const posts = allEntries
 
 <BlogSectionLayout
   title="古文"
-  description="收录古籍片段与古文排版实验，正文使用 Heti 进行中文排版增强。"
+  description="收录古籍片段与古文排版实验：Heti 中西文混排、标点挤压，以及公历 + 农历日期展示。"
   canonicalPath="/ancient"
   badge="古文"
   posts={posts}
 >
   <p>
-    古文正文页会显示「公历 + 农历」日期，并自动进行中西文混排优化与标点挤压。
+    本栏目用于<strong>阅读体验实验</strong>——在保留原文的基础上，尝试更适合屏幕阅读的中文排版。
+  </p>
+  <ul class="detail-list">
+    <li>正文启用 Heti，自动优化中西文间距与标点挤压</li>
+    <li>文章页显示公历与农历日期，便于对照阅读</li>
+    <li>竖排/全屏等版式可在单篇正文中切换（若已配置）</li>
+  </ul>
+  <p>
+    技术类文章见 <a href="/tech">技术</a>，日常记录见 <a href="/log">日志</a>，全部文章见 <a href="/blog">博客首页</a>。
   </p>
 </BlogSectionLayout>

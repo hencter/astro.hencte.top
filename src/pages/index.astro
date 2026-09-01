@@ -1,6 +1,10 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getEntry } from "astro:content";
 import Layout from "../layouts/BaseLayout.astro";
+import HomeSections from "../components/connect/HomeSections.astro";
+import { getPageAlternates } from "../lib/i18n";
+import { getHomeStrings } from "../lib/ui-strings";
+import { getLatestPosts, getHomeNovels } from "../lib/blog-helpers";
 
 const homeEntry = await getEntry("connect", "zh/home");
 if (!homeEntry) {
@@ -8,238 +12,25 @@ if (!homeEntry) {
 }
 
 const home = homeEntry.data;
-const hero = home.hero;
-const focusSection = home.focusSection;
-const focusAreas = home.focusAreas ?? [];
-const projectsSection = home.projectsSection;
-const featuredProjects = home.featuredProjects ?? [];
-const buildSection = home.buildSection;
-const buildSteps = home.buildSteps ?? [];
-const latestSection = home.latestSection;
-const novelSection = home.novelSection;
-const cta = home.cta;
-
-const allowedSections = new Set(["log", "tech", "ancient"]);
-const isIndexPage = (entry: { data: { legacyPath?: string } }) =>
-  Boolean(entry.data.legacyPath?.endsWith("_index.md"));
-
-const allEntries = await getCollection("blog");
-const latestPosts = allEntries
-  .filter((entry) => !entry.data.draft)
-  .filter((entry) => allowedSections.has(entry.data.section || entry.id.split("/")[0]))
-  .filter((entry) => !isIndexPage(entry))
-  .sort((a, b) => {
-    const aTime = a.data.date ? a.data.date.getTime() : 0;
-    const bTime = b.data.date ? b.data.date.getTime() : 0;
-    return bTime - aTime;
-  })
-  .slice(0, 6);
-
-// Fetch novels for homepage
-const novelEntries = await getCollection("novel");
-const homeNovels = novelEntries
-  .filter((e) => !e.data.draft)
-  .filter((e) => !e.data.chapter && !e.data.novel && e.id !== "novel");
-
-function formatDate(date?: Date): string {
-  if (!date) {
-    return "日期待补充";
-  }
-  return date.toLocaleDateString("zh-CN", {
-    timeZone: "Asia/Shanghai",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}
+const latestPosts = await getLatestPosts();
+const homeNovels = await getHomeNovels();
+const locale = "zh-CN";
 ---
 
 <Layout
   title={home.title}
   description={home.description}
-  locale="zh-CN"
+  locale={locale}
   canonicalPath="/"
-  alternateEn="/en"
+  connectPage="home"
+  alternates={getPageAlternates("home")}
   keywords={home.keywords ?? []}
 >
-  <section class="hero" id="top">
-    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
-    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
-    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
-    <div class="hero-actions">
-      {hero?.actions?.primary && (
-        <a class="btn-primary" href={hero.actions.primary.href}>
-          {hero.actions.primary.label}
-        </a>
-      )}
-      {hero?.actions?.secondary && (
-        <a class="btn-secondary" href={hero.actions.secondary.href}>
-          {hero.actions.secondary.label}
-        </a>
-      )}
-    </div>
-  </section>
-
-  {homeNovels.length > 0 && (
-    <section class="section reveal-on-scroll" id="novels">
-      <div class="section-heading">
-        <h2 class="section-title">{novelSection?.title ?? "原创小说"}</h2>
-        {novelSection?.subtitle && <p class="section-subtitle">{novelSection.subtitle}</p>}
-      </div>
-      <div class="card-grid three">
-        {homeNovels.map((novel) => (
-          <article class="project-card">
-            <p class="card-kicker">Novel</p>
-            <h3>{novel.data.title}</h3>
-            {novel.data.description && <p>{novel.data.description}</p>}
-            <a href={`/novel/${novel.id}`} class="btn-primary">开始阅读</a>
-          </article>
-        ))}
-      </div>
-    </section>
-  )}
-
-  <section class="section reveal-on-scroll" id="latest">
-    <div class="section-heading">
-      <h2 class="section-title">{latestSection?.title ?? "最新博客文章"}</h2>
-      {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
-    </div>
-    <div class="blog-list-grid">
-      {
-        latestPosts.map((post) => (
-          <article class="blog-post-card">
-            <p class="card-kicker">{post.data.section || "blog"}</p>
-            <h3>
-              <a href={`/${post.id}`}>{post.data.title}</a>
-            </h3>
-            <p class="post-meta-line">{formatDate(post.data.date)}</p>
-            <p>{post.data.description || "点击查看全文。"}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="section reveal-on-scroll" id="focus">
-    <div class="section-heading">
-      <h2 class="section-title">{focusSection?.title ?? "站点核心方向"}</h2>
-      {focusSection?.subtitle && <p class="section-subtitle">{focusSection.subtitle}</p>}
-    </div>
-    <div class="card-grid three">
-      {
-        focusAreas.map((pillar) => (
-          <article class="value-card">
-            <p class="card-kicker">{pillar.tag}</p>
-            <h3>{pillar.title}</h3>
-            <p>{pillar.text}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="section reveal-on-scroll" id="projects">
-    <div class="section-heading">
-      <h2 class="section-title">{projectsSection?.title ?? "重点项目"}</h2>
-      {projectsSection?.subtitle && <p class="section-subtitle">{projectsSection.subtitle}</p>}
-    </div>
-    {
-      featuredProjects.length > 0 && (
-        <article class="card-featured">
-          <div class="card-featured-visual" aria-hidden="true">
-            {featuredProjects[0].title?.includes("astro") || featuredProjects[0].title?.includes("站") ? "🛰" : featuredProjects[0].title?.includes("Agent") || featuredProjects[0].title?.includes("蜂群") ? "🐝" : featuredProjects[0].title?.includes("知识") || featuredProjects[0].title?.includes("Obsidian") ? "🧠" : "✦"}
-          </div>
-          <div class="card-featured-body">
-            <p class="card-kicker">{featuredProjects[0].stage}</p>
-            <h3>{featuredProjects[0].title}</h3>
-            <p>{featuredProjects[0].description}</p>
-            <p class="result-line">{featuredProjects[0].outcome}</p>
-            <ul class="chip-list">
-              {featuredProjects[0].tags.map((tag) => <li>{tag}</li>)}
-            </ul>
-            {featuredProjects[0].url && (
-              <p>
-                <a class="btn-secondary" style="display:inline-flex;margin-top:0.5rem"
-                  href={featuredProjects[0].url}
-                  target={featuredProjects[0].url.startsWith("http") ? "_blank" : undefined}
-                  rel={featuredProjects[0].url.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  {featuredProjects[0].url.startsWith("http") ? "访问项目" : "查看页面"}
-                </a>
-              </p>
-            )}
-          </div>
-        </article>
-      )
-    }
-    {
-      featuredProjects.length > 1 && (
-        <div class="card-grid three" style="margin-top:1rem">
-          {
-            featuredProjects.slice(1).map((project) => (
-              <article class="project-card">
-                <p class="card-kicker">{project.stage}</p>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <p class="result-line">{project.outcome}</p>
-                <ul class="chip-list">
-                  {project.tags.map((tag) => <li>{tag}</li>)}
-                </ul>
-                {project.url && (
-                  <p>
-                    <a
-                      href={project.url}
-                      target={project.url.startsWith("http") ? "_blank" : undefined}
-                      rel={project.url.startsWith("http") ? "noreferrer" : undefined}
-                    >
-                      {project.url.startsWith("http") ? "访问项目" : "查看页面"}
-                    </a>
-                  </p>
-                )}
-              </article>
-            ))
-          }
-        </div>
-      )
-    }
-  </section>
-
-  <section class="section reveal-on-scroll" id="playbook">
-    <div class="section-heading">
-      <h2 class="section-title">{buildSection?.title ?? "持续构建节奏"}</h2>
-      {buildSection?.subtitle && <p class="section-subtitle">{buildSection.subtitle}</p>}
-    </div>
-    <div class="timeline">
-      {
-        buildSteps.map((item) => (
-          <article class="card-accent-stripe">
-            <p class="card-kicker">{item.phase}</p>
-            <p>{item.detail}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="section reveal-on-scroll" id="contact">
-    <div class="cta-banner" style="display:flex;flex-wrap:wrap;align-items:center;gap:24px">
-      <div style="flex:1;min-width:260px">
-        <h2>{cta?.title ?? "欢迎关注项目更新"}</h2>
-        <p>{cta?.text ?? "你可以从项目页快速了解主要产品，也可以在博客中查看详细技术实现与复盘记录。"}</p>
-        <div class="hero-actions">
-          {cta?.actions?.primary && (
-            <a class="btn-primary" href={cta.actions.primary.href}>
-              {cta.actions.primary.label}
-            </a>
-          )}
-          {cta?.actions?.secondary && (
-            <a class="btn-secondary" href={cta.actions.secondary.href}>
-              {cta.actions.secondary.label}
-            </a>
-          )}
-        </div>
-      </div>
-      <img src="/qr-wechat.svg" alt="微信公众号二维码" width="140" height="140" style="border-radius:12px;background:#fff;flex-shrink:0" loading="lazy" />
-    </div>
-  </section>
+  <HomeSections
+    home={home}
+    locale={locale}
+    latestPosts={latestPosts}
+    homeNovels={homeNovels}
+    strings={getHomeStrings(locale)}
+  />
 </Layout>

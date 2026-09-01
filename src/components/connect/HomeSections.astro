@@ -1,0 +1,280 @@
+---
+import type { SiteLocale } from "../../lib/i18n";
+import { getDateLocale } from "../../lib/i18n";
+
+interface HomeData {
+  title?: string;
+  description?: string;
+  hero?: {
+    badge?: string;
+    headline?: string;
+    subtitle?: string;
+    actions?: {
+      primary?: { label: string; href: string };
+      secondary?: { label: string; href: string };
+    };
+  };
+  focusSection?: { title?: string; subtitle?: string };
+  focusAreas?: { tag?: string; title: string; text: string }[];
+  projectsSection?: { title?: string; subtitle?: string };
+  featuredProjects?: {
+    stage?: string;
+    title: string;
+    description?: string;
+    outcome?: string;
+    tags: string[];
+    url?: string;
+  }[];
+  buildSection?: { title?: string; subtitle?: string };
+  buildSteps?: { phase: string; detail: string }[];
+  latestSection?: { title?: string; subtitle?: string };
+  novelSection?: { title?: string; subtitle?: string };
+  cta?: {
+    title?: string;
+    text?: string;
+    actions?: {
+      primary?: { label: string; href: string };
+      secondary?: { label: string; href: string };
+    };
+  };
+}
+
+interface LatestPost {
+  id: string;
+  data: {
+    title: string;
+    description?: string;
+    date?: Date;
+    section?: string;
+  };
+}
+
+interface HomeNovel {
+  id: string;
+  data: {
+    title: string;
+    description?: string;
+  };
+}
+
+interface Props {
+  home: HomeData;
+  locale: SiteLocale;
+  latestPosts: LatestPost[];
+  homeNovels?: HomeNovel[];
+  strings: {
+    datePending: string;
+    readMore: string;
+    startReading: string;
+    visitProject: string;
+    viewPage: string;
+    wechatQrAlt: string;
+  };
+}
+
+const { home, locale, latestPosts, homeNovels = [], strings } = Astro.props;
+
+const hero = home.hero;
+const focusSection = home.focusSection;
+const focusAreas = home.focusAreas ?? [];
+const projectsSection = home.projectsSection;
+const featuredProjects = home.featuredProjects ?? [];
+const buildSection = home.buildSection;
+const buildSteps = home.buildSteps ?? [];
+const latestSection = home.latestSection;
+const novelSection = home.novelSection;
+const cta = home.cta;
+
+function formatDate(date?: Date): string {
+  if (!date) return strings.datePending;
+  return date.toLocaleDateString(getDateLocale(locale), {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: locale === "en-US" ? "short" : "2-digit",
+    day: "2-digit",
+  });
+}
+---
+
+<section class="hero" id="top">
+  {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+  {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+  {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+  <div class="hero-actions">
+    {hero?.actions?.primary && (
+      <a class="btn-primary" href={hero.actions.primary.href}>
+        {hero.actions.primary.label}
+      </a>
+    )}
+    {hero?.actions?.secondary && (
+      <a class="btn-secondary" href={hero.actions.secondary.href}>
+        {hero.actions.secondary.label}
+      </a>
+    )}
+  </div>
+</section>
+
+{homeNovels.length > 0 && (
+  <section class="section reveal-on-scroll" id="novels">
+    <div class="section-heading">
+      <h2 class="section-title">{novelSection?.title ?? (locale === "en-US" ? "Original Fiction" : "原创小说")}</h2>
+      {novelSection?.subtitle && <p class="section-subtitle">{novelSection.subtitle}</p>}
+    </div>
+    <div class="card-grid three">
+      {homeNovels.map((novel) => (
+        <article class="project-card">
+          <p class="card-kicker">Novel</p>
+          <h3>{novel.data.title}</h3>
+          {novel.data.description && <p>{novel.data.description}</p>}
+          <a href={`/novel/${novel.id}`} class="btn-primary">{strings.startReading}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+)}
+
+<section class="section reveal-on-scroll" id="latest">
+  <div class="section-heading">
+    <h2 class="section-title">{latestSection?.title ?? (locale === "en-US" ? "Latest Blog Posts" : "最新博客文章")}</h2>
+    {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
+  </div>
+  <div class="blog-list-grid">
+    {
+      latestPosts.map((post) => (
+        <article class="blog-post-card">
+          <p class="card-kicker">{post.data.section || "blog"}</p>
+          <h3>
+            <a href={`/${post.id}`}>{post.data.title}</a>
+          </h3>
+          <p class="post-meta-line">{formatDate(post.data.date)}</p>
+          <p>{post.data.description || strings.readMore}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<section class="section reveal-on-scroll" id="focus">
+  <div class="section-heading">
+    <h2 class="section-title">{focusSection?.title ?? (locale === "en-US" ? "Core Direction" : "站点核心方向")}</h2>
+    {focusSection?.subtitle && <p class="section-subtitle">{focusSection.subtitle}</p>}
+  </div>
+  <div class="card-grid three">
+    {
+      focusAreas.map((pillar) => (
+        <article class="value-card">
+          <p class="card-kicker">{pillar.tag}</p>
+          <h3>{pillar.title}</h3>
+          <p>{pillar.text}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<section class="section reveal-on-scroll" id="projects">
+  <div class="section-heading">
+    <h2 class="section-title">{projectsSection?.title ?? (locale === "en-US" ? "Featured Projects" : "重点项目")}</h2>
+    {projectsSection?.subtitle && <p class="section-subtitle">{projectsSection.subtitle}</p>}
+  </div>
+  {
+    featuredProjects.length > 0 && (
+      <article class="card-featured">
+        <div class="card-featured-visual" aria-hidden="true">
+          {featuredProjects[0].title?.includes("astro") || featuredProjects[0].title?.includes("站") || featuredProjects[0].title?.includes("site") ? "🛰" : featuredProjects[0].title?.includes("Agent") || featuredProjects[0].title?.includes("蜂群") || featuredProjects[0].title?.includes("Swarm") ? "🐝" : featuredProjects[0].title?.includes("知识") || featuredProjects[0].title?.includes("Obsidian") || featuredProjects[0].title?.includes("Knowledge") ? "🧠" : "✦"}
+        </div>
+        <div class="card-featured-body">
+          <p class="card-kicker">{featuredProjects[0].stage}</p>
+          <h3>{featuredProjects[0].title}</h3>
+          <p>{featuredProjects[0].description}</p>
+          <p class="result-line">{featuredProjects[0].outcome}</p>
+          <ul class="chip-list">
+            {featuredProjects[0].tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+          {featuredProjects[0].url && (
+            <p>
+              <a class="btn-secondary" style="display:inline-flex;margin-top:0.5rem"
+                href={featuredProjects[0].url}
+                target={featuredProjects[0].url.startsWith("http") ? "_blank" : undefined}
+                rel={featuredProjects[0].url.startsWith("http") ? "noreferrer" : undefined}
+              >
+                {featuredProjects[0].url.startsWith("http") ? strings.visitProject : strings.viewPage}
+              </a>
+            </p>
+          )}
+        </div>
+      </article>
+    )
+  }
+  {
+    featuredProjects.length > 1 && (
+      <div class="card-grid three" style="margin-top:1rem">
+        {
+          featuredProjects.slice(1).map((project) => (
+            <article class="project-card">
+              <p class="card-kicker">{project.stage}</p>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              <p class="result-line">{project.outcome}</p>
+              <ul class="chip-list">
+                {project.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+              {project.url && (
+                <p>
+                  <a
+                    href={project.url}
+                    target={project.url.startsWith("http") ? "_blank" : undefined}
+                    rel={project.url.startsWith("http") ? "noreferrer" : undefined}
+                  >
+                    {project.url.startsWith("http") ? strings.visitProject : strings.viewPage}
+                  </a>
+                </p>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    )
+  }
+</section>
+
+<section class="section reveal-on-scroll" id="playbook">
+  <div class="section-heading">
+    <h2 class="section-title">{buildSection?.title ?? (locale === "en-US" ? "Build Loop" : "持续构建节奏")}</h2>
+    {buildSection?.subtitle && <p class="section-subtitle">{buildSection.subtitle}</p>}
+  </div>
+  <div class="timeline">
+    {
+      buildSteps.map((item) => (
+        <article class="card-accent-stripe">
+          <p class="card-kicker">{item.phase}</p>
+          <p>{item.detail}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<section class="section reveal-on-scroll" id="contact">
+  <div class="cta-banner" style={locale === "en-US" ? undefined : "display:flex;flex-wrap:wrap;align-items:center;gap:24px"}>
+    <div style={locale === "en-US" ? undefined : "flex:1;min-width:260px"}>
+      <h2>{cta?.title ?? (locale === "en-US" ? "Follow project updates" : "欢迎关注项目更新")}</h2>
+      <p>{cta?.text ?? (locale === "en-US" ? "Start from the projects page for product overviews, then jump into the blog for implementation details and technical notes." : "你可以从项目页快速了解主要产品，也可以在博客中查看详细技术实现与复盘记录。")}</p>
+      <div class="hero-actions">
+        {cta?.actions?.primary && (
+          <a class="btn-primary" href={cta.actions.primary.href}>
+            {cta.actions.primary.label}
+          </a>
+        )}
+        {cta?.actions?.secondary && (
+          <a class="btn-secondary" href={cta.actions.secondary.href}>
+            {cta.actions.secondary.label}
+          </a>
+        )}
+      </div>
+    </div>
+    {locale !== "en-US" && (
+      <img src="/qr-wechat.svg" alt={strings.wechatQrAlt} width="140" height="140" style="border-radius:12px;background:#fff;flex-shrink:0" loading="lazy" />
+    )}
+  </div>
+</section>

@@ -22,7 +22,9 @@ export default defineConfig({
         defaultLocale: "zh-CN",
         locales: {
           "zh-CN": "zh-CN",
-          "en-US": "en",
+          "en-US": "en-US",
+          "zh-TW": "zh-TW",
+          "zh-HK": "zh-HK",
         },
       },
       // Keep /novel/ out of the sitemap: robots.txt disallows it (DRM fiction),
@@ -47,7 +49,17 @@ export default defineConfig({
         path: "/en",
         codes: ["en-US"],
         defaultCode: "en-US",
-      }
+      },
+      "zh-TW", {
+        path: "/tw",
+        codes: ["zh-TW"],
+        defaultCode: "zh-TW",
+      },
+      "zh-HK", {
+        path: "/hk",
+        codes: ["zh-HK"],
+        defaultCode: "zh-HK",
+      },
     ],
     defaultLocale: "zh-CN",
   }

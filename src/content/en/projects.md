@@ -24,7 +24,7 @@ hero:
       href: "#featured"
     secondary:
       label: "Read the blog"
-      href: "/blog"
+      href: "/en/blog"
 featuredProjects:
   - stage: "Open-source Template"
     title: "Nova — Self-Bootstrapping Knowledge Vault"

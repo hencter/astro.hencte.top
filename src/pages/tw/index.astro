@@ -1,26 +1,22 @@
 ---
-import { getEntry } from "astro:content";
 import Layout from "../../layouts/BaseLayout.astro";
 import HomeSections from "../../components/connect/HomeSections.astro";
 import { getPageAlternates } from "../../lib/i18n";
 import { getHomeStrings } from "../../lib/ui-strings";
-import { getLatestPosts } from "../../lib/blog-helpers";
+import { getMirroredConnect } from "../../lib/connect-mirror";
+import { getLatestPosts, getHomeNovels } from "../../lib/blog-helpers";
 
-const homeEntry = await getEntry("connect", "en/home");
-if (!homeEntry) {
-  throw new Error("Missing connect content: en/home");
-}
-
-const home = homeEntry.data;
+const home = await getMirroredConnect("home", "tw");
 const latestPosts = await getLatestPosts();
-const locale = "en-US";
+const homeNovels = await getHomeNovels();
+const locale = "zh-TW";
 ---
 
 <Layout
   title={home.title}
   description={home.description}
   locale={locale}
-  canonicalPath="/en"
+  canonicalPath="/tw"
   connectPage="home"
   alternates={getPageAlternates("home")}
   keywords={home.keywords ?? []}
@@ -29,6 +25,7 @@ const locale = "en-US";
     home={home}
     locale={locale}
     latestPosts={latestPosts}
+    homeNovels={homeNovels}
     strings={getHomeStrings(locale)}
   />
 </Layout>

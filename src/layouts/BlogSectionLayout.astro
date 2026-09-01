@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import JsonLD from "../components/JsonLD.astro";
 
 interface PostItem {
   title: string;
@@ -23,6 +24,7 @@ interface Props {
   badge?: string;
   posts: PostItem[];
   sections?: SectionItem[];
+  locale?: "zh-CN" | "en-US";
 }
 
 const {
@@ -32,39 +34,76 @@ const {
   badge = "Blog",
   posts,
   sections = [],
+  locale = "zh-CN",
 } = Astro.props;
+
+const isEnglish = locale === "en-US";
 
 function formatDate(date?: Date): string {
   if (!date) {
-    return "日期待补充";
+    return isEnglish ? "Date pending" : "日期待补充";
   }
-  return date.toLocaleDateString("zh-CN", {
+  return date.toLocaleDateString(isEnglish ? "en-US" : "zh-CN", {
     timeZone: "Asia/Shanghai",
     year: "numeric",
-    month: "2-digit",
+    month: isEnglish ? "short" : "2-digit",
     day: "2-digit",
   });
 }
 
-const blogNav = [
-  { href: "/blog", label: "全部" },
-  { href: "/log", label: "日志" },
-  { href: "/tech", label: "技术" },
-  { href: "/novel", label: "小说" },
-  { href: "/ancient", label: "古文" },
-];
+const blogNav = isEnglish
+  ? [
+      { href: "/en/blog", label: "All" },
+      { href: "/log", label: "Log" },
+      { href: "/tech", label: "Tech" },
+      { href: "/novel", label: "Novel" },
+      { href: "/ancient", label: "Ancient" },
+    ]
+  : [
+      { href: "/blog", label: "全部" },
+      { href: "/log", label: "日志" },
+      { href: "/tech", label: "技术" },
+      { href: "/novel", label: "小说" },
+      { href: "/ancient", label: "古文" },
+    ];
+
+const labels = {
+  home: isEnglish ? "Home" : "首页",
+  blog: isEnglish ? "Blog" : "博客",
+  subSections: isEnglish ? "Sub-sections" : "子栏目",
+  posts: isEnglish ? "Posts" : "文章",
+  empty: isEnglish ? "No public posts in this section yet." : "这个栏目还没有公开文章。",
+  countSuffix: isEnglish ? "posts" : "篇文章",
+};
 
 const navActive = canonicalPath.replace(/\/+$/, "");
 ---
 
 <BaseLayout
   title={`${title} | 亦幸小阁`}
-  description={description || `${title} - 博客栏目`}
-  locale="zh-CN"
+  description={description || `${title} - ${isEnglish ? "blog section" : "博客栏目"}`}
+  locale={locale}
   canonicalPath={canonicalPath}
-  keywords={["博客", "栏目", "亦幸小阁", title]}
+  keywords={isEnglish ? ["blog", "section", title] : ["博客", "栏目", "亦幸小阁", title]}
 >
+  <JsonLD
+    type="BreadcrumbList"
+    breadcrumbs={[
+      { name: labels.home, url: isEnglish ? "/en" : "/" },
+      { name: labels.blog, url: isEnglish ? "/en/blog" : "/blog" },
+      { name: title, url: canonicalPath },
+    ]}
+  />
   <section class="hero hero-compact">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href={isEnglish ? "/en" : "/"}>{labels.home}</a></li>
+        <li aria-hidden="true" class="breadcrumb-separator">›</li>
+        <li><a href={isEnglish ? "/en/blog" : "/blog"}>{labels.blog}</a></li>
+        <li aria-hidden="true" class="breadcrumb-separator">›</li>
+        <li class="breadcrumb-current" aria-current="page">{title}</li>
+      </ol>
+    </nav>
     <p class="hero-badge">{badge}</p>
     <h1 class="hero-title">{title}</h1>
     {description && <p class="hero-subtitle">{description}</p>}
@@ -86,7 +125,7 @@ const navActive = canonicalPath.replace(/\/+$/, "");
 
     {sections.length > 0 && (
       <div class="section-block">
-        <h2 class="section-title">子栏目</h2>
+        <h2 class="section-title">{labels.subSections}</h2>
         <div class="card-grid three">
           {
             sections.map((section) => (
@@ -95,7 +134,7 @@ const navActive = canonicalPath.replace(/\/+$/, "");
                   <a href={section.href} class="card-link">{section.title}</a>
                 </h3>
                 {section.description && <p>{section.description}</p>}
-                <p class="result-line">{section.count} 篇文章</p>
+                <p class="result-line">{section.count} {labels.countSuffix}</p>
               </article>
             ))
           }
@@ -104,9 +143,9 @@ const navActive = canonicalPath.replace(/\/+$/, "");
     )}
 
     <div class="section-block">
-      <h2 class="section-title">文章</h2>
+      <h2 class="section-title">{labels.posts}</h2>
       {posts.length === 0 ? (
-        <p class="muted">这个栏目还没有公开文章。</p>
+        <p class="muted">{labels.empty}</p>
       ) : (
         <div class="blog-list-grid">
           {

@@ -1,0 +1,143 @@
+---
+import type { SiteLocale } from "../../lib/i18n";
+
+interface ProjectsData {
+  hero?: {
+    badge?: string;
+    headline?: string;
+    subtitle?: string;
+    actions?: {
+      primary?: { label: string; href: string };
+      secondary?: { label: string; href: string };
+    };
+  };
+  featuredProjects?: {
+    stage?: string;
+    title: string;
+    description?: string;
+    result?: string;
+    tags: string[];
+    url?: string;
+  }[];
+  timeline?: { phase: string; detail: string }[];
+}
+
+interface Props {
+  page: ProjectsData;
+  locale: SiteLocale;
+  strings: {
+    featuredTitle: string;
+    featuredSubtitle: string;
+    timelineTitle: string;
+    timelineSubtitle: string;
+    visitExternal: string;
+    viewDetails: string;
+  };
+}
+
+const { page, locale, strings } = Astro.props;
+const hero = page.hero;
+const projects = page.featuredProjects ?? [];
+const timeline = page.timeline ?? [];
+---
+
+<section class="hero" id="top">
+  {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+  {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+  {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+  <div class="hero-actions">
+    {hero?.actions?.primary && (
+      <a class="btn-primary" href={hero.actions.primary.href}>
+        {hero.actions.primary.label}
+      </a>
+    )}
+    {hero?.actions?.secondary && (
+      <a class="btn-secondary" href={hero.actions.secondary.href}>
+        {hero.actions.secondary.label}
+      </a>
+    )}
+  </div>
+</section>
+
+<section class="section reveal-on-scroll" id="featured">
+  <div class="section-heading">
+    <h2 class="section-title">{strings.featuredTitle}</h2>
+    <p class="section-subtitle">{strings.featuredSubtitle}</p>
+  </div>
+  {
+    projects.length > 0 && (
+      <article class="card-featured">
+        <div class="card-featured-visual" aria-hidden="true">
+          {projects[0].title?.includes("astro") || projects[0].title?.includes("站") || projects[0].title?.includes("site") ? "🛰" : projects[0].title?.includes("Agent") || projects[0].title?.includes("蜂群") || projects[0].title?.includes("Swarm") ? "🐝" : projects[0].title?.includes("知识") || projects[0].title?.includes("Obsidian") || projects[0].title?.includes("Knowledge") ? "🧠" : "✦"}
+        </div>
+        <div class="card-featured-body">
+          <p class="card-kicker">{projects[0].stage}</p>
+          <h3>{projects[0].title}</h3>
+          <p>{projects[0].description}</p>
+          {projects[0].result && <p class="result-line">{projects[0].result}</p>}
+          <ul class="chip-list">
+            {projects[0].tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+          {projects[0].url && (
+            <p>
+              <a class="btn-secondary" style="display:inline-flex;margin-top:0.5rem"
+                href={projects[0].url}
+                target={projects[0].url.startsWith("http") ? "_blank" : undefined}
+                rel={projects[0].url.startsWith("http") ? "noreferrer" : undefined}
+              >
+                {projects[0].url.startsWith("http") ? strings.visitExternal : strings.viewDetails}
+              </a>
+            </p>
+          )}
+        </div>
+      </article>
+    )
+  }
+  {
+    projects.length > 1 && (
+      <div class="blog-list-grid" style="margin-top:1rem">
+        {
+          projects.slice(1).map((project) => (
+            <article class="project-card">
+              <p class="card-kicker">{project.stage}</p>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
+              {project.result && <p class="result-line">{project.result}</p>}
+              <ul class="chip-list">
+                {project.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+              {project.url && (
+                <p>
+                  <a
+                    href={project.url}
+                    target={project.url.startsWith("http") ? "_blank" : undefined}
+                    rel={project.url.startsWith("http") ? "noreferrer" : undefined}
+                  >
+                    {project.url.startsWith("http") ? strings.visitExternal : strings.viewDetails}
+                  </a>
+                </p>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    )
+  }
+</section>
+
+<section class="section reveal-on-scroll">
+  <div class="section-heading">
+    <h2 class="section-title">{strings.timelineTitle}</h2>
+    <p class="section-subtitle">{strings.timelineSubtitle}</p>
+  </div>
+  <div class="timeline">
+    {
+      timeline.map((item) => (
+        <article class="card-accent-stripe">
+          <p class="card-kicker">{item.phase}</p>
+          <p>{item.detail}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>

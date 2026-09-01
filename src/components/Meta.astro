@@ -1,18 +1,21 @@
 ---
+import type { SiteLocale } from "../lib/i18n";
+import { LOCALE_CONFIG } from "../lib/i18n";
+
 interface Props {
   title: string;
   description?: string;
   author?: string;
   keywords?: string[];
   applicationName?: string;
-  locale?: "zh-CN" | "en-US";
+  locale?: SiteLocale;
   canonical?: string;
   image?: string;
   ogType?: "website" | "article";
   publishedTime?: string;
   modifiedTime?: string;
   robots?: string;
-  hreflang?: { "zh-CN"?: string; "en-US"?: string; "x-default"?: string };
+  hreflang?: Record<string, string>;
 }
 
 const {
@@ -31,7 +34,7 @@ const {
   hreflang,
 } = Astro.props;
 
-const localeTag = locale === "zh-CN" ? "zh_CN" : "en_US";
+const localeTag = LOCALE_CONFIG[locale].ogLocale;
 const keywordContent = keywords.join(", ");
 const socialImage = new URL(image, Astro.url).toString();
 const hreflangLinks = hreflang

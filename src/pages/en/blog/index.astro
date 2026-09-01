@@ -1,11 +1,11 @@
 ---
 import { getCollection, getEntry } from "astro:content";
-import Layout from "../../layouts/BaseLayout.astro";
-import { getPageAlternates } from "../../lib/i18n";
+import Layout from "../../../layouts/BaseLayout.astro";
+import { getPageAlternates } from "../../../lib/i18n";
 
-const blogEntry = await getEntry("connect", "zh/blog");
+const blogEntry = await getEntry("connect", "en/blog");
 if (!blogEntry) {
-  throw new Error("Missing connect content: zh/blog");
+  throw new Error("Missing connect content: en/blog");
 }
 
 const page = blogEntry.data;
@@ -51,12 +51,12 @@ const latestPosts = posts.slice(0, 18);
 
 function formatDate(date?: Date): string {
   if (!date) {
-    return "日期待补充";
+    return "Date pending";
   }
-  return date.toLocaleDateString("zh-CN", {
+  return date.toLocaleDateString("en-US", {
     timeZone: "Asia/Shanghai",
     year: "numeric",
-    month: "2-digit",
+    month: "short",
     day: "2-digit",
   });
 }
@@ -76,7 +76,7 @@ function extractSummary(description: string | undefined, body: string | undefine
     .trim();
 
   if (!plainText) {
-    return "暂无摘要，点击进入查看全文。";
+    return "No summary yet — open the post to read more.";
   }
 
   return plainText.length > 110 ? `${plainText.slice(0, 110)}...` : plainText;
@@ -86,8 +86,8 @@ function extractSummary(description: string | undefined, body: string | undefine
 <Layout
   title={page.title}
   description={page.description}
-  locale="zh-CN"
-  canonicalPath="/blog"
+  locale="en-US"
+  canonicalPath="/en/blog"
   connectPage="blog"
   alternates={getPageAlternates("blog")}
   keywords={page.keywords ?? []}
@@ -113,17 +113,17 @@ function extractSummary(description: string | undefined, body: string | undefine
   <section class="section reveal-on-scroll">
     <div class="blog-stats">
       <p>
-         公开文章 <strong>{posts.length + novelCount}</strong> 篇
+        Public posts <strong>{posts.length + novelCount}</strong>
       </p>
       {sectionMeta.map((item) => (
         <p>
-          {item.label} <strong>{countsBySection[item.key]}</strong> 篇
+          {item.label} <strong>{countsBySection[item.key]}</strong>
         </p>
       ))}
     </div>
 
     <div class="section-block">
-      <h2 class="section-title">栏目</h2>
+      <h2 class="section-title">Sections</h2>
       <div class="layout-asymmetric">
         <div class="card-grid" style="grid-template-columns:1fr;gap:0.95rem">
           {
@@ -133,7 +133,7 @@ function extractSummary(description: string | undefined, body: string | undefine
                   <a href={item.href}>{item.label}</a>
                 </h3>
                 <p>{item.description}</p>
-                <p class="result-line">{countsBySection[item.key]} 篇文章</p>
+                <p class="result-line">{countsBySection[item.key]} posts</p>
               </article>
             ))
           }
@@ -146,7 +146,7 @@ function extractSummary(description: string | undefined, body: string | undefine
                   <a href={item.href}>{item.label}</a>
                 </h3>
                 <p>{item.description}</p>
-                <p class="result-line">{countsBySection[item.key]} 篇文章</p>
+                <p class="result-line">{countsBySection[item.key]} posts</p>
               </article>
             ))
           }
@@ -155,7 +155,7 @@ function extractSummary(description: string | undefined, body: string | undefine
     </div>
 
     <div class="section-block">
-      <h2 class="section-title">{page.latestTitle ?? "最新文章"}</h2>
+      <h2 class="section-title">{page.latestTitle ?? "Latest posts"}</h2>
       <div class="blog-list-grid">
         {
           latestPosts.map((post) => {

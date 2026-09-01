@@ -1,7 +1,7 @@
 ---
 title: "首页"
 date: "2022-07-12T23:48:54+08:00"
-draft: false
+draft: true
 slug: "legacy-home"
 section: "legacy-home"
 legacyPath: "_index.md"

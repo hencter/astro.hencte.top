@@ -1,24 +1,19 @@
 ---
-import { getEntry } from "astro:content";
 import Layout from "../../layouts/BaseLayout.astro";
 import AboutSections from "../../components/connect/AboutSections.astro";
 import { getPageAlternates } from "../../lib/i18n";
 import { getAboutStrings } from "../../lib/ui-strings";
+import { getMirroredConnect } from "../../lib/connect-mirror";
 
-const aboutEntry = await getEntry("connect", "en/about");
-if (!aboutEntry) {
-  throw new Error("Missing connect content: en/about");
-}
-
-const page = aboutEntry.data;
-const locale = "en-US";
+const page = await getMirroredConnect("about", "tw");
+const locale = "zh-TW";
 ---
 
 <Layout
   title={page.title}
   description={page.description}
   locale={locale}
-  canonicalPath="/en/about"
+  canonicalPath="/tw/about"
   connectPage="about"
   alternates={getPageAlternates("about")}
   keywords={page.keywords ?? []}
