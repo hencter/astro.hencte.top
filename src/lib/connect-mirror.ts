@@ -8,12 +8,12 @@ const LOCALE_PREFIX: Record<TraditionalVariant, string> = {
 };
 
 /** Connect pages whose root paths should be rewritten for TW/HK locales. */
-const REWRITABLE_PATHS = new Set(["/", "/about", "/projects"]);
+const REWRITABLE_PATHS = new Set(["/", "/about", "/projects", "/blog"]);
 
 function rewriteHref(href: string, prefix: string): string {
   if (!href.startsWith("/") || href.startsWith("//")) return href;
   if (href.startsWith("/en") || href.startsWith("/tw") || href.startsWith("/hk")) return href;
-  if (href.startsWith("/novel") || href.startsWith("/blog") || href.startsWith("/log") || href.startsWith("/tech") || href.startsWith("/ancient") || href.startsWith("/obsidian")) {
+  if (href.startsWith("/novel") || href.startsWith("/tw/novel") || href.startsWith("/hk/novel") || href.startsWith("/en/novel") || href.startsWith("/blog") || href.startsWith("/log") || href.startsWith("/tech") || href.startsWith("/ancient") || href.startsWith("/obsidian")) {
     return href;
   }
   if (REWRITABLE_PATHS.has(href)) {

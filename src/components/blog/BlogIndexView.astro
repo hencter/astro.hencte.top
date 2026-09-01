@@ -1,0 +1,140 @@
+---
+import type { SiteLocale } from "../../lib/i18n";
+import {
+  type BlogIndexData,
+  type BlogIndexSection,
+  extractSummary,
+  formatBlogDate,
+} from "../../lib/blog-helpers";
+
+interface Props {
+  locale: SiteLocale;
+  page: {
+    hero?: {
+      badge?: string;
+      headline?: string;
+      subtitle?: string;
+      actions?: {
+        primary?: { label: string; href: string };
+        secondary?: { label: string; href: string };
+      };
+    };
+    latestTitle?: string;
+  };
+  sectionMeta: BlogIndexSection[];
+  data: BlogIndexData;
+  statsLabel: string;
+  sectionsTitle: string;
+  postsUnit: string;
+}
+
+const { locale, page, sectionMeta, data, statsLabel, sectionsTitle, postsUnit } = Astro.props;
+const { posts, novelCount, countsBySection, latestPosts, sectionLabels } = data;
+const pendingDate =
+  locale === "en-US" ? "Date pending" : locale === "zh-TW" ? "日期待補充" : locale === "zh-HK" ? "日期待補充" : "日期待补充";
+const summaryFallback =
+  locale === "en-US"
+    ? "No summary yet — open the post to read more."
+    : locale === "zh-TW"
+      ? "暫無摘要，點擊進入查看全文。"
+      : locale === "zh-HK"
+        ? "暫無摘要，點擊進入查看全文。"
+        : "暂无摘要，点击进入查看全文。";
+---
+
+<section class="hero hero-compact">
+  {page.hero?.badge && <p class="hero-badge">{page.hero.badge}</p>}
+  {page.hero?.headline && <h1 class="hero-title">{page.hero.headline}</h1>}
+  {page.hero?.subtitle && <p class="hero-subtitle">{page.hero.subtitle}</p>}
+  <div class="hero-actions">
+    {page.hero?.actions?.primary && (
+      <a class="btn-primary" href={page.hero.actions.primary.href} data-astro-prefetch="hover">
+        {page.hero.actions.primary.label}
+      </a>
+    )}
+    {page.hero?.actions?.secondary && (
+      <a class="btn-secondary" href={page.hero.actions.secondary.href} data-astro-prefetch="hover">
+        {page.hero.actions.secondary.label}
+      </a>
+    )}
+  </div>
+</section>
+
+<section class="section reveal-on-scroll">
+  <div class="blog-stats">
+    <p>
+      {statsLabel} <strong>{posts.length + novelCount}</strong>
+      {locale === "en-US" ? "" : " 篇"}
+    </p>
+    {sectionMeta.map((item) => (
+      <p>
+        {item.label} <strong>{countsBySection[item.key]}</strong>
+        {locale === "en-US" ? "" : " 篇"}
+      </p>
+    ))}
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-title">{sectionsTitle}</h2>
+    <div class="layout-asymmetric">
+      <div class="card-grid" style="grid-template-columns:1fr;gap:0.95rem">
+        {
+          sectionMeta.slice(0, 2).map((item) => (
+            <article class="project-card">
+              <h3>
+                <a href={item.href} data-astro-prefetch="hover">{item.label}</a>
+              </h3>
+              <p>{item.description}</p>
+              <p class="result-line">
+                {countsBySection[item.key]} {postsUnit}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+      <div class="card-grid" style="grid-template-columns:1fr;gap:0.95rem">
+        {
+          sectionMeta.slice(2).map((item) => (
+            <article class="project-card">
+              <h3>
+                <a href={item.href} data-astro-prefetch="hover">{item.label}</a>
+              </h3>
+              <p>{item.description}</p>
+              <p class="result-line">
+                {countsBySection[item.key]} {postsUnit}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2 class="section-title">{page.latestTitle ?? (locale === "en-US" ? "Latest posts" : "最新文章")}</h2>
+    <div class="blog-list-grid">
+      {
+        latestPosts.map((post) => {
+          const label = sectionLabels[post.sectionKey] || post.sectionKey;
+          return (
+            <article class="blog-post-card">
+              <p class="card-kicker">{label}</p>
+              <h3>
+                <a href={`/${post.id}`} class="card-link" data-astro-prefetch="hover">
+                  {post.title}
+                </a>
+              </h3>
+              <p class="post-meta-line">{formatBlogDate(post.date, locale, pendingDate)}</p>
+              <p>{extractSummary(post.description, post.body, summaryFallback)}</p>
+              {post.tags.length > 0 && (
+                <ul class="chip-list">
+                  {post.tags.slice(0, 4).map((tag) => <li>{tag}</li>)}
+                </ul>
+              )}
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

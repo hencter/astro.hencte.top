@@ -9,6 +9,9 @@ import { remarkObsidian } from "./src/lib/remark-obsidian";
 // https://astro.build/config
 export default defineConfig({
   site: "https://hencte.top",
+  prefetch: {
+    defaultStrategy: "hover",
+  },
   build: {
     concurrency: 4,
   },

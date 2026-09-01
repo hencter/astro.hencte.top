@@ -34,8 +34,8 @@ const PAGE_PATHS: Record<ConnectPage, Record<SiteLocale, string>> = {
   },
   blog: {
     "zh-CN": "/blog",
-    "zh-TW": "/blog",
-    "zh-HK": "/blog",
+    "zh-TW": "/tw/blog",
+    "zh-HK": "/hk/blog",
     "en-US": "/en/blog",
   },
 };
@@ -86,10 +86,12 @@ export function getNavLinks(locale: SiteLocale) {
         ? { home: "首頁", projects: "項目", blog: "博客", about: "關於", contact: "聯絡" }
         : { home: "首页", projects: "项目", blog: "博客", about: "关于", contact: "联系" };
 
+  const blogHref = locale === "zh-TW" ? "/tw/blog" : locale === "zh-HK" ? "/hk/blog" : "/blog";
+
   return [
     { href: prefix || "/", label: labels.home },
     { href: `${prefix}/projects`, label: labels.projects },
-    { href: "/blog", label: labels.blog },
+    { href: blogHref, label: labels.blog },
     { href: `${prefix}/about`, label: labels.about },
     { href: "#contact", label: labels.contact },
   ];
@@ -120,4 +122,15 @@ export function getDateLocale(locale: SiteLocale): string {
   if (locale === "zh-TW") return "zh-TW";
   if (locale === "zh-HK") return "zh-HK";
   return "zh-CN";
+}
+
+/** Novel routes share slug across locales; DRM pages omit hreflang in Meta (noindex). */
+export function getNovelPathPrefix(locale: SiteLocale): string {
+  const base = LOCALE_CONFIG[locale].path.replace(/\/$/, "");
+  return base ? `${base}/novel` : "/novel";
+}
+
+export function getNovelHref(locale: SiteLocale, slug?: string): string {
+  const prefix = getNovelPathPrefix(locale);
+  return slug ? `${prefix}/${slug}` : `${prefix}/`;
 }

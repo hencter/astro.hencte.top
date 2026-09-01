@@ -1,36 +1,32 @@
 ---
-import { getEntry } from "astro:content";
 import Layout from "../../../layouts/BaseLayout.astro";
 import BlogIndexView from "../../../components/blog/BlogIndexView.astro";
 import { getPageAlternates } from "../../../lib/i18n";
+import { getMirroredConnect } from "../../../lib/connect-mirror";
 import { getBlogIndexData } from "../../../lib/blog-helpers";
 
-const blogEntry = await getEntry("connect", "en/blog");
-if (!blogEntry) {
-  throw new Error("Missing connect content: en/blog");
-}
-
-const page = blogEntry.data;
+const locale = "zh-HK";
+const page = await getMirroredConnect("blog", "hk");
 const sectionMeta = page.sections ?? [];
-const data = await getBlogIndexData(sectionMeta, "en-US");
+const data = await getBlogIndexData(sectionMeta, locale);
 ---
 
 <Layout
   title={page.title}
   description={page.description}
-  locale="en-US"
-  canonicalPath="/en/blog"
+  locale={locale}
+  canonicalPath="/hk/blog"
   connectPage="blog"
   alternates={getPageAlternates("blog")}
   keywords={page.keywords ?? []}
 >
   <BlogIndexView
-    locale="en-US"
+    locale={locale}
     page={page}
     sectionMeta={sectionMeta}
     data={data}
-    statsLabel="Public posts"
-    sectionsTitle="Sections"
-    postsUnit="posts"
+    statsLabel="公開文章"
+    sectionsTitle="欄目"
+    postsUnit="篇文章"
   />
 </Layout>

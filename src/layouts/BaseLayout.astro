@@ -55,11 +55,20 @@ const canonical = new URL(canonicalPath, Astro.url).toString();
 const hreflang = alternates;
 const year = new Date().getFullYear();
 const homeHref = localeConfig.path === "/" ? "/" : localeConfig.path;
+const fontStylesheet =
+  "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Noto+Sans+SC:wght@400;500;700;900&family=ZCOOL+XiaoWei&display=swap";
 ---
 
 <!doctype html>
 <html lang={localeConfig.htmlLang}>
   <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href={fontStylesheet} />
+    <link rel="stylesheet" href={fontStylesheet} media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href={fontStylesheet} />
+    </noscript>
     <Meta
       title={title}
       description={description}
@@ -114,7 +123,7 @@ const homeHref = localeConfig.path === "/" ? "/" : localeConfig.path;
             {
               navLinks.map((link) => (
                 <li>
-                  <a href={link.href}>{link.label}</a>
+                  <a href={link.href} data-astro-prefetch="hover">{link.label}</a>
                 </li>
               ))
             }

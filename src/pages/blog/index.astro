@@ -1,7 +1,9 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getEntry } from "astro:content";
 import Layout from "../../layouts/BaseLayout.astro";
+import BlogIndexView from "../../components/blog/BlogIndexView.astro";
 import { getPageAlternates } from "../../lib/i18n";
+import { getBlogIndexData } from "../../lib/blog-helpers";
 
 const blogEntry = await getEntry("connect", "zh/blog");
 if (!blogEntry) {
@@ -9,78 +11,8 @@ if (!blogEntry) {
 }
 
 const page = blogEntry.data;
-const hero = page.hero;
 const sectionMeta = page.sections ?? [];
-
-const allowedSections = new Set(sectionMeta.map((item) => item.key));
-
-const allEntries = await getCollection("blog");
-const publicEntries = allEntries
-  .filter((entry) => !entry.data.draft)
-  .filter((entry) => allowedSections.has(entry.data.section || entry.id.split("/")[0]));
-
-const novelEntries = await getCollection("novel");
-const novelCount = novelEntries.filter((e) => !e.data.draft && e.id !== "novel").length;
-
-const isIndexPage = (entry: (typeof publicEntries)[number]) =>
-  Boolean(entry.data.legacyPath?.endsWith("_index.md"));
-
-const posts = publicEntries
-  .filter((entry) => !isIndexPage(entry))
-  .sort((a, b) => {
-    const aTime = a.data.date ? a.data.date.getTime() : 0;
-    const bTime = b.data.date ? b.data.date.getTime() : 0;
-    return bTime - aTime;
-  });
-
-const sectionLabels = Object.fromEntries(
-  sectionMeta.map((item) => [item.key, item.label])
-) as Record<string, string>;
-
-const countsBySection = Object.fromEntries(
-  sectionMeta.map((item) => [
-    item.key,
-    item.key === "novel"
-      ? novelCount
-      : posts.filter((entry) => (entry.data.section || entry.id.split("/")[0]) === item.key)
-        .length,
-  ])
-) as Record<string, number>;
-
-const latestPosts = posts.slice(0, 18);
-
-function formatDate(date?: Date): string {
-  if (!date) {
-    return "日期待补充";
-  }
-  return date.toLocaleDateString("zh-CN", {
-    timeZone: "Asia/Shanghai",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-}
-
-function extractSummary(description: string | undefined, body: string | undefined): string {
-  if (description && description.trim()) {
-    return description.trim();
-  }
-
-  const source = body ?? "";
-  const plainText = source
-    .replace(/```[\s\S]*?```/g, " ")
-    .replace(/`[^`]*`/g, " ")
-    .replace(/\[[^\]]*\]\([^\)]*\)/g, " ")
-    .replace(/[>#*_~!\-]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  if (!plainText) {
-    return "暂无摘要，点击进入查看全文。";
-  }
-
-  return plainText.length > 110 ? `${plainText.slice(0, 110)}...` : plainText;
-}
+const data = await getBlogIndexData(sectionMeta, "zh-CN");
 ---
 
 <Layout
@@ -92,93 +24,13 @@ function extractSummary(description: string | undefined, body: string | undefine
   alternates={getPageAlternates("blog")}
   keywords={page.keywords ?? []}
 >
-  <section class="hero hero-compact">
-    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
-    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
-    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
-    <div class="hero-actions">
-      {hero?.actions?.primary && (
-        <a class="btn-primary" href={hero.actions.primary.href}>
-          {hero.actions.primary.label}
-        </a>
-      )}
-      {hero?.actions?.secondary && (
-        <a class="btn-secondary" href={hero.actions.secondary.href}>
-          {hero.actions.secondary.label}
-        </a>
-      )}
-    </div>
-  </section>
-
-  <section class="section reveal-on-scroll">
-    <div class="blog-stats">
-      <p>
-         公开文章 <strong>{posts.length + novelCount}</strong> 篇
-      </p>
-      {sectionMeta.map((item) => (
-        <p>
-          {item.label} <strong>{countsBySection[item.key]}</strong> 篇
-        </p>
-      ))}
-    </div>
-
-    <div class="section-block">
-      <h2 class="section-title">栏目</h2>
-      <div class="layout-asymmetric">
-        <div class="card-grid" style="grid-template-columns:1fr;gap:0.95rem">
-          {
-            sectionMeta.slice(0, 2).map((item) => (
-              <article class="project-card">
-                <h3>
-                  <a href={item.href}>{item.label}</a>
-                </h3>
-                <p>{item.description}</p>
-                <p class="result-line">{countsBySection[item.key]} 篇文章</p>
-              </article>
-            ))
-          }
-        </div>
-        <div class="card-grid" style="grid-template-columns:1fr;gap:0.95rem">
-          {
-            sectionMeta.slice(2).map((item) => (
-              <article class="project-card">
-                <h3>
-                  <a href={item.href}>{item.label}</a>
-                </h3>
-                <p>{item.description}</p>
-                <p class="result-line">{countsBySection[item.key]} 篇文章</p>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-
-    <div class="section-block">
-      <h2 class="section-title">{page.latestTitle ?? "最新文章"}</h2>
-      <div class="blog-list-grid">
-        {
-          latestPosts.map((post) => {
-            const sectionKey = post.data.section || post.id.split("/")[0];
-            const label = sectionLabels[sectionKey] || sectionKey;
-            return (
-              <article class="blog-post-card">
-                <p class="card-kicker">{label}</p>
-                <h3>
-                  <a href={`/${post.id}`} class="card-link">{post.data.title}</a>
-                </h3>
-                <p class="post-meta-line">{formatDate(post.data.date)}</p>
-                <p>{extractSummary(post.data.description, post.body)}</p>
-                {post.data.tags.length > 0 && (
-                  <ul class="chip-list">
-                    {post.data.tags.slice(0, 4).map((tag) => <li>{tag}</li>)}
-                  </ul>
-                )}
-              </article>
-            );
-          })
-        }
-      </div>
-    </div>
-  </section>
+  <BlogIndexView
+    locale="zh-CN"
+    page={page}
+    sectionMeta={sectionMeta}
+    data={data}
+    statsLabel="公开文章"
+    sectionsTitle="栏目"
+    postsUnit="篇文章"
+  />
 </Layout>
