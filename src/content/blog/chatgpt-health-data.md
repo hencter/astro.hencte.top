@@ -1,9 +1,11 @@
 ---
 title: "ChatGPT 开始接入健康数据，但真正值钱的不是医疗问答"
+description: "OpenAI 发布『Health in ChatGPT』：ChatGPT 可连接 Apple Health 与医疗记录。本文不聊 AI 看病，而是聚焦更新条款里真正值钱的部分——3 亿用户的健康数据入口意味着什么。"
 date: "2026-07-24"
 tags:
   - 技术
   - 观点
+section: tech
 ---
 
 2026年7月23日，OpenAI 发布了一项更新：ChatGPT 可以连接你的 Apple Health 和医疗记录了。它叫 "Health in ChatGPT"。

@@ -1,9 +1,11 @@
 ---
 title: "AI 安全护栏正在把谁推向开源模型"
+description: "TechCrunch 报道多位安全研究者抱怨 OpenAI 与 Anthropic 的安全护栏阻碍合法工作——拦住的是守规矩的人而非坏人。从漏洞挖掘者 Mark Dowd 的公开批评出发，分析过度护栏如何把研究者推向开源模型。"
 date: "2026-07-24"
 tags:
   - 技术
   - 观点
+section: tech
 ---
 
 2026 年 7 月 23 日，TechCrunch 登了一篇报道。标题不算耸人听闻，但里面的声音值得你花五分钟读完：多位安全研究者说，OpenAI 和 Anthropic 的安全护栏正在阻碍他们的合法工作。
