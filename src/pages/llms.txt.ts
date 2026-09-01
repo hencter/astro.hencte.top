@@ -55,7 +55,14 @@ ${blogLines.join("\n")}
 Last updated: ${lastUpdated}
 `;
 
-  return new Response(content, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  // Astro static builds drop Response headers (CDN serves bare text/plain).
+  // UTF-8 BOM lets browsers detect encoding when charset is missing;
+  // public/_headers sets Content-Type charset on Cloudflare/EdgeOne Pages.
+  return new Response("\uFEFF" + content, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Language": "zh-CN",
+    },
   });
 }

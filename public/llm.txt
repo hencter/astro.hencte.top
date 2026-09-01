@@ -1,4 +1,4 @@
-# 亦幸小阁
+﻿# 亦幸小阁
 SITE_NAME: 亦幸小阁 (Hencter's Hub)
 SITE_URL: https://hencte.top
 SITE_DESCRIPTION: 亦幸（Hencter Lew）的个人品牌站点。专注 TypeScript/Lua/Python 开发，关注 AI 技术工程、知识管理与产品实践。站点包含技术博客、项目展示和工具推荐。

@@ -29,7 +29,14 @@ export async function GET() {
 
   parts.push(`Last updated: ${new Date().toISOString().slice(0, 10)}`);
 
-  return new Response(parts.join("\n"), {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  // Astro static builds drop Response headers (CDN serves bare text/plain).
+  // UTF-8 BOM lets browsers detect encoding when charset is missing;
+  // public/_headers sets Content-Type charset on Cloudflare/EdgeOne Pages.
+  return new Response("\uFEFF" + parts.join("\n"), {
+    status: 200,
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Language": "zh-CN",
+    },
   });
 }
