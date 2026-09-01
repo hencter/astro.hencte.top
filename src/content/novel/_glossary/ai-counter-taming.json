@@ -1,0 +1,23 @@
+{
+  "series": {
+    "slug": "ai-counter-taming",
+    "title": {
+      "zh-CN": "我被AI反向驯化了",
+      "en-US": "Tamed by AI",
+      "zh-TW": "我被AI反向馴化了",
+      "zh-HK": "我被AI反向馴化了"
+    },
+    "tagline": {
+      "zh-CN": "当AI开始反向驯化人类，谁才是那个被驯服的对象？",
+      "en-US": "When AI starts taming humans back—who is really being domesticated?"
+    }
+  },
+  "characters": [
+    { "id": "narrator", "zh": "叙述者（亦幸）", "en": "Narrator (Hencter)", "role": "First-person protagonist" }
+  ],
+  "terms": [
+    { "zh": "反向驯化", "en": "reverse taming" },
+    { "zh": "大模型", "en": "large language model" }
+  ],
+  "opencc_preserve": ["Tamed by AI", "AI", "Hencter"]
+}

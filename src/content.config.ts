@@ -199,8 +199,10 @@ const connect = defineCollection({
 });
 
 const novel = defineCollection({
+  // Per-series layout: src/content/novel/{zh-CN,en}/{series}/index.md + ch{nn}.md
+  // Public slugs unchanged: /novel/{series}, /novel/{series}-ch{nn}
   loader: glob({
-    pattern: "**/*.md",
+    pattern: ["zh-CN/**/*.md", "en/**/*.md"],
     base: "./src/content/novel",
   }),
   schema: z
@@ -210,10 +212,15 @@ const novel = defineCollection({
       date: z.coerce.date().optional(),
       publishDate: z.string().optional(),
       draft: z.boolean().default(false),
+      locale: z.enum(["zh-CN", "en-US"]).optional(),
       novel: z.string().optional(),
       chapter: z.number().optional(),
       order: z.number().optional(),
+      comingSoon: z.boolean().optional(),
       tags: z.array(z.string()).default([]),
+      cover: z.string().optional(),
+      chapterImage: z.string().optional(),
+      imageAlt: z.string().optional(),
     })
     .passthrough(),
 });

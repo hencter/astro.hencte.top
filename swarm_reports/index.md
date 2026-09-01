@@ -32,8 +32,11 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-02 | content | Astro Content Collections 全面审计（无 Astron） | content-editor | [./content/2026-09-02_astro_content_collections_audit.md](./content/2026-09-02_astro_content_collections_audit.md) |
+| 2026-09-02 | content | 小说 per-novel 目录结构重构 | content-editor | [./content/2026-09-02_novel_directory_structure.md](./content/2026-09-02_novel_directory_structure.md) |
 | 2026-09-02 | content | 小说 i18n + 天空税 Nutstore 导入 | content-editor | [./content/2026-09-02_novel_i18n.md](./content/2026-09-02_novel_i18n.md) |
 | 2026-09-02 | seo | Slug 优化 + 小说 GEO 书目元数据 | seo-auditor | [./seo/2026-09-02_slug_geo_novel.md](./seo/2026-09-02_slug_geo_novel.md) |
+| 2026-09-02 | content | 小说本地化 + 适量插图 | content-editor | [./content/2026-09-02_novel_localization_illustrations.md](./content/2026-09-02_novel_localization_illustrations.md) |
 | 2026-09-02 | content | i18n 繁体中文 TW/HK 镜像 MVP | content-editor | [./content/2026-09-02_i18n_tw_hk.md](./content/2026-09-02_i18n_tw_hk.md) |
 | 2026-09-02 | content | Section 页面与栏目内容完善 | content-editor | [./content/2026-09-02_section_pages.md](./content/2026-09-02_section_pages.md) |
 | 2026-09-02 | 收敛 | Wave 3 GEO+真实性+展示 综合收敛报告 | convergence | [./2026-09-02_geo_convergence.md](./2026-09-02_geo_convergence.md) |

@@ -3,11 +3,11 @@ import { getCollection } from "astro:content";
 import type { SiteLocale } from "./i18n";
 import {
   enChapterExists,
-  enNovelExists,
   entrySlug,
   getNovelHref,
   getNovelLanguageLinks,
   isChapterSlug,
+  isSeriesLanding,
   mirrorNovelData,
   novelSeriesSlug,
   sortChapters,
@@ -99,8 +99,10 @@ async function resolveZhMirrorEntry(
 ): Promise<NovelEntry | null> {
   if (locale !== "zh-TW" && locale !== "zh-HK") return null;
   const entries = await getCollection("novel");
-  const id = slug ? `zh-CN/${slug}` : "zh-CN/novel";
-  return entries.find((e) => e.id === id) ?? null;
+  if (!slug) {
+    return entries.find((e) => e.id.toLowerCase() === "zh-cn/novel") ?? null;
+  }
+  return entries.find((e) => entrySlug(e) === slug && e.id.toLowerCase().startsWith("zh-cn/")) ?? null;
 }
 
 export async function buildNovelPageContext(
@@ -136,7 +138,10 @@ export async function buildNovelPageContext(
   const sourcePrefix = locale === "en-US" ? "en/" : "zh-cn/";
 
   if (isChapter && slug && seriesSlug) {
-    const landing = allEntries.find((e) => e.id === `${sourcePrefix}${seriesSlug}`);
+    const landing = allEntries.find(
+      (e) =>
+        e.id.toLowerCase().startsWith(sourcePrefix.toLowerCase()) && entrySlug(e) === seriesSlug
+    );
     const novelTitle =
       locale === "zh-TW" || locale === "zh-HK"
         ? mirrorNovelData(landing?.data ?? entryToUse.data, locale).title
@@ -145,10 +150,11 @@ export async function buildNovelPageContext(
     const chapterEntries = allEntries
       .filter((e) => !e.data.draft)
       .filter((e) => {
+        const entrySeries = novelSeriesSlug(entrySlug(e), e);
         if (locale === "zh-TW" || locale === "zh-HK") {
-          return hasPrefix(e.id, "zh-cn/") && (e.data.novel === seriesSlug || e.id.toLowerCase().startsWith(`zh-cn/${seriesSlug}-ch`.toLowerCase()));
+          return hasPrefix(e.id, "zh-cn/") && entrySeries === seriesSlug && isChapterSlug(entrySlug(e));
         }
-        return hasPrefix(e.id, sourcePrefix) && e.data.novel === seriesSlug;
+        return hasPrefix(e.id, sourcePrefix) && entrySeries === seriesSlug && isChapterSlug(entrySlug(e));
       })
       .sort(sortChapters);
 
@@ -193,10 +199,11 @@ export async function buildNovelPageContext(
     const chapterEntries = allEntries
       .filter((e) => !e.data.draft)
       .filter((e) => {
+        const entrySeries = novelSeriesSlug(entrySlug(e), e);
         if (locale === "zh-TW" || locale === "zh-HK") {
-          return hasPrefix(e.id, "zh-cn/") && e.data.novel === slug;
+          return hasPrefix(e.id, "zh-cn/") && entrySeries === slug && isChapterSlug(entrySlug(e));
         }
-        return hasPrefix(e.id, sourcePrefix) && e.data.novel === slug;
+        return hasPrefix(e.id, sourcePrefix) && entrySeries === slug && isChapterSlug(entrySlug(e));
       })
       .sort(sortChapters);
 
@@ -216,7 +223,7 @@ export async function buildNovelPageContext(
     indexNovels = allEntries
       .filter((e) => !e.data.draft)
       .filter((e) => hasPrefix(e.id, prefix))
-      .filter((e) => !e.data.novel && !e.data.chapter && !isIndexId(e.id))
+      .filter((e) => isSeriesLanding(e))
       .map((n) => ({
         title: locale === "zh-TW" || locale === "zh-HK" ? mirrorNovelData(n.data, locale).title : n.data.title,
         description:

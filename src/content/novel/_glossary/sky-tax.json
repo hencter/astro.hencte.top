@@ -1,0 +1,44 @@
+{
+  "series": {
+    "slug": "sky-tax",
+    "title": {
+      "zh-CN": "天空税",
+      "en-US": "Sky Tax",
+      "zh-TW": "天空稅",
+      "zh-HK": "天空稅"
+    },
+    "tagline": {
+      "zh-CN": "星链垄断下的数据税、算力税，与鸽子网络的慢速自由。",
+      "en-US": "When the sky belongs to one company, freedom travels by pigeon."
+    }
+  },
+  "characters": [
+    { "id": "lu-yuan", "zh": "陆远", "en": "Lu Yuan", "role": "Protagonist; former Huawei RF engineer" },
+    { "id": "lu-zijing", "zh": "陆子衿", "en": "Lu Zijing", "role": "Lu Yuan's daughter (5)" },
+    { "id": "milan", "zh": "米兰·沃伊诺维奇", "en": "Milan Vojnović", "role": "Starlink Chief Protocol Architect" },
+    { "id": "mia", "zh": "米娅", "en": "Mia", "role": "Milan's daughter; Berlin liaison" },
+    { "id": "silas", "zh": "塞拉斯·陈", "en": "Silas Chen", "role": "Starlink APAC Security Director" },
+    { "id": "farhan", "zh": "法尔汉", "en": "Farhan", "role": "Data Party core hacker" },
+    { "id": "amina", "zh": "阿米娜", "en": "Amina", "role": "Pigeonnet logistics; West Africa" },
+    { "id": "isabel", "zh": "伊莎贝尔", "en": "Isabel Krause", "role": "Double agent" },
+    { "id": "sister-shen", "zh": "沈姐", "en": "Sister Shen", "role": "Data Party caregiver" },
+    { "id": "dr-zhao", "zh": "赵医生", "en": "Dr. Zhao", "role": "Attending physician" },
+    { "id": "joseph", "zh": "约瑟夫", "en": "Joseph", "role": "Amina's operative, Lagos" },
+    { "id": "liu-yang", "zh": "刘洋", "en": "Liu Yang", "role": "Silas's analyst" }
+  ],
+  "terms": [
+    { "zh": "数据党", "en": "Data Party" },
+    { "zh": "鸽子网络", "en": "Pigeonnet" },
+    { "zh": "SkyWalker协议", "en": "SkyWalker protocol" },
+    { "zh": "数据天堂", "en": "Data Haven" },
+    { "zh": "嵌套入口", "en": "nested entry point" },
+    { "zh": "星链", "en": "Starlink" },
+    { "zh": "铜级", "en": "Copper tier" },
+    { "zh": "华为201所", "en": "Huawei Institute 201" }
+  ],
+  "opencc_preserve": [
+    "Sky Tax", "SkyWalker", "Pigeonnet", "OrbitNet", "Starlink",
+    "Data Party", "Data Haven", "Lu Yuan", "Lu Zijing", "Milan Vojnović",
+    "Silas Chen", "Farhan", "Amina", "Mia", "Isabel Krause"
+  ]
+}

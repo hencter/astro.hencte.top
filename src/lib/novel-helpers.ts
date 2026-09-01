@@ -6,7 +6,7 @@ import { convertDeep, convertText } from "./opencc";
 
 export type NovelEntry = CollectionEntry<"novel">;
 
-const INDEX_IDS = new Set(["novel", "zh-CN/novel", "en/novel"]);
+const INDEX_IDS = new Set(["novel", "zh-CN/novel", "en/novel", "zh-cn/novel"]);
 const ZH_CN_PREFIX = "zh-CN/";
 const EN_PREFIX = "en/";
 
@@ -20,14 +20,34 @@ export function getNovelHref(locale: SiteLocale, slug: string | undefined): stri
   return slug ? `${prefix}/${slug}` : `${prefix}/`;
 }
 
+/** Map collection entry id → public URL slug (preserves legacy `{series}-ch{nn}` paths). */
 export function entrySlug(entry: NovelEntry): string | undefined {
-  if (INDEX_IDS.has(entry.id)) return undefined;
-  const parts = entry.id.split("/");
-  return parts.length > 1 ? parts.slice(1).join("/") : entry.id;
+  const id = entry.id;
+  if (INDEX_IDS.has(id.toLowerCase())) return undefined;
+
+  const parts = id.split("/");
+
+  // Nested: {locale}/{novel}/index | {locale}/{novel}/ch01
+  if (parts.length >= 3) {
+    const novel = parts[1];
+    const file = parts[2];
+    if (file === "index") return novel;
+    const chMatch = file.match(/^ch(\d+)$/i);
+    if (chMatch) return `${novel}-ch${chMatch[1].padStart(2, "0")}`;
+  }
+
+  // Legacy flat: {locale}/{series}-ch{nn} or {locale}/{series}
+  if (parts.length > 1) return parts.slice(1).join("/");
+  return entry.id;
+}
+
+export function isSeriesLanding(entry: NovelEntry): boolean {
+  const slug = entrySlug(entry);
+  return Boolean(slug && !isChapterSlug(slug) && !INDEX_IDS.has(entry.id.toLowerCase()));
 }
 
 export function contentLocale(entry: NovelEntry): "zh-CN" | "en-US" {
-  if (entry.id.startsWith(EN_PREFIX)) return "en-US";
+  if (entry.id.toLowerCase().startsWith(EN_PREFIX.toLowerCase())) return "en-US";
   return "zh-CN";
 }
 
@@ -49,7 +69,7 @@ export function novelSeriesSlug(slug: string | undefined, entry?: NovelEntry): s
 export async function getNovelEntriesForLocale(locale: SiteLocale): Promise<NovelEntry[]> {
   const prefix = locale === "en-US" ? EN_PREFIX : ZH_CN_PREFIX;
   const all = await getCollection("novel");
-  return all.filter((e) => !e.data.draft && e.id.startsWith(prefix));
+  return all.filter((e) => !e.data.draft && e.id.toLowerCase().startsWith(prefix.toLowerCase()));
 }
 
 export function mirrorNovelData<T extends Record<string, unknown>>(
@@ -91,16 +111,24 @@ export function getNovelLanguageLinks(
 
 export async function enChapterExists(slug: string): Promise<boolean> {
   const all = await getCollection("novel");
-  return all.some((e) => e.id === `${EN_PREFIX}${slug}` && !e.data.draft);
+  return all.some(
+    (e) => entrySlug(e) === slug && contentLocale(e) === "en-US" && !e.data.draft
+  );
 }
 
 export async function enNovelExists(seriesSlug: string): Promise<boolean> {
   const all = await getCollection("novel");
-  const landing = all.find((e) => e.id === `${EN_PREFIX}${seriesSlug}` && !e.data.draft);
+  const landing = all.find(
+    (e) => entrySlug(e) === seriesSlug && contentLocale(e) === "en-US" && !e.data.draft
+  );
   if (!landing) return false;
   if (landing.data.comingSoon) return false;
   const chapters = all.filter(
-    (e) => e.id.startsWith(EN_PREFIX) && e.data.novel === seriesSlug && !e.data.draft
+    (e) =>
+      contentLocale(e) === "en-US" &&
+      novelSeriesSlug(entrySlug(e), e) === seriesSlug &&
+      isChapterSlug(entrySlug(e)) &&
+      !e.data.draft
   );
   return chapters.length > 0;
 }
