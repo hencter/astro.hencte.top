@@ -28,6 +28,8 @@ const {
   novelSlug,
   chapterSlug,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 ---
 
 <!doctype html>
@@ -37,7 +39,8 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>{title} - {novelTitle} | 亦幸小阁</title>
     {description && <meta name="description" content={description} />}
-    <meta name="robots" content="noai, noimageai, noarchive, nocache" />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex, noai, noimageai, noarchive, nocache" />
 
     <!--
       ⚠️ COPYRIGHT PROTECTED WORK ⚠️
@@ -55,27 +58,27 @@ const {
 
     <style is:inline>
       :root {
-        --nv-bg: #f3f7fb;
+        --nv-bg: #faf9f6;
         --nv-surface: #ffffff;
-        --nv-border: #d8e2ef;
-        --nv-ink: #102238;
-        --nv-ink-muted: #4d6582;
-        --nv-brand: #0e7490;
-        --nv-accent: #dd6b20;
-        --nv-highlight: #0f766e;
+        --nv-border: #dce5e8;
+        --nv-ink: #1a2332;
+        --nv-ink-muted: #5a7a8a;
+        --nv-brand: #1a7f8c;
+        --nv-accent: #e76f51;
+        --nv-highlight: #2d8b8b;
         --nv-control-bg: rgba(255, 255, 255, 0.92);
       }
 
       :root.dark {
-        --nv-bg: #0c1420;
-        --nv-surface: #15202e;
-        --nv-border: #243347;
-        --nv-ink: #e4ecf5;
-        --nv-ink-muted: #7e97b2;
-        --nv-brand: #22d3ee;
-        --nv-accent: #fb923c;
-        --nv-highlight: #2dd4bf;
-        --nv-control-bg: rgba(21, 32, 46, 0.92);
+        --nv-bg: #0d1117;
+        --nv-surface: #161b22;
+        --nv-border: #21262d;
+        --nv-ink: #e6edf3;
+        --nv-ink-muted: #6e7681;
+        --nv-brand: #58a6ff;
+        --nv-accent: #f97316;
+        --nv-highlight: #3fb950;
+        --nv-control-bg: rgba(22, 27, 34, 0.92);
       }
 
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -135,6 +138,7 @@ const {
 
       .nv-content {
         padding: 80px 24px 24px;
+        cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='3.5' fill='none' stroke='%230e7490' stroke-width='1.2' opacity='0.5'/%3E%3Ccircle cx='12' cy='10' r='1' fill='%230e7490' opacity='0.35'/%3E%3C/svg%3E") 12 12, auto;
       }
 
       .nv-prose {
@@ -278,14 +282,6 @@ const {
         .nv-prose { max-width: none; font-size: 17px; }
         .nv-bottom-bar { max-width: 560px; width: 100%; padding: 28px 0 40px; }
       }
-        .nv-content {
-          max-width: 560px;
-          margin: 0 auto;
-          padding: 72px 0 0;
-        }
-        .nv-prose { max-width: none; font-size: 17px; }
-        .nv-bottom-bar { max-width: 560px; margin: 0 auto; padding: 28px 0 40px; }
-      }
     </style>
 
     <script is:inline>
@@ -399,8 +395,8 @@ const {
         }
       });
 
-      document.addEventListener('copy', function(e) { e.preventDefault(); alert('内容受版权保护，请关注微信公众号阅读。'); });
-      document.addEventListener('cut', function(e) { e.preventDefault(); alert('内容受版权保护，请关注微信公众号阅读。'); });
+      document.addEventListener('copy', function(e) { e.preventDefault(); alert('⚠️ 警告：你正在非法获取版权保护内容！'); });
+      document.addEventListener('cut', function(e) { e.preventDefault(); alert('⚠️ 警告：你正在非法获取版权保护内容！'); });
       document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
       document.addEventListener('selectstart', function(e) {
         if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;

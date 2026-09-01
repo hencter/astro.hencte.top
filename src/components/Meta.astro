@@ -8,6 +8,10 @@ interface Props {
   locale?: "zh-CN" | "en-US";
   canonical?: string;
   image?: string;
+  ogType?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  robots?: string;
   hreflang?: { "zh-CN"?: string; "en-US"?: string; "x-default"?: string };
 }
 
@@ -19,7 +23,11 @@ const {
   applicationName = "Hencter Studio",
   locale = "zh-CN",
   canonical,
-  image = "/favicon.svg",
+  image = "/og-image.png",
+  ogType = "website",
+  publishedTime,
+  modifiedTime,
+  robots,
   hreflang,
 } = Astro.props;
 
@@ -42,22 +50,32 @@ const hreflangLinks = hreflang
 {keywordContent && <meta name="keywords" content={keywordContent} />}
 <meta name="author" content={author} />
 <meta name="application-name" content={applicationName} />
+{robots && <meta name="robots" content={robots} />}
 {canonical && <link rel="canonical" href={canonical} />}
 {hreflangLinks.map(({ lang, href }) => (
   <link rel="alternate" hreflang={lang} href={href} />
 ))}
+<link rel="alternate" type="application/rss+xml" title="亦幸小阁 RSS" href="https://hencte.top/rss.xml" />
+<link rel="describedby" type="text/plain" href="https://hencte.top/llms.txt" />
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:title" content={title} />
 {description && <meta property="og:description" content={description} />}
 <meta property="og:locale" content={localeTag} />
 <meta property="og:site_name" content="亦幸小阁" />
 {canonical && <meta property="og:url" content={canonical} />}
 <meta property="og:image" content={socialImage} />
+{ogType === "article" && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{ogType === "article" && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime} />
+)}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 {description && <meta name="twitter:description" content={description} />}
 <meta name="twitter:image" content={socialImage} />
+<meta name="twitter:site" content="@hencter" />
 
 <slot />

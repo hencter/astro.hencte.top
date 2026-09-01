@@ -33,6 +33,7 @@ swarm_reports/
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
 | 2026-09-02 | 收敛 | Wave 3 GEO+真实性+展示 综合收敛报告 | convergence | [./2026-09-02_geo_convergence.md](./2026-09-02_geo_convergence.md) |
+| 2026-09-02 | seo | SEO+GEO 全面审计 v3（研究+实现+验证） | seo-auditor | [./seo/2026-09-02_seo_audit.md](./seo/2026-09-02_seo_audit.md) |
 | 2026-07-09 | 收敛 | Wave 2 综合收敛报告 | convergence | [./2026-07-09_convergence.md](./2026-07-09_convergence.md) |
 | 2026-07-09 | seo | SEO+GEO 全面审计 v2 | seo-auditor | [./seo/2026-07-09_seo_audit.md](./seo/2026-07-09_seo_audit.md) |
 | 2026-07-09 | perf | 性能瓶颈深度审计 v2 | perf-inspector | [./perf/2026-07-09_perf_audit.md](./perf/2026-07-09_perf_audit.md) |

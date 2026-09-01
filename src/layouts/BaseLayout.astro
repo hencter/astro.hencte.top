@@ -13,6 +13,11 @@ interface Props {
   keywords?: string[];
   alternateEn?: string;
   alternateZh?: string;
+  ogType?: "website" | "article";
+  image?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  robots?: string;
 }
 
 const {
@@ -23,6 +28,11 @@ const {
   keywords = [],
   alternateEn,
   alternateZh,
+  ogType = "website",
+  image,
+  publishedTime,
+  modifiedTime,
+  robots,
 } = Astro.props;
 
 const isEnglish = locale === "en-US";
@@ -73,6 +83,11 @@ const year = new Date().getFullYear();
       hreflang={hreflang}
       applicationName={brandName}
       author={authorName}
+      ogType={ogType}
+      image={image}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      robots={robots}
     />
     <JsonLD type="Organization" pageDescription={description} />
     <JsonLD type="WebSite" pageDescription={description} />

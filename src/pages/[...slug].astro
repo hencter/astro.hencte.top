@@ -218,6 +218,7 @@ if (isSectionLanding && !isAncient) {
     <AncientPostLayout
       title={post.data.title}
       description={post.data.description}
+      canonicalPath={canonicalPath}
       layout={"vertical"}
     >
       <Content />
@@ -240,6 +241,14 @@ if (isSectionLanding && !isAncient) {
       locale="zh-CN"
       canonicalPath={canonicalPath}
       keywords={seoKeywords}
+      ogType="article"
+      image={post.data.images?.[0]}
+      publishedTime={post.data.date?.toISOString()}
+      modifiedTime={
+        post.data.lastmod
+          ? new Date(post.data.lastmod).toISOString()
+          : post.data.date?.toISOString()
+      }
     >
       <JsonLD
         type="Article"

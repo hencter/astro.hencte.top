@@ -35,7 +35,8 @@ const {
   layout = "vertical",
 } = Astro.props;
 
-const hetiLayoutClass = layout === "columns2" ? "heti--columns-2" : "heti--vertical";
+const hetiLayoutClass =
+  layout === "columns2" ? "heti--columns-2" : "heti--vertical";
 
 function formatSolarDate(value?: Date): string {
   if (!value) {
@@ -50,7 +51,11 @@ function formatSolarDate(value?: Date): string {
   });
 }
 
-function ymdInShanghai(value: Date): { year: number; month: number; day: number } {
+function ymdInShanghai(value: Date): {
+  year: number;
+  month: number;
+  day: number;
+} {
   const text = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Shanghai",
     year: "numeric",
@@ -99,31 +104,44 @@ const hetiScopeId = "heti-ancient";
         {readingMinutes && <span>约 {readingMinutes} 分钟阅读</span>}
       </div>
 
-      {(tags.length > 0 || categories.length > 0) && (
-        <ul class="chip-list">
-          {categories.map((category) => <li>{category}</li>)}
-          {tags.map((tag) => <li>{tag}</li>)}
-        </ul>
-      )}
-    </header>
-
-    {headings.length > 0 && (
-      <div class="heti-scroll-wrapper">
-        <aside class={`post-toc heti ${hetiLayoutClass}`}>
-          <h2>目录</h2>
-          <ul>
-            {headings.filter((item) => item.depth <= 3).map((item) => (
-              <li>
-                <a href={`#${item.slug}`}>{item.text}</a>
-              </li>
+      {
+        (tags.length > 0 || categories.length > 0) && (
+          <ul class="chip-list">
+            {categories.map((category) => (
+              <li>{category}</li>
+            ))}
+            {tags.map((tag) => (
+              <li>{tag}</li>
             ))}
           </ul>
-        </aside>
-      </div>
-    )}
+        )
+      }
+    </header>
+
+    {
+      headings.length > 0 && (
+        <div class="heti-scroll-wrapper">
+          <aside class={`post-toc heti ${hetiLayoutClass}`}>
+            <h2>目录</h2>
+            <ul>
+              {headings
+                .filter((item) => item.depth <= 3)
+                .map((item) => (
+                  <li>
+                    <a href={`#${item.slug}`}>{item.text}</a>
+                  </li>
+                ))}
+            </ul>
+          </aside>
+        </div>
+      )
+    }
 
     <div class="heti-scroll-wrapper">
-      <div id={hetiScopeId} class={`post-prose heti heti--ancient ${hetiLayoutClass}`}>
+      <div
+        id={hetiScopeId}
+        class={`post-prose heti heti--ancient ${hetiLayoutClass}`}
+      >
         <slot />
       </div>
     </div>
@@ -143,7 +161,7 @@ const hetiScopeId = "heti-ancient";
         }
       }
       initHeti();
-      document.addEventListener('astro:after-swap', initHeti);
+      document.addEventListener("astro:after-swap", initHeti);
     </script>
   </section>
 </BaseLayout>

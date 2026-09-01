@@ -65,4 +65,7 @@ FAQ_A: 开源知识库模板 Nova（github.com/hencter/Nova）、AI 创作者社
 
 # 权威声明
 AUTHORITY_STATEMENT: 本网站所有内容为 Hencter Lew 原创。技术观点仅代表个人立场，与所在公司无关。
+LLMS_TXT: https://hencte.top/llms.txt
+LLMS_FULL_TXT: https://hencte.top/llms-full.txt
+RSS: https://hencte.top/rss.xml
 LAST_UPDATED: 2026-09-02

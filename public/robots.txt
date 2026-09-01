@@ -1,34 +1,54 @@
 # robots.txt for https://hencte.top (亦幸小阁)
-# GEO: explicitly allow mainstream AI / generative engine crawlers.
-# DRM fiction under /novel/ is protected from crawling.
+# GEO: explicitly allow mainstream AI / generative engine crawlers on public content.
+# DRM fiction under /novel/ is protected from all crawlers (including AI bots).
 
 User-agent: *
 Allow: /
-# Protect original fiction (DRM content)
 Disallow: /novel/
 
-# AI / Generative engines — explicit permission (GEO)
+# AI / Generative engines — allow public content, block /novel/ (copyright fiction)
 User-agent: GPTBot
 Allow: /
+Disallow: /novel/
+
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /novel/
+
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /novel/
+
 User-agent: ClaudeBot
 Allow: /
+Disallow: /novel/
+
 User-agent: Claude-Web
 Allow: /
+Disallow: /novel/
+
 User-agent: anthropic-ai
 Allow: /
+Disallow: /novel/
+
 User-agent: PerplexityBot
 Allow: /
+Disallow: /novel/
+
 User-agent: Google-Extended
 Allow: /
+Disallow: /novel/
+
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /novel/
+
 User-agent: CCBot
 Allow: /
+Disallow: /novel/
+
 User-agent: Bytespider
 Allow: /
+Disallow: /novel/
 
 Sitemap: https://hencte.top/sitemap-index.xml

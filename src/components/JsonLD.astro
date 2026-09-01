@@ -39,6 +39,8 @@ if (type === "Organization") {
     name: "Hencter Lew",
     alternateName: "亦幸",
     url: siteUrl,
+    image: `${siteUrl}/og-image.png`,
+    jobTitle: "IT Operations Engineer",
     sameAs: [
       "https://github.com/hencter",
       "https://gitlab.com/hencter",
@@ -76,6 +78,7 @@ if (type === "Organization") {
   jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": `${fullUrl}#article`,
     headline: article.data.title,
     description: article.data.description || `${article.data.title} - 亦幸小阁`,
     author: {
@@ -90,7 +93,7 @@ if (type === "Organization") {
     },
     image: article.data.images?.[0]
       ? new URL(article.data.images[0], siteUrl).toString()
-      : new URL("/favicon.svg", siteUrl).toString(),
+      : `${siteUrl}/og-image.png`,
     datePublished: datePublished?.toISOString() || article.data.date?.toISOString(),
     dateModified: dateModified?.toISOString() || article.data.lastmod || article.data.date?.toISOString(),
     mainEntityOfPage: {

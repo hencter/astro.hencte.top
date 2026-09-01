@@ -1,29 +1,47 @@
 ---
+import Meta from "@components/Meta.astro";
+import JsonLD from "@components/JsonLD.astro";
 import "heti/umd/heti.min.css";
 import hetiAddonUrl from "heti/umd/heti-addon.min.js?url";
 
 interface Props {
   title: string;
   description?: string;
+  canonicalPath?: string;
   layout?: "vertical" | "columns2";
 }
 
 const {
   title,
   description = "",
+  canonicalPath = Astro.url.pathname,
   layout = "vertical",
 } = Astro.props;
 
 const hetiLayoutClass = layout === "columns2" ? "heti--columns-2" : "heti--vertical";
+const canonical = new URL(canonicalPath, Astro.url).toString();
 ---
 
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
+    <Meta
+      title={`${title} | 亦幸小阁`}
+      description={description || `${title} - 古文`}
+      locale="zh-CN"
+      canonical={canonical}
+      keywords={["古文", "中文排版", "亦幸小阁"]}
+    />
+    <JsonLD type="Organization" pageDescription={description} />
+    <JsonLD type="WebSite" pageDescription={description} />
+    <JsonLD
+      type="BreadcrumbList"
+      breadcrumbs={[
+        { name: "首页", url: "/" },
+        { name: "古文", url: "/ancient" },
+        { name: title, url: canonicalPath },
+      ]}
+    />
     <meta name="color-scheme" content="light dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -82,6 +100,7 @@ const hetiLayoutClass = layout === "columns2" ? "heti--columns-2" : "heti--verti
         align-items: center;
         justify-content: center;
         overflow: auto;
+        cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='14' cy='14' r='5' fill='none' stroke='%238b5e3c' stroke-width='1.5' opacity='0.6'/%3E%3Ccircle cx='15' cy='13' r='1.2' fill='%238b5e3c' opacity='0.5'/%3E%3C/svg%3E") 16 16, auto;
       }
 
       .fullscreen-stage.vertical {
@@ -132,6 +151,7 @@ const hetiLayoutClass = layout === "columns2" ? "heti--columns-2" : "heti--verti
         height: 100vh;
         max-height: 100vh;
         overflow-y: visible;
+        cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 6 Q16 2 22 6' fill='none' stroke='%238b5e3c' stroke-width='1.5' opacity='0.5'/%3E%3Cpath d='M8 18 Q8 10 16 6 Q24 10 24 18' fill='none' stroke='%238b5e3c' stroke-width='1.2' opacity='0.4'/%3E%3C/svg%3E") 16 16, auto;
       }
 
       .fullscreen-stage .heti.heti--ancient.heti--columns-2 {

@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title, description, chapters, novelSlug } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 ---
 
 <html lang="zh-CN">
@@ -15,11 +16,13 @@ const { title, description, chapters, novelSlug } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | 亦幸小阁 小说</title>
     {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex, noai, noimageai, noarchive, nocache" />
     <style is:global>
-      :root{--bg:#f3f7fb;--surface:#fff;--line:#d8e2ef;--ink:#102238;--muted:#4d6582;--brand:#0e7490;--accent:#dd6b20}
-      :root.dark{--bg:#0c1420;--surface:#15202e;--line:#243347;--ink:#e4ecf5;--muted:#7e97b2;--brand:#22d3ee;--accent:#fb923c}
+      :root{--bg:#faf9f6;--surface:#fff;--line:#dce5e8;--ink:#1a2332;--muted:#5a7a8a;--brand:#1a7f8c;--accent:#e76f51}
+      :root.dark{--bg:#0d1117;--surface:#161b22;--line:#21262d;--ink:#e6edf3;--muted:#6e7681;--brand:#58a6ff;--accent:#f97316}
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-      body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;padding:40px 24px;max-width:720px;margin:0 auto}
+      body{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;background:var(--bg);color:var(--ink);line-height:1.9;padding:40px 24px;max-width:720px;margin:0 auto}
       a{color:var(--brand);text-decoration:none}a:hover{color:var(--accent)}
       .back{display:inline-block;margin-bottom:24px;font-size:14px}
       h1{font-size:1.8em;margin-bottom:8px}

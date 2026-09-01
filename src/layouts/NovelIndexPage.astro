@@ -4,6 +4,26 @@ interface Props {
 }
 
 const { novels } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.url).toString();
+
+const spinePalette = [
+  { bg: "#c0392b", text: "#f5e6d3", accent: "#e74c3c" },
+  { bg: "#1a5276", text: "#d4e6f1", accent: "#2980b9" },
+  { bg: "#1e8449", text: "#d5f5e3", accent: "#27ae60" },
+  { bg: "#6c3483", text: "#e8daef", accent: "#8e44ad" },
+  { bg: "#b9770e", text: "#fdebd0", accent: "#f39c12" },
+  { bg: "#283747", text: "#d5dbdb", accent: "#5d6d7e" },
+  { bg: "#922b21", text: "#fadbd8", accent: "#c0392b" },
+  { bg: "#0e6251", text: "#d1f2eb", accent: "#1abc9c" },
+  { bg: "#4a235a", text: "#e8daef", accent: "#7d3c98" },
+  { bg: "#7e5109", text: "#fdebd0", accent: "#d4ac0d" },
+  { bg: "#1b4f72", text: "#d6eaf8", accent: "#2e86c1" },
+  { bg: "#641e16", text: "#f5b7b1", accent: "#cb4335" },
+];
+
+function pickSpine(index: number) {
+  return spinePalette[index % spinePalette.length];
+}
 ---
 
 <html lang="zh-CN">
@@ -12,20 +32,219 @@ const { novels } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>小说 | 亦幸小阁</title>
     <meta name="description" content="原创小说作品。持续更新中。" />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="noindex, noai, noimageai, noarchive, nocache" />
     <style is:global>
-      :root{--bg:#f3f7fb;--surface:#fff;--line:#d8e2ef;--ink:#102238;--muted:#4d6582;--brand:#0e7490;--accent:#dd6b20}
-      :root.dark{--bg:#0c1420;--surface:#15202e;--line:#243347;--ink:#e4ecf5;--muted:#7e97b2;--brand:#22d3ee;--accent:#fb923c}
+      :root {
+        --wood-light: #d4a76a;
+        --wood-mid: #a0724a;
+        --wood-dark: #6b3a2a;
+        --wood-surface: #c99a6b;
+        --shelf-shadow: rgba(0,0,0,0.3);
+        --wall-bg: #f5e6d3;
+        --wall-text: #3a2010;
+        --wall-muted: #7a5c3e;
+        --shelf-edge: #8b5e3c;
+      }
+      :root.dark {
+        --wood-light: #5c3a28;
+        --wood-mid: #3a2214;
+        --wood-dark: #1a0e06;
+        --wood-surface: #4a2c1a;
+        --shelf-shadow: rgba(0,0,0,0.6);
+        --wall-bg: #1a1814;
+        --wall-text: #e0d8c8;
+        --wall-muted: #a09880;
+        --shelf-edge: #6b4430;
+      }
+
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-      body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;padding:40px 24px;max-width:720px;margin:0 auto}
-      a{color:var(--brand);text-decoration:none}a:hover{color:var(--accent)}
-      .back{display:inline-block;margin-bottom:24px;font-size:14px}
-      h1{font-size:2em;margin-bottom:32px}
-      .grid{display:flex;flex-direction:column;gap:16px}
-      .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;transition:border-color .15s}
-      .card:hover{border-color:var(--brand)}
-      .card h2{font-size:1.2em;margin-bottom:8px}
-      .card p{color:var(--muted);font-size:14px;margin-bottom:12px}
-      .card .meta{font-size:12px;color:var(--muted)}
+
+      body {
+        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+        background:
+          repeating-linear-gradient(90deg, color-mix(in srgb,var(--wall-bg) 97%,var(--wood-mid) 3%) 0px, color-mix(in srgb,var(--wall-bg) 97%,var(--wood-mid) 3%) 2px, var(--wall-bg) 2px, var(--wall-bg) 6px),
+          var(--wall-bg);
+        color: var(--wall-text);
+        min-height: 100vh;
+        padding: 2rem;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--wall-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        transition: color 0.2s;
+      }
+      .back:hover { color: var(--wall-text); }
+
+      .library-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+      }
+      .library-header h1 {
+        font-size: 2.4rem;
+        letter-spacing: 0.15em;
+        font-family: "ZCOOL XiaoWei", "Noto Serif SC", serif;
+        margin-bottom: 0.3rem;
+      }
+      .library-header .sub {
+        color: var(--wall-muted);
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+      }
+
+      .bookshelf {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      .shelf {
+        position: relative;
+        padding: 0 0.5rem 1.2rem;
+        border-bottom: 10px solid var(--shelf-edge);
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .shelf::before {
+        content: "";
+        position: absolute;
+        inset: auto 0.5rem 0;
+        height: 10px;
+        background: linear-gradient(180deg,
+          color-mix(in srgb,var(--wood-light) 60%,white 40%) 0%,
+          var(--wood-mid) 40%,
+          var(--wood-dark) 100%);
+        border-radius: 2px;
+        box-shadow: 0 2px 8px var(--shelf-shadow), 0 0 0 1px rgba(0,0,0,0.08);
+        z-index: 2;
+      }
+
+      .shelf::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0 0;
+        height: 40px;
+        background: linear-gradient(180deg,
+          rgba(0,0,0,0.15) 0%,
+          transparent 100%);
+        pointer-events: none;
+        z-index: 3;
+      }
+
+      .book {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        text-decoration: none;
+        border-radius: 3px 8px 8px 3px;
+        padding: 0.7rem 0.55rem;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        cursor: pointer;
+        transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                    box-shadow 0.3s ease,
+                    z-index 0s;
+        box-shadow:
+          inset -3px 0 6px rgba(0,0,0,0.15),
+          2px 3px 6px rgba(0,0,0,0.2),
+          -1px 0 0 rgba(0,0,0,0.1);
+        flex-shrink: 0;
+      }
+
+      .book:hover {
+        transform: translateY(-12px) scale(1.03);
+        box-shadow:
+          inset -3px 0 6px rgba(0,0,0,0.15),
+          4px 8px 16px rgba(0,0,0,0.3),
+          -1px 0 0 rgba(0,0,0,0.1);
+        z-index: 10;
+      }
+
+      .book-title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        line-height: 1.4;
+        white-space: nowrap;
+      }
+
+      .book-author {
+        font-size: 0.62rem;
+        margin-top: 0.5rem;
+        letter-spacing: 0.06em;
+        opacity: 0.7;
+      }
+
+      .book-decoration {
+        margin-top: auto;
+        width: 80%;
+        height: 3px;
+        border-radius: 0;
+        opacity: 0.4;
+        align-self: center;
+        margin-bottom: 0.3rem;
+      }
+
+      .book-tall    { height: 240px; }
+      .book-medium  { height: 200px; }
+      .book-short   { height: 170px; }
+
+      .book.tilt-left  { transform: rotate(-2deg); }
+      .book.tilt-right { transform: rotate(2.5deg); }
+      .book.tilt-left:hover  { transform: rotate(-2deg) translateY(-12px) scale(1.03); }
+      .book.tilt-right:hover { transform: rotate(2.5deg) translateY(-12px) scale(1.03); }
+
+      .shelf-label {
+        position: absolute;
+        right: 1.5rem;
+        bottom: -1.8rem;
+        font-size: 0.7rem;
+        color: var(--wall-muted);
+        letter-spacing: 0.1em;
+        z-index: 5;
+      }
+
+      .empty-shelf {
+        color: var(--wall-muted);
+        font-size: 0.9rem;
+        padding: 1rem 0.5rem;
+        z-index: 1;
+        font-style: italic;
+      }
+
+      .bookend {
+        align-self: stretch;
+        width: 20px;
+        background: linear-gradient(90deg, var(--wood-dark), var(--wood-mid));
+        border-radius: 4px;
+        z-index: 1;
+        flex-shrink: 0;
+        box-shadow: 2px 0 4px rgba(0,0,0,0.2);
+      }
+
+      @media (max-width: 640px) {
+        body { padding: 1rem; }
+        .bookshelf { gap: 2rem; }
+        .book-tall   { height: 200px; }
+        .book-medium { height: 170px; }
+        .book-short  { height: 150px; }
+        .book-title { font-size: 0.78rem; }
+        .book { padding: 0.5rem 0.4rem; }
+      }
     </style>
     <script is:inline>
       (function(){var s=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(s==='dark'||(!s&&d))document.documentElement.classList.add('dark')})();
@@ -33,18 +252,50 @@ const { novels } = Astro.props;
   </head>
   <body>
     <a href="/" class="back">&larr; 首页</a>
-    <h1>小说</h1>
-    <div class="grid">
-      {novels.map((n) => (
-        <a href={n.href}>
-          <div class="card">
-            <h2>{n.title}</h2>
-            {n.description && <p>{n.description}</p>}
-            <span class="meta">点击阅读</span>
+
+    <div class="library-header">
+      <h1>📚 书架</h1>
+      <p class="sub">原创小说 · 持续更新</p>
+    </div>
+
+    <div class="bookshelf">
+      {
+        novels.length === 0 ? (
+          <div class="shelf">
+            <span class="empty-shelf">书架上暂时空空如也，敬请期待新作上架。</span>
           </div>
-        </a>
-      ))}
-      {novels.length === 0 && <p style="color:var(--muted)">暂无小说，敬请期待。</p>}
+        ) : (
+          (() => {
+            const shelves = [];
+            const perShelf = 4;
+            for (let i = 0; i < novels.length; i += perShelf) {
+              shelves.push(novels.slice(i, i + perShelf));
+            }
+            return shelves.map((shelfNovels, shelfIdx) => {
+              const heights = ["book-tall", "book-medium", "book-short", "book-tall"];
+              const tilts = ["tilt-left", "", "tilt-right", ""];
+              return (
+                <div class="shelf">
+                  {shelfNovels.map((n, bi) => {
+                    const palette = pickSpine(shelfIdx * perShelf + bi);
+                    const h = heights[bi % heights.length];
+                    const t = tilts[bi % tilts.length];
+                    return (
+                      <a href={n.href} class={`book ${h} ${t}`} style={`background:linear-gradient(180deg,${palette.bg} 0%,color-mix(in srgb,${palette.bg} 80%,black 20%) 100%);color:${palette.text}`}>
+                        <span class="book-title">{n.title}</span>
+                        <span class="book-author">亦幸</span>
+                        <span class="book-decoration" style={`background:${palette.accent}`}></span>
+                      </a>
+                    );
+                  })}
+                  <span class="bookend"></span>
+                  <span class="shelf-label">第 {shelfIdx + 1} 排</span>
+                </div>
+              );
+            });
+          })()
+        )
+      }
     </div>
   </body>
 </html>
