@@ -81,9 +81,16 @@ sitemap /novel URLs: 0
 
 ## Git / Deploy
 
-- **Commit**: （见下方 push 后 hash）
-- **Push**: origin main（HTTPS fallback if SSH fails）
-- **Live 验证**: push 后 spot-check `/`, `/tw/`, `/novel/sky-tax`, `/llms.txt`, `/log/ai-token-carrier-pricing`
+- **Commit**: `64e81ce` — `perf(seo): font preload, global prefetch, and TW/HK blog pages`
+- **Push**: ✅ `main -> origin/main` (SSH, a59a172..64e81ce)
+- **Live 验证** (push 后 ~1min，CDN 构建中):
+  - ✅ `/` — 200，内容正常
+  - ✅ `/tw/` — 200，OpenCC 镜像正常
+  - ⏳ `/tw/blog` — 404（新路由，待 Cloudflare Pages 重建）
+  - ⏳ `/novel/sky-tax` — 404（天空税 26 章在 a59a172/4d0cbc3，待 CDN 同步）
+  - ⏳ `/log/ai-token-carrier-pricing` — 404（slug 迁移在 272cd65，待 CDN 同步）
+  - ⏳ `/llms.txt` 小说书目 + tw/blog 链接 — 待 CDN 同步（当前 Last updated: 2026-09-01）
+  - ✅ `/ai-guardrail` — 200（旧 redirect 源仍可用）
 
 ---
 
