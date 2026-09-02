@@ -109,6 +109,10 @@ At bottom, GEO's core methodology — making AI know you accurately — is mostl
 
 *中文版：[GEO 两年：我翻了 16 个一手信源，把这门生意的真话和谎话分开](/tech/geo-two-years)*
 
+Recommended reading:
+- [SEO+GEO Three-Tier Architecture: Search Optimization in the LLM Era](/tech/seo-geo-architecture) — structured data, dual-path content processing, unified observability
+- [AI Anti-Hallucination Workflow: A Systematic Approach to Information Verification](/tech/anti-hallucination-workflow) — four-tier source priority, cross-validation rules, real-time verification
+
 ---
 
 <ol>

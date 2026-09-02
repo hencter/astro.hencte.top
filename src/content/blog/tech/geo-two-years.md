@@ -109,6 +109,10 @@ Google 搜索总监 Sullivan 说得更直接："好 SEO 就是好 GEO。"<sup id
 
 *English version: [GEO, Two Years In: What 16 Primary Sources Reveal About the Truth, the Lies, and the Money](/tech/geo-two-years-en)*
 
+推荐阅读：
+- [SEO+GEO 三位一体架构：大模型时代的搜索优化](/tech/seo-geo-architecture) — 结构化数据标记、双路径内容处理、统一观测体系
+- [AI 防幻觉工作流：信息验证的标准化方法](/tech/anti-hallucination-workflow) — 四级信息源优先级、交叉验证规则、实时验证策略
+
 ---
 
 <ol>
