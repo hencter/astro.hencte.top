@@ -76,27 +76,27 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 
     <style is:inline>
       :root {
-        --nv-bg: #faf9f6;
-        --nv-surface: #ffffff;
-        --nv-border: #dce5e8;
-        --nv-ink: #1a2332;
-        --nv-ink-muted: #5a7a8a;
-        --nv-brand: #1a7f8c;
-        --nv-accent: #e76f51;
-        --nv-highlight: #2d8b8b;
-        --nv-control-bg: rgba(255, 255, 255, 0.92);
+        --nv-bg: #f5f1e8;
+        --nv-surface: #fcfaf5;
+        --nv-border: #ddd5c8;
+        --nv-ink: #1a1814;
+        --nv-ink-muted: #6b6358;
+        --nv-brand: #3d6b5e;
+        --nv-accent: #b85c42;
+        --nv-highlight: #4a8b7a;
+        --nv-control-bg: rgba(252, 250, 245, 0.94);
       }
 
       :root.dark {
-        --nv-bg: #0d1117;
-        --nv-surface: #161b22;
-        --nv-border: #21262d;
-        --nv-ink: #e6edf3;
-        --nv-ink-muted: #6e7681;
-        --nv-brand: #58a6ff;
-        --nv-accent: #f97316;
-        --nv-highlight: #3fb950;
-        --nv-control-bg: rgba(22, 27, 34, 0.92);
+        --nv-bg: #121110;
+        --nv-surface: #1a1917;
+        --nv-border: #2e2b27;
+        --nv-ink: #ebe6dc;
+        --nv-ink-muted: #8a8278;
+        --nv-brand: #6db8a4;
+        --nv-accent: #d4846a;
+        --nv-highlight: #5a9e8c;
+        --nv-control-bg: rgba(26, 25, 23, 0.94);
       }
 
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -107,6 +107,7 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
         color: var(--nv-ink);
         line-height: 1.9;
         font-size: 18px;
+        letter-spacing: 0.02em;
         -webkit-font-smoothing: antialiased;
         -webkit-user-select: none;
         user-select: none;
@@ -163,16 +164,18 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
       }
 
       .nv-prose {
-        max-width: 680px;
+        max-width: 42em;
         margin: 0 auto;
       }
       .nv-prose .nv-title {
         font-size: 1.6em;
+        font-family: "ZCOOL XiaoWei", "Noto Serif SC", serif;
         text-align: center;
         line-height: 1.5;
         margin-bottom: 1.6em;
         padding-bottom: 0.6em;
         border-bottom: 1px solid var(--nv-border);
+        letter-spacing: 0.06em;
       }
       .nv-chapter-illustration {
         max-width: 100%;
@@ -310,12 +313,12 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
           box-shadow: 0 1px 4px rgba(0,0,0,0.04);
         }
         .nv-content {
-          max-width: 560px;
+          max-width: 42em;
           width: 100%;
-          padding: 72px 0 0;
+          padding: 72px 1.5rem 0;
         }
         .nv-prose { max-width: none; font-size: 17px; }
-        .nv-bottom-bar { max-width: 560px; width: 100%; padding: 28px 0 40px; }
+        .nv-bottom-bar { max-width: 42em; width: 100%; padding: 28px 1.5rem 40px; }
       }
     </style>
 

@@ -42,6 +42,7 @@ swarm_reports/
 | 2026-09-02 | 收敛 | Wave 3 GEO+真实性+展示 综合收敛报告 | convergence | [./2026-09-02_geo_convergence.md](./2026-09-02_geo_convergence.md) |
 | 2026-09-02 | seo | SEO+GEO 全面审计 v3（研究+实现+验证） | seo-auditor | [./seo/2026-09-02_seo_audit.md](./seo/2026-09-02_seo_audit.md) |
 | 2026-09-02 | 收敛 | Astro 优化监督验收（perf+i18n+prefetch） | supervisor | [./2026-09-02_astro_optimization_supervisor.md](./2026-09-02_astro_optimization_supervisor.md) |
+| 2026-09-02 | ui | 阅读宽度与配色优化 | ui-refactorer | [./ui/2026-09-02_reading_measure_colors.md](./ui/2026-09-02_reading_measure_colors.md) |
 | 2026-09-02 | ops | 严格站点监察全站审计 + P0/P1 修复 | strict-monitor | [./ops/2026-09-02_strict_site_audit.md](./ops/2026-09-02_strict_site_audit.md) |
 | 2026-07-09 | 收敛 | Wave 2 综合收敛报告 | convergence | [./2026-07-09_convergence.md](./2026-07-09_convergence.md) |
 | 2026-07-09 | seo | SEO+GEO 全面审计 v2 | seo-auditor | [./seo/2026-07-09_seo_audit.md](./seo/2026-07-09_seo_audit.md) |
