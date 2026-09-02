@@ -1,7 +1,6 @@
 import { getCollection } from "astro:content";
-import { getNovelHref } from "./novel-helpers";
+import { entrySlug, hasNovelLocalePrefix, isSeriesLanding, getNovelHref } from "./novel-helpers";
 
-const INDEX_IDS = new Set(["novel", "zh-CN/novel", "en/novel"]);
 const SITE = "https://hencte.top";
 
 export interface NovelBibliographyEntry {
@@ -27,16 +26,14 @@ export async function getNovelBibliography(): Promise<NovelBibliographyEntry[]> 
   const publicEntries = all.filter((e) => !e.data.draft);
 
   const zhLandings = publicEntries.filter(
-    (e) =>
-      e.id.toLowerCase().startsWith("zh-cn/") &&
-      !e.data.novel &&
-      !e.data.chapter &&
-      !["novel", "zh-cn/novel", "en/novel"].includes(e.id.toLowerCase())
+    (e) => hasNovelLocalePrefix(e.id, "zh-CN") && isSeriesLanding(e)
   );
 
   return zhLandings.map((zhLanding) => {
-    const slug = zhLanding.id.replace(/^zh-cn\//i, "");
-    const enLanding = publicEntries.find((e) => e.id.toLowerCase() === `en/${slug}`.toLowerCase());
+    const slug = entrySlug(zhLanding)!;
+    const enLanding = publicEntries.find(
+      (e) => hasNovelLocalePrefix(e.id, "en-US") && isSeriesLanding(e) && entrySlug(e) === slug
+    );
     const genres = (zhLanding.data.tags as string[] | undefined)?.length
       ? (zhLanding.data.tags as string[])
       : inferGenres(zhLanding.data.description as string | undefined);
