@@ -11,6 +11,16 @@ const HOME_STRINGS_ZH: UiStrings = {
   visitProject: "访问项目",
   viewPage: "查看页面",
   wechatQrAlt: "微信公众号二维码",
+  hubWriting: "写作",
+  hubProjects: "项目",
+  hubAbout: "关于",
+  hubContact: "联系",
+  aboutTitle: "关于亦幸",
+  aboutBody:
+    "写代码、也写小说和技术笔记——把长期主义落到一个可持续增长的个人品牌上，让每一次迭代都被看见。",
+  aboutCta: "深入了解 →",
+  viewNovels: "浏览原创小说 →",
+  viewAllProjects: "查看全部项目 →",
 };
 
 const ABOUT_STRINGS_ZH: UiStrings = {
@@ -40,6 +50,16 @@ const HOME_STRINGS_EN: UiStrings = {
   visitProject: "Visit project",
   viewPage: "Open page",
   wechatQrAlt: "WeChat QR code",
+  hubWriting: "Writing",
+  hubProjects: "Projects",
+  hubAbout: "About",
+  hubContact: "Contact",
+  aboutTitle: "About Yi Xing",
+  aboutBody:
+    "Code, fiction, and the engineering notes in between — a personal brand built with long-term patience, where every iteration is meant to be seen.",
+  aboutCta: "Learn more →",
+  viewNovels: "Browse original fiction →",
+  viewAllProjects: "View all projects →",
 };
 
 const ABOUT_STRINGS_EN: UiStrings = {

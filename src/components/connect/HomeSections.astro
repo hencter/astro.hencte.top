@@ -2,9 +2,13 @@
 import type { SiteLocale } from "../../lib/i18n";
 import { getDateLocale } from "../../lib/i18n";
 
+/**
+ * Home hub — one-scroll narrative front door (2026-09-03 redesign).
+ * Order: hero -> in-page jump chips -> featured projects -> recent
+ * writing (+ fiction pointer) -> about teaser -> contact CTA.
+ * Detail pages (about/projects/blog/links) stay as deep links for SEO.
+ */
 interface HomeData {
-  title?: string;
-  description?: string;
   hero?: {
     badge?: string;
     headline?: string;
@@ -14,8 +18,6 @@ interface HomeData {
       secondary?: { label: string; href: string };
     };
   };
-  focusSection?: { title?: string; subtitle?: string };
-  focusAreas?: { tag?: string; title: string; text: string }[];
   projectsSection?: { title?: string; subtitle?: string };
   featuredProjects?: {
     stage?: string;
@@ -25,10 +27,7 @@ interface HomeData {
     tags: string[];
     url?: string;
   }[];
-  buildSection?: { title?: string; subtitle?: string };
-  buildSteps?: { phase: string; detail: string }[];
   latestSection?: { title?: string; subtitle?: string };
-  novelSection?: { title?: string; subtitle?: string };
   cta?: {
     title?: string;
     text?: string;
@@ -49,42 +48,44 @@ interface LatestPost {
   };
 }
 
-interface HomeNovel {
-  id: string;
-  data: {
-    title: string;
-    description?: string;
-  };
-  href: string;
-}
-
 interface Props {
   home: HomeData;
   locale: SiteLocale;
   latestPosts: LatestPost[];
-  homeNovels?: HomeNovel[];
   strings: {
     datePending: string;
     readMore: string;
-    startReading: string;
     visitProject: string;
     viewPage: string;
     wechatQrAlt: string;
+    hubWriting: string;
+    hubProjects: string;
+    hubAbout: string;
+    hubContact: string;
+    aboutTitle: string;
+    aboutBody: string;
+    aboutCta: string;
+    viewNovels: string;
+    viewAllProjects: string;
   };
 }
 
-const { home, locale, latestPosts, homeNovels = [], strings } = Astro.props;
+const { home, locale, latestPosts, strings } = Astro.props;
 
 const hero = home.hero;
-const focusSection = home.focusSection;
-const focusAreas = home.focusAreas ?? [];
 const projectsSection = home.projectsSection;
 const featuredProjects = home.featuredProjects ?? [];
-const buildSection = home.buildSection;
-const buildSteps = home.buildSteps ?? [];
 const latestSection = home.latestSection;
-const novelSection = home.novelSection;
 const cta = home.cta;
+
+const root = locale === "en-US" ? "/en" : locale === "zh-TW" ? "/tw" : locale === "zh-HK" ? "/hk" : "";
+const projectsHref = `${root}/projects`;
+const blogHref = `${root}/blog`;
+const novelHref = `${root}/novel`;
+const aboutHref = `${root}/about`;
+
+const writingTitle = latestSection?.title ?? (locale === "en-US" ? "Recent writing" : "最新写作");
+const projectsTitle = projectsSection?.title ?? (locale === "en-US" ? "Featured projects" : "重点项目");
 
 function formatDate(date?: Date): string {
   if (!date) return strings.datePending;
@@ -94,6 +95,14 @@ function formatDate(date?: Date): string {
     month: locale === "en-US" ? "short" : "2-digit",
     day: "2-digit",
   });
+}
+
+function featuredIcon(title: string): string {
+  const t = title.toLowerCase();
+  if (t.includes("astro") || t.includes("site") || title.includes("站")) return "🛰";
+  if (t.includes("agent") || t.includes("swarm") || title.includes("蜂群")) return "🐝";
+  if (title.includes("知识") || title.includes("Obsidian") || t.includes("obsidian") || t.includes("knowledge")) return "🧠";
+  return "✦";
 }
 ---
 
@@ -115,74 +124,24 @@ function formatDate(date?: Date): string {
   </div>
 </section>
 
-{homeNovels.length > 0 && (
-  <section class="section reveal-on-scroll" id="novels">
-    <div class="section-heading">
-      <h2 class="section-title">{novelSection?.title ?? (locale === "en-US" ? "Original Fiction" : "原创小说")}</h2>
-      {novelSection?.subtitle && <p class="section-subtitle">{novelSection.subtitle}</p>}
-    </div>
-    <div class="card-grid three">
-      {homeNovels.map((novel) => (
-        <article class="project-card novel-card">
-          <p class="card-kicker">{locale === "en-US" ? "Novel" : "小说"}</p>
-          <h3>{novel.data.title}</h3>
-          {novel.data.description && <p>{novel.data.description}</p>}
-          <a href={novel.href} class="btn-primary">{strings.startReading}</a>
-        </article>
-      ))}
-    </div>
-  </section>
-)}
+<nav class="hub-jump" aria-label={locale === "en-US" ? "On this page" : "本页导航"}>
+  <a href="#hub-projects" class="hub-chip">{strings.hubProjects}</a>
+  <a href="#hub-writing" class="hub-chip">{strings.hubWriting}</a>
+  <a href="#hub-about" class="hub-chip">{strings.hubAbout}</a>
+  <a href="#contact" class="hub-chip">{strings.hubContact}</a>
+  <a href={blogHref} class="hub-chip hub-chip--ghost" data-astro-prefetch="hover">/blog</a>
+</nav>
 
-<section class="section reveal-on-scroll" id="latest">
+<section class="section reveal-on-scroll" id="hub-projects">
   <div class="section-heading">
-    <h2 class="section-title">{latestSection?.title ?? (locale === "en-US" ? "Latest Blog Posts" : "最新博客文章")}</h2>
-    {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
-  </div>
-  <div class="post-list">
-    {
-      latestPosts.map((post) => (
-        <article class="blog-post-card">
-          <p class="card-kicker">{post.data.section || "blog"}</p>
-          <h3>
-            <a href={`/${post.id}`}>{post.data.title}</a>
-          </h3>
-          <p class="post-meta-line">{formatDate(post.data.date)}</p>
-          <p>{post.data.description || strings.readMore}</p>
-        </article>
-      ))
-    }
-  </div>
-</section>
-
-<section class="section reveal-on-scroll" id="focus">
-  <div class="section-heading">
-    <h2 class="section-title">{focusSection?.title ?? (locale === "en-US" ? "Core Direction" : "站点核心方向")}</h2>
-    {focusSection?.subtitle && <p class="section-subtitle">{focusSection.subtitle}</p>}
-  </div>
-  <div class="card-grid three">
-    {
-      focusAreas.map((pillar) => (
-        <article class="value-card">
-          <p class="card-kicker">{pillar.tag}</p>
-          <h3>{pillar.title}</h3>
-          <p>{pillar.text}</p>
-        </article>
-      ))
-    }
-  </div>
-</section>
-
-<section class="section reveal-on-scroll" id="projects">
-  <div class="section-heading">
-    <h2 class="section-title">{projectsSection?.title ?? (locale === "en-US" ? "Featured Projects" : "重点项目")}</h2>
+    <h2 class="section-title">{projectsTitle}</h2>
     {projectsSection?.subtitle && <p class="section-subtitle">{projectsSection.subtitle}</p>}
   </div>
   {
     featuredProjects.length > 0 && (
       <article class="card-featured">
         <div class="card-featured-visual" aria-hidden="true">
-          {featuredProjects[0].title?.includes("astro") || featuredProjects[0].title?.includes("站") || featuredProjects[0].title?.includes("site") ? "🛰" : featuredProjects[0].title?.includes("Agent") || featuredProjects[0].title?.includes("蜂群") || featuredProjects[0].title?.includes("Swarm") ? "🐝" : featuredProjects[0].title?.includes("知识") || featuredProjects[0].title?.includes("Obsidian") || featuredProjects[0].title?.includes("Knowledge") ? "🧠" : "✦"}
+          {featuredIcon(featuredProjects[0].title)}
         </div>
         <div class="card-featured-body">
           <p class="card-kicker">{featuredProjects[0].stage}</p>
@@ -209,9 +168,9 @@ function formatDate(date?: Date): string {
   }
   {
     featuredProjects.length > 1 && (
-      <div class="card-grid three" style="margin-top:1rem">
+      <div class="card-grid three hub-project-grid">
         {
-          featuredProjects.slice(1).map((project) => (
+          featuredProjects.slice(1, 4).map((project) => (
             <article class="project-card">
               <p class="card-kicker">{project.stage}</p>
               <h3>{project.title}</h3>
@@ -237,23 +196,37 @@ function formatDate(date?: Date): string {
       </div>
     )
   }
+  <p class="hub-more"><a href={projectsHref} data-astro-prefetch="hover">{strings.viewAllProjects}</a></p>
 </section>
 
-<section class="section reveal-on-scroll" id="playbook">
+<section class="section reveal-on-scroll" id="hub-writing">
   <div class="section-heading">
-    <h2 class="section-title">{buildSection?.title ?? (locale === "en-US" ? "Build Loop" : "持续构建节奏")}</h2>
-    {buildSection?.subtitle && <p class="section-subtitle">{buildSection.subtitle}</p>}
+    <h2 class="section-title">{writingTitle}</h2>
+    {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
   </div>
-  <div class="timeline">
+  <div class="post-list">
     {
-      buildSteps.map((item) => (
-        <article class="card-accent-stripe">
-          <p class="card-kicker">{item.phase}</p>
-          <p>{item.detail}</p>
+      latestPosts.slice(0, 4).map((post) => (
+        <article class="blog-post-card">
+          <p class="card-kicker">{post.data.section || "blog"}</p>
+          <h3>
+            <a href={`/${post.id}`} data-astro-prefetch="hover">{post.data.title}</a>
+          </h3>
+          <p class="post-meta-line">{formatDate(post.data.date)}</p>
+          <p>{post.data.description || strings.readMore}</p>
         </article>
       ))
     }
   </div>
+  <p class="hub-more"><a href={novelHref} data-astro-prefetch="hover">{strings.viewNovels}</a></p>
+</section>
+
+<section class="section reveal-on-scroll" id="hub-about">
+  <div class="section-heading">
+    <h2 class="section-title">{strings.aboutTitle}</h2>
+  </div>
+  <p class="hub-about-body">{strings.aboutBody}</p>
+  <p class="hub-more"><a href={aboutHref} data-astro-prefetch="hover">{strings.aboutCta}</a></p>
 </section>
 
 <section class="section reveal-on-scroll">
@@ -279,3 +252,67 @@ function formatDate(date?: Date): string {
     )}
   </div>
 </section>
+
+<style>
+  .hub-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .hub-chip {
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface-glass);
+    padding: 0.34rem 0.85rem;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--ink-700);
+    transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+  }
+
+  .hub-chip:hover,
+  .hub-chip:focus-visible {
+    color: var(--ink-900);
+    border-color: var(--brand);
+    background: color-mix(in srgb, var(--brand) 10%, var(--surface) 90%);
+  }
+
+  .hub-chip--ghost {
+    font-weight: 600;
+    color: var(--ink-500);
+    background: transparent;
+  }
+
+  .hub-project-grid {
+    margin-top: 1rem;
+  }
+
+  .hub-more {
+    margin: 1.35rem 0 0;
+  }
+
+  .hub-more a {
+    font-weight: 700;
+    color: var(--brand-deep);
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) 0% 100% / 0% 2px no-repeat;
+    transition: background-size 350ms ease, color 200ms ease;
+  }
+
+  .hub-more a:hover,
+  .hub-more a:focus-visible {
+    color: var(--accent);
+    background-size: 100% 2px;
+  }
+
+  .hub-about-body {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--ink-700);
+    font-family: var(--font-serif);
+    font-size: 1.06rem;
+    line-height: 1.9;
+  }
+</style>
