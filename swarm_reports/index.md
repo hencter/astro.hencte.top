@@ -32,6 +32,7 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | ui | UI Surface P0 实施 — 阅读连续性恢复 | main + ui-refactorer | [./ui/2026-09-03_ui_surface_p0_implementation.md](./ui/2026-09-03_ui_surface_p0_implementation.md) |
 | 2026-09-03 | 收敛 | UI Surface 与 Card 使用综合收敛 | convergence | [./2026-09-03_ui_surface_convergence.md](./2026-09-03_ui_surface_convergence.md) |
 | 2026-09-03 | ui | shadcn/ui 与 Card 容器盘点 | card-auditor | [./ui/2026-09-03_shadcn_card_inventory.md](./ui/2026-09-03_shadcn_card_inventory.md) |
 | 2026-09-03 | ui | 编辑式阅读体验与 Surface Policy 审计 | editorial-auditor | [./ui/2026-09-03_editorial_surface_audit.md](./ui/2026-09-03_editorial_surface_audit.md) |

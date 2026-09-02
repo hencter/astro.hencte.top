@@ -532,14 +532,24 @@ a {
 }
 
 /* ============================================================
-   Sections
+   Sections — bare flow by default (UI Surface Policy, P0)
+   Sections segment via whitespace + heading rail only; a boxed
+   surface is the explicit exception reserved for hero / CTA /
+   independent object zones. See swarm_reports/ui/2026-09-03_*
    ============================================================ */
 .section {
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--line);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* Opt-in surface variant — only for regions that genuinely need a frame */
+.section--surface {
   padding: clamp(1.25rem, 2.4vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
   background: color-mix(in srgb, var(--surface) 94%, var(--bg) 6%);
-  transition: background 300ms ease, border-color 300ms ease;
 }
 
 .section-heading {
@@ -776,25 +786,6 @@ a {
   letter-spacing: 0.04em;
 }
 
-/* decorative dot on every 3rd blog post card */
-.blog-post-card:nth-child(3n) {
-  position: relative;
-  overflow: hidden;
-}
-
-.blog-post-card:nth-child(3n)::after {
-  content: "";
-  position: absolute;
-  top: -18px;
-  right: -18px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-  opacity: 0.22;
-  pointer-events: none;
-}
-
 /* ============================================================
    Timeline
    ============================================================ */
@@ -914,7 +905,7 @@ a {
 }
 
 /* ============================================================
-   Blog List Grid
+   Blog List Grid — object-card grid (kept for project lists)
    ============================================================ */
 .blog-list-grid {
   display: grid;
@@ -924,32 +915,54 @@ a {
 }
 
 /* ============================================================
-   Blog Post Card
+   Editorial Post Row — bare list item divided by a rule
+   Replaces the boxed blog-post-card; use inside .post-list.
+   Link affordance comes from the title underline, not a box.
    ============================================================ */
+.post-list {
+  display: grid;
+}
+
 .blog-post-card {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  padding: 1rem;
-  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 350ms ease,
-              border-color 350ms ease;
+  position: relative;
+  padding: 1.35rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  border-bottom: 1px solid var(--line);
   overflow-wrap: break-word;
   word-break: break-word;
-  position: relative;
+}
+
+.blog-post-card:first-child {
+  padding-top: 0.5rem;
+}
+
+.blog-post-card:last-child {
+  border-bottom: 0;
+  padding-bottom: 0.25rem;
 }
 
 .blog-post-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card);
-  border-color: var(--card-hover-border);
+  border-bottom-color: var(--card-hover-border);
 }
 
 .blog-post-card h2,
 .blog-post-card h3 {
-  margin: 0.55rem 0 0;
-  font-size: 1.08rem;
-  line-height: 1.35;
+  margin: 0.45rem 0 0;
+  font-size: 1.14rem;
+  line-height: 1.4;
+}
+
+.blog-post-card > p:not(.card-kicker):not(.post-meta-line) {
+  margin: 0.5rem 0 0;
+  color: var(--ink-700);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .blog-post-card h2 a,
@@ -1083,7 +1096,10 @@ a {
 }
 
 /* ============================================================
-   Reading Container — measure + palette
+   Reading Container — measure + type (bare: no paper box)
+   Article bodies flow on the page ground; only measure, padding
+   and color tokens remain. Inline semantic insets (code, callout,
+   quote, table) keep their own local distinction.
    ============================================================ */
 .read-container {
   max-width: var(--read-max-width);
@@ -1091,8 +1107,6 @@ a {
   padding-inline: var(--read-padding-x);
   width: 100%;
   color: var(--read-fg);
-  background: var(--read-bg);
-  border-radius: var(--radius-md);
   padding-block: 1.25rem 1.75rem;
 }
 
@@ -1122,12 +1136,6 @@ a {
   font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   hanging-punctuation: first allow-end last;
   text-wrap: pretty;
-}
-
-.post-prose.read-container {
-  padding-block: 1.25rem 1.75rem;
-  background: var(--read-bg);
-  border-radius: var(--radius-md);
 }
 
 .post-prose.heti,
@@ -1759,7 +1767,7 @@ a {
 }
 
 /* ============================================================
-   Related Posts (content interlinking)
+   Related Posts (content interlinking) — editorial divider rows
    ============================================================ */
 .related-posts {
   max-width: 78ch;
@@ -1775,34 +1783,30 @@ a {
 
 .related-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.95rem;
+  grid-template-columns: 1fr;
 }
 
 .related-card {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  padding: 1rem;
+  padding: 1.05rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  border-top: 1px solid var(--line);
   display: grid;
   gap: 0.15rem;
   align-content: start;
-  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 350ms ease,
-              border-color 350ms ease;
   overflow-wrap: break-word;
   word-break: break-word;
 }
 
-.related-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card);
-  border-color: var(--card-hover-border);
+.related-grid > .related-card:first-child {
+  border-top: 0;
+  padding-top: 0.35rem;
 }
 
 .related-card-title {
   margin: 0;
-  font-size: 1.02rem;
+  font-size: 1.04rem;
   line-height: 1.4;
 }
 
@@ -1827,37 +1831,10 @@ a {
 .related-card-excerpt {
   margin: 0.45rem 0 0;
   color: var(--ink-700);
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-/* Dark theme adjustments for related cards */
-.dark .related-card {
-  background: var(--card-bg);
-  border-color: var(--card-border);
-}
-
-.dark .related-card:hover {
-  border-color: var(--card-hover-border);
-  box-shadow:
-    var(--shadow-card),
-    0 0 30px color-mix(in srgb, var(--brand) 14%, transparent);
-}
-
-.dark .related-card-title a {
-  color: var(--ink-900);
-}
-
-.dark .related-card-excerpt {
-  color: var(--ink-700);
-}
-
-@media (max-width: 920px) {
-  .related-grid {
-    grid-template-columns: 1fr;
-  }
 }

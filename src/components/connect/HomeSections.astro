@@ -139,7 +139,7 @@ function formatDate(date?: Date): string {
     <h2 class="section-title">{latestSection?.title ?? (locale === "en-US" ? "Latest Blog Posts" : "最新博客文章")}</h2>
     {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
   </div>
-  <div class="blog-list-grid">
+  <div class="post-list">
     {
       latestPosts.map((post) => (
         <article class="blog-post-card">
