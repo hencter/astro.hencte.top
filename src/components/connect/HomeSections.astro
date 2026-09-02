@@ -123,8 +123,8 @@ function formatDate(date?: Date): string {
     </div>
     <div class="card-grid three">
       {homeNovels.map((novel) => (
-        <article class="project-card">
-          <p class="card-kicker">Novel</p>
+        <article class="project-card novel-card">
+          <p class="card-kicker">{locale === "en-US" ? "Novel" : "小说"}</p>
           <h3>{novel.data.title}</h3>
           {novel.data.description && <p>{novel.data.description}</p>}
           <a href={novel.href} class="btn-primary">{strings.startReading}</a>

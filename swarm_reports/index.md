@@ -32,6 +32,7 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-02 | ui | 主题视觉刷新 — 墨纸·青瓷 | ui-refactorer | [./ui/2026-09-02_theme_visual_refresh.md](./ui/2026-09-02_theme_visual_refresh.md) |
 | 2026-09-02 | content | Astro Content Collections 全面审计（无 Astron） | content-editor | [./content/2026-09-02_astro_content_collections_audit.md](./content/2026-09-02_astro_content_collections_audit.md) |
 | 2026-09-02 | content | 小说 per-novel 目录结构重构 | content-editor | [./content/2026-09-02_novel_directory_structure.md](./content/2026-09-02_novel_directory_structure.md) |
 | 2026-09-02 | content | 小说 i18n + 天空税 Nutstore 导入 | content-editor | [./content/2026-09-02_novel_i18n.md](./content/2026-09-02_novel_i18n.md) |
