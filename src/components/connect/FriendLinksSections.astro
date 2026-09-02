@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
+import SectionHeading from "../SectionHeading.astro";
 
 interface FriendLinkData {
   name: string;
@@ -77,10 +78,7 @@ const isExternal = (url: string) => url.startsWith("http");
 </section>
 
 <section class="section reveal-on-scroll">
-  <div class="section-heading">
-    <h2 class="section-title">{page.linksSection?.title ?? strings.linksTitle}</h2>
-    {page.linksSection?.subtitle && <p class="section-subtitle">{page.linksSection.subtitle}</p>}
-  </div>
+  <SectionHeading title={page.linksSection?.title ?? strings.linksTitle} subtitle={page.linksSection?.subtitle} />
 
   {
     friendLinks.length > 0 ? (
@@ -127,10 +125,7 @@ const isExternal = (url: string) => url.startsWith("http");
 {
   applyRules && (
     <section class="section reveal-on-scroll">
-      <div class="section-heading">
-        <h2 class="section-title">{applyRules.title ?? strings.applyRulesTitle}</h2>
-        {applyRules.subtitle && <p class="section-subtitle">{applyRules.subtitle}</p>}
-      </div>
+      <SectionHeading title={applyRules.title ?? strings.applyRulesTitle} subtitle={applyRules.subtitle} />
       <div class="about-split">
         {applyRules.rules && applyRules.rules.length > 0 && (
           <article class="story-panel">

@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
+import SectionHeading from "../SectionHeading.astro";
 
 interface ProjectsData {
   hero?: {
@@ -60,10 +61,7 @@ const timeline = page.timeline ?? [];
 </section>
 
 <section class="section reveal-on-scroll" id="featured">
-  <div class="section-heading">
-    <h2 class="section-title">{strings.featuredTitle}</h2>
-    <p class="section-subtitle">{strings.featuredSubtitle}</p>
-  </div>
+  <SectionHeading title={strings.featuredTitle} subtitle={strings.featuredSubtitle} />
   {
     projects.length > 0 && (
       <article class="card-featured">
@@ -126,10 +124,7 @@ const timeline = page.timeline ?? [];
 </section>
 
 <section class="section reveal-on-scroll">
-  <div class="section-heading">
-    <h2 class="section-title">{strings.timelineTitle}</h2>
-    <p class="section-subtitle">{strings.timelineSubtitle}</p>
-  </div>
+  <SectionHeading title={strings.timelineTitle} subtitle={strings.timelineSubtitle} />
   <div class="timeline">
     {
       timeline.map((item) => (

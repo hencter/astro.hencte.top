@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
+import SectionHeading from "../SectionHeading.astro";
 
 interface AboutData {
   hero?: {
@@ -79,10 +80,7 @@ const cta = page.cta;
 </section>
 
 <section class="section reveal-on-scroll">
-  <div class="section-heading">
-    <h2 class="section-title">{strings.principlesTitle}</h2>
-    <p class="section-subtitle">{strings.principlesSubtitle}</p>
-  </div>
+  <SectionHeading title={strings.principlesTitle} subtitle={strings.principlesSubtitle} />
   <div class="principle-grid">
     {
       principles.map((item, i) => {
@@ -99,10 +97,7 @@ const cta = page.cta;
 </section>
 
 <section class="section reveal-on-scroll">
-  <div class="section-heading">
-    <h2 class="section-title">{strings.milestonesTitle}</h2>
-    <p class="section-subtitle">{strings.milestonesSubtitle}</p>
-  </div>
+  <SectionHeading title={strings.milestonesTitle} subtitle={strings.milestonesSubtitle} />
   <div class="timeline">
     {
       milestones.map((item) => (

@@ -1,6 +1,7 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
 import { getDateLocale } from "../../lib/i18n";
+import SectionHeading from "../SectionHeading.astro";
 
 /**
  * Home hub — one-scroll narrative front door (2026-09-03 redesign).
@@ -133,10 +134,7 @@ function featuredIcon(title: string): string {
 </nav>
 
 <section class="section reveal-on-scroll" id="hub-projects">
-  <div class="section-heading">
-    <h2 class="section-title">{projectsTitle}</h2>
-    {projectsSection?.subtitle && <p class="section-subtitle">{projectsSection.subtitle}</p>}
-  </div>
+  <SectionHeading title={projectsTitle} subtitle={projectsSection?.subtitle} />
   {
     featuredProjects.length > 0 && (
       <article class="card-featured">
@@ -200,10 +198,7 @@ function featuredIcon(title: string): string {
 </section>
 
 <section class="section reveal-on-scroll" id="hub-writing">
-  <div class="section-heading">
-    <h2 class="section-title">{writingTitle}</h2>
-    {latestSection?.subtitle && <p class="section-subtitle">{latestSection.subtitle}</p>}
-  </div>
+  <SectionHeading title={writingTitle} subtitle={latestSection?.subtitle} />
   <div class="post-list">
     {
       latestPosts.slice(0, 4).map((post) => (
@@ -222,9 +217,7 @@ function featuredIcon(title: string): string {
 </section>
 
 <section class="section reveal-on-scroll" id="hub-about">
-  <div class="section-heading">
-    <h2 class="section-title">{strings.aboutTitle}</h2>
-  </div>
+  <SectionHeading title={strings.aboutTitle} />
   <p class="hub-about-body">{strings.aboutBody}</p>
   <p class="hub-more"><a href={aboutHref} data-astro-prefetch="hover">{strings.aboutCta}</a></p>
 </section>

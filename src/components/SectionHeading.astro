@@ -1,0 +1,17 @@
+---
+/**
+ * SectionHeading — editorial rail heading per UI Surface Policy.
+ * Extracted from the isomorphic copy repeated across connect sections.
+ */
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<div class="section-heading">
+  <h2 class="section-title">{title}</h2>
+  {subtitle && <p class="section-subtitle">{subtitle}</p>}
+</div>
