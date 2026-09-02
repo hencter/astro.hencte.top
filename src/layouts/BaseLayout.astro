@@ -67,6 +67,15 @@ function isNavActive(href: string): boolean {
   if (normalized === "/" || normalized === "/en" || normalized === "/tw" || normalized === "/hk") {
     return currentPath === normalized;
   }
+  // Primary "Blog" also marks its section family (tech/log/ancient) active,
+  // so visiting an article or section listing never leaves the nav empty.
+  if (/\/blog$/.test(normalized)) {
+    const prefix = normalized.slice(0, -5); // '' | '/en' | '/tw' | '/hk'
+    const family = ["/tech", "/log", "/ancient"].map((root) => `${prefix}${root}`);
+    return family.some(
+      (root) => currentPath === root || currentPath.startsWith(`${root}/`)
+    ) || currentPath === normalized || currentPath.startsWith(`${normalized}/`);
+  }
   return currentPath === normalized || currentPath.startsWith(`${normalized}/`);
 }
 ---
@@ -74,6 +83,8 @@ function isNavActive(href: string): boolean {
 <!doctype html>
 <html lang={localeConfig.htmlLang}>
   <head>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="style" href={fontStylesheet} />
@@ -124,7 +135,35 @@ function isNavActive(href: string): boolean {
     <div class="page-shell">
       <header class="site-header">
         <a class="brand-link" href={homeHref}>
-          <span class="brand-mark" aria-hidden="true">H</span>
+          <svg
+            class="brand-mark"
+            viewBox="0 0 48 48"
+            role="img"
+            aria-label="亦"
+            focusable="false"
+          >
+            <rect x="1.5" y="1.5" width="45" height="45" rx="10" fill="var(--brand)" />
+            <rect
+              x="5.5"
+              y="5.5"
+              width="37"
+              height="37"
+              rx="6.5"
+              fill="none"
+              stroke="var(--bg)"
+              stroke-opacity="0.55"
+              stroke-width="1.2"
+            />
+            <text
+              x="24"
+              y="25"
+              text-anchor="middle"
+              dominant-baseline="central"
+              font-size="26"
+              fill="var(--bg)"
+              style='font-family: var(--font-display), "Noto Serif SC", "Songti SC", serif'
+            >亦</text>
+          </svg>
           <span class="brand-copy">
             <strong>{brandName}</strong>
             <small>{brandTagline}</small>
@@ -165,17 +204,21 @@ function isNavActive(href: string): boolean {
           <nav aria-label={locale === "en-US" ? "Primary navigation" : "主导航"}>
             <ul class="nav-list">
               {
-                navLinks.map((link) => (
-                  <li>
-                    <a
-                      href={link.href}
-                      class={isNavActive(link.href) ? "is-active" : undefined}
-                      data-astro-prefetch="hover"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))
+                navLinks.map((link) => {
+                  const active = isNavActive(link.href);
+                  return (
+                    <li>
+                      <a
+                        href={link.href}
+                        class={active ? "is-active" : undefined}
+                        aria-current={active ? "page" : undefined}
+                        data-astro-prefetch="hover"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                })
               }
             </ul>
           </nav>

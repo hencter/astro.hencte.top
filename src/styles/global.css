@@ -209,20 +209,13 @@ a {
 .brand-mark {
   width: 2rem;
   height: 2rem;
-  border-radius: var(--radius-sm);
-  display: grid;
-  place-items: center;
-  color: #f8f5ee;
-  background: var(--brand);
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.05rem;
-  transition: transform 250ms ease, background 250ms ease;
+  flex-shrink: 0;
+  display: block;
+  transition: transform 250ms ease;
 }
 
 .brand-link:hover .brand-mark {
   transform: rotate(-4deg) scale(1.05);
-  background: var(--brand-deep);
 }
 
 .brand-copy {
