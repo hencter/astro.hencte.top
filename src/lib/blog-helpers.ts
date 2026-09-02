@@ -2,7 +2,7 @@ import { getCollection } from "astro:content";
 import type { SiteLocale } from "./i18n";
 import { getDateLocale } from "./i18n";
 import { getNovelHref } from "./i18n";
-import { mirrorNovelData } from "./novel-helpers";
+import { entrySlug, hasNovelLocalePrefix, isSeriesLanding, mirrorNovelData } from "./novel-helpers";
 
 const allowedSections = new Set(["log", "tech", "ancient", "novel"]);
 
@@ -23,20 +23,20 @@ export async function getLatestPosts(limit = 6) {
     .slice(0, limit);
 }
 
-const NOVEL_INDEX_IDS = new Set(["novel", "zh-CN/novel", "en/novel"]);
-
 export async function getHomeNovels(locale: SiteLocale = "zh-CN") {
-  const prefix = locale === "en-US" ? "en/" : "zh-CN/";
   const novelEntries = await getCollection("novel");
   return novelEntries
     .filter((e) => !e.data.draft)
-    .filter((e) => e.id.startsWith(prefix))
-    .filter((e) => !e.data.chapter && !e.data.novel && !NOVEL_INDEX_IDS.has(e.id))
-    .map((e) => ({
-      id: e.id.replace(/^(zh-CN|en)\//, ""),
-      data: locale === "zh-CN" || locale === "en-US" ? e.data : mirrorNovelData(e.data, locale),
-      href: getNovelHref(locale, e.id.replace(/^(zh-CN|en)\//, "")),
-    }));
+    .filter((e) => hasNovelLocalePrefix(e.id, locale))
+    .filter((e) => isSeriesLanding(e))
+    .map((e) => {
+      const slug = entrySlug(e)!;
+      return {
+        id: slug,
+        data: locale === "zh-CN" || locale === "en-US" ? e.data : mirrorNovelData(e.data, locale),
+        href: getNovelHref(locale, slug),
+      };
+    });
 }
 
 export interface BlogIndexSection {
@@ -98,15 +98,9 @@ export async function getBlogIndexData(
     .filter((entry) => !entry.data.draft)
     .filter((entry) => allowed.has(entry.data.section || entry.id.split("/")[0]));
 
-  const novelPrefix = locale === "en-US" ? "en/" : "zh-cn/";
   const novelEntries = await getCollection("novel");
   const novelCount = novelEntries.filter(
-    (e) =>
-      !e.data.draft &&
-      e.id.toLowerCase().startsWith(novelPrefix) &&
-      !e.data.chapter &&
-      !e.data.novel &&
-      !["novel", "zh-cn/novel", "en/novel"].includes(e.id.toLowerCase())
+    (e) => !e.data.draft && hasNovelLocalePrefix(e.id, locale) && isSeriesLanding(e)
   ).length;
 
   const posts = publicEntries

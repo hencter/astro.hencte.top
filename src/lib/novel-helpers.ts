@@ -42,8 +42,28 @@ export function entrySlug(entry: NovelEntry): string | undefined {
 }
 
 export function isSeriesLanding(entry: NovelEntry): boolean {
-  const slug = entrySlug(entry);
-  return Boolean(slug && !isChapterSlug(slug) && !INDEX_IDS.has(entry.id.toLowerCase()));
+  const id = entry.id.toLowerCase();
+  if (INDEX_IDS.has(id)) return false;
+
+  const parts = entry.id.split("/");
+  // Nested: {locale}/{series}/index
+  if (parts.length >= 3 && parts[2].toLowerCase() === "index") {
+    const slug = entrySlug(entry);
+    return Boolean(slug && !isChapterSlug(slug));
+  }
+
+  // Legacy flat landing: {locale}/{series}
+  if (parts.length === 2) {
+    const slug = parts[1];
+    return Boolean(slug && !isChapterSlug(slug));
+  }
+
+  return false;
+}
+
+export function hasNovelLocalePrefix(id: string, locale: SiteLocale): boolean {
+  const prefix = locale === "en-US" ? "en/" : "zh-cn/";
+  return id.toLowerCase().startsWith(prefix);
 }
 
 export function contentLocale(entry: NovelEntry): "zh-CN" | "en-US" {
