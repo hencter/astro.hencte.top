@@ -1,0 +1,61 @@
+---
+import Layout from "../../layouts/BaseLayout.astro";
+import { getPageAlternates } from "../../lib/i18n";
+
+const locale = "zh-TW";
+---
+
+<Layout
+  title="頁面未找到 | 亦幸小閣"
+  description="您訪問的頁面不存在或已遷移。"
+  locale={locale}
+  canonicalPath="/tw/404"
+  connectPage="home"
+  alternates={getPageAlternates("home")}
+  robots="noindex"
+>
+  <section class="error-page">
+    <p class="error-code">404</p>
+    <h1>頁面未找到</h1>
+    <p class="error-lead">您訪問的連結可能已失效、已遷移，或從未存在過。</p>
+    <div class="error-actions">
+      <a href="/tw/" class="btn-primary">返回首頁</a>
+      <a href="/tw/blog/" class="btn-secondary">瀏覽博客</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .error-page {
+    max-width: 36rem;
+    margin: 4rem auto;
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .error-code {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .error-lead {
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  .error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+</style>

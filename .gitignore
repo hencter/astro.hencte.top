@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 # Obsidian workspace (local UI state)
 .obsidian/workspace.json
+
+# repo hygiene
+/.scratch/
+*.bak
+/bun.lock
