@@ -11,6 +11,9 @@ importers:
       '@astrojs/markdoc':
         specifier: ^0.15.8
         version: 0.15.11(astro@5.18.2(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.63.1)(typescript@5.9.3)(yaml@2.8.1))
+      '@astrojs/markdown-remark':
+        specifier: 6.3.11
+        version: 6.3.11
       '@astrojs/rss':
         specifier: ^4.0.19
         version: 4.0.19
