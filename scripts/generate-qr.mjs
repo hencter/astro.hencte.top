@@ -7,8 +7,9 @@ async function generate() {
   const svg = await QRCode.toString(wechatUrl, {
     type: "svg",
     color: {
-      dark: "#0e7490",
-      light: "#ffffff",
+      // DoggyArium ink on paper — high contrast for scanning; brand gold is for chrome only
+      dark: "#19150f",
+      light: "#f5f0e6",
     },
     margin: 2,
     width: 256,
