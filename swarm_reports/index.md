@@ -32,6 +32,8 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | ui | 全站组件化审计（读-only） | ui-auditor | [./ui/2026-09-03_componentization_audit.md](./ui/2026-09-03_componentization_audit.md) |
+| 2026-09-03 | ui | 语言切换器统一为原生 LocaleSelect | main | [./ui/2026-09-03_locale_select_unification.md](./ui/2026-09-03_locale_select_unification.md) |
 | 2026-09-03 | ui | UI Surface P0 实施 — 阅读连续性恢复 | main + ui-refactorer | [./ui/2026-09-03_ui_surface_p0_implementation.md](./ui/2026-09-03_ui_surface_p0_implementation.md) |
 | 2026-09-03 | 收敛 | UI Surface 与 Card 使用综合收敛 | convergence | [./2026-09-03_ui_surface_convergence.md](./2026-09-03_ui_surface_convergence.md) |
 | 2026-09-03 | ui | shadcn/ui 与 Card 容器盘点 | card-auditor | [./ui/2026-09-03_shadcn_card_inventory.md](./ui/2026-09-03_shadcn_card_inventory.md) |
