@@ -1,6 +1,7 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
 import { getDateLocale } from "../../lib/i18n";
+import Hero from "../Hero.astro";
 import SectionHeading from "../SectionHeading.astro";
 
 /**
@@ -107,23 +108,7 @@ function featuredIcon(title: string): string {
 }
 ---
 
-<section class="hero" id="top">
-  {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
-  {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
-  {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
-  <div class="hero-actions">
-    {hero?.actions?.primary && (
-      <a class="btn-primary" href={hero.actions.primary.href}>
-        {hero.actions.primary.label}
-      </a>
-    )}
-    {hero?.actions?.secondary && (
-      <a class="btn-secondary" href={hero.actions.secondary.href}>
-        {hero.actions.secondary.label}
-      </a>
-    )}
-  </div>
-</section>
+<Hero id="top" badge={hero?.badge} headline={hero?.headline} subtitle={hero?.subtitle} actions={hero?.actions} />
 
 <nav class="hub-jump" aria-label={locale === "en-US" ? "On this page" : "本页导航"}>
   <a href="#hub-projects" class="hub-chip">{strings.hubProjects}</a>

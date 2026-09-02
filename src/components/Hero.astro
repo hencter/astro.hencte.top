@@ -1,0 +1,43 @@
+---
+/**
+ * Hero — the single atmosphere surface kept by the UI Surface Policy.
+ * Extracted from isomorphic copies across connect/blog/landing pages.
+ */
+interface HeroAction {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  badge?: string;
+  headline?: string;
+  subtitle?: string;
+  compact?: boolean;
+  id?: string;
+  actions?: { primary?: HeroAction; secondary?: HeroAction };
+  /** add data-astro-prefetch="hover" to action buttons */
+  prefetch?: boolean;
+}
+
+const { badge, headline, subtitle, compact, id, actions, prefetch = false } = Astro.props;
+---
+
+<section class:list={["hero", { "hero-compact": compact }]} id={id}>
+  {badge && <p class="hero-badge">{badge}</p>}
+  {headline && <h1 class="hero-title">{headline}</h1>}
+  {subtitle && <p class="hero-subtitle">{subtitle}</p>}
+  {(actions?.primary || actions?.secondary) && (
+    <div class="hero-actions">
+      {actions.primary && (
+        <a class="btn-primary" href={actions.primary.href} data-astro-prefetch={prefetch ? "hover" : undefined}>
+          {actions.primary.label}
+        </a>
+      )}
+      {actions.secondary && (
+        <a class="btn-secondary" href={actions.secondary.href} data-astro-prefetch={prefetch ? "hover" : undefined}>
+          {actions.secondary.label}
+        </a>
+      )}
+    </div>
+  )}
+</section>

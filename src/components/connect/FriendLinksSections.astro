@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
+import Hero from "../Hero.astro";
 import SectionHeading from "../SectionHeading.astro";
 
 interface FriendLinkData {
@@ -71,11 +72,7 @@ const fallbackLetter = (name: string) => (name.trim()[0] ?? "✦").toUpperCase()
 const isExternal = (url: string) => url.startsWith("http");
 ---
 
-<section class="hero hero-compact">
-  {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
-  {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
-  {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
-</section>
+<Hero compact badge={hero?.badge} headline={hero?.headline} subtitle={hero?.subtitle} />
 
 <section class="section reveal-on-scroll">
   <SectionHeading title={page.linksSection?.title ?? strings.linksTitle} subtitle={page.linksSection?.subtitle} />

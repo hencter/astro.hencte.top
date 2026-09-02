@@ -19,6 +19,12 @@
 
 - 内容体检指标（供内容轮参考）：blog 集合 81 篇中 **23 篇缺 description、3 篇缺 date**。缺 date 的 about/log/tech 为栏目落地页属正常；23 篇缺 description 中混有落地页/草稿/样例，需逐条甄别后补写，非本轮批量处理。
 
+## Round 3 — 批次记录
+
+| 批次 | commit | 内容 |
+|---|---|---|
+| B5 组件 | 本批 | 新增 Hero.astro（badge/headline/subtitle/actions/prefetch/compact，surface policy 唯一大气面）；Home/About/Projects/FriendLinks/BlogIndex 五处 hero 同构块收敛为组件；渲染 DOM 逐页一致（每页恰 1 个 hero） |
+
 ## 待办（后续轮）
 
 - P1 组件：`Hero`（8 处克隆）、`CtaBanner`（3 处）、`EditorialListItem`（文章行 3 处，先定 prop 契约）

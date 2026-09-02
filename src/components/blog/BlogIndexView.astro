@@ -6,6 +6,7 @@ import {
   extractSummary,
   formatBlogDate,
 } from "../../lib/blog-helpers";
+import Hero from "../Hero.astro";
 
 interface Props {
   locale: SiteLocale;
@@ -42,23 +43,7 @@ const summaryFallback =
         : "暂无摘要，点击进入查看全文。";
 ---
 
-<section class="hero hero-compact">
-  {page.hero?.badge && <p class="hero-badge">{page.hero.badge}</p>}
-  {page.hero?.headline && <h1 class="hero-title">{page.hero.headline}</h1>}
-  {page.hero?.subtitle && <p class="hero-subtitle">{page.hero.subtitle}</p>}
-  <div class="hero-actions">
-    {page.hero?.actions?.primary && (
-      <a class="btn-primary" href={page.hero.actions.primary.href} data-astro-prefetch="hover">
-        {page.hero.actions.primary.label}
-      </a>
-    )}
-    {page.hero?.actions?.secondary && (
-      <a class="btn-secondary" href={page.hero.actions.secondary.href} data-astro-prefetch="hover">
-        {page.hero.actions.secondary.label}
-      </a>
-    )}
-  </div>
-</section>
+<Hero compact badge={page.hero?.badge} headline={page.hero?.headline} subtitle={page.hero?.subtitle} actions={page.hero?.actions} prefetch />
 
 <section class="section reveal-on-scroll">
   <div class="blog-stats">

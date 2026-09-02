@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
+import Hero from "../Hero.astro";
 import SectionHeading from "../SectionHeading.astro";
 
 interface AboutData {
@@ -47,11 +48,7 @@ const milestones = page.milestones ?? [];
 const cta = page.cta;
 ---
 
-<section class="hero hero-compact">
-  {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
-  {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
-  {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
-</section>
+<Hero compact badge={hero?.badge} headline={hero?.headline} subtitle={hero?.subtitle} />
 
 <section class="section reveal-on-scroll">
   <div class="about-split">
