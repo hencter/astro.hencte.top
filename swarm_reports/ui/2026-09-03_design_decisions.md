@@ -40,8 +40,12 @@
 
 ## 10. 视差动画
 - 判断：苹果式满屏视差是"产品叙事"正解，与本站编辑式内容/阅读北极星/性能冲突；可借"空间层次"思想做 hero 微氛围，但克制优先。
-- 决策：🚫 用户选择**先不做，保持克制**；等浏览器验收通道恢复后随 hero/转场手感一起复核再议（可选纯 CSS 氛围或轻 scroll-linked）。
+- 决策：🚫 用户先选择**不做满屏视差**；随后把"视差式位移"落实到 **阅读 chrome 进出场**（见 #11）。hero 氛围视差保持不做。
 - 依据：surface policy、2026-09-03 收敛报告、组件化审计。
+
+## 11. 阅读聚焦 chrome（导航/目录随滚动隐现）
+- 需求：滚动阅读时 chrome（sticky 导航 + 右侧 TOC rail）退出；停下不动也退出；上滚或指针回顶部再浮现；正文列始终居中不动；markdown 移动端渲染不得受影响。
+- 状态：✅ 已实施（commit 待记录）：`html.reading-chrome--hidden` 控制；导航 translateY 视觉退出（transform 不影响布局、visibility 延迟隐藏防焦点落入）；rail 以 opacity/visibility 淡出（列宽保留 → 正文始终居中不重排）；下滚 >160px 隐藏、上滚即现、空闲 2.4s 隐藏、指针距顶 <96px 唤回；`prefers-reduced-motion` 下整体禁用；标题锚点 `scroll-margin-top` 规避 sticky 遮挡。移动端仅导航隐现、无 rail、MD 容器未触碰。
 
 ## 待排期汇总
 - P1：TOC 右侧悬浮 rail、标签可点 + 轻量标签云、/blog 密度瘦身、静态卡降噪（story-panel 嵌套/hover/callout 色/badge·stats pill）。

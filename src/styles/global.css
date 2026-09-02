@@ -192,7 +192,19 @@ a {
   backdrop-filter: blur(14px) saturate(1.6);
   -webkit-backdrop-filter: blur(14px) saturate(1.6);
   box-shadow: 0 8px 24px rgba(26, 24, 20, 0.06);
-  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease,
+              transform 360ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s;
+}
+
+/* Reading focus — hide chrome while scrolling down or idle; the
+   transform is visual only, so the layout (and centered reading
+   column) never shifts. Reveal on scroll-up or pointer near top.
+   visibility is delayed so focus cannot land on the hidden bar. */
+html.reading-chrome--hidden .site-header {
+  transform: translateY(calc(-100% - 1.35rem));
+  visibility: hidden;
+  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease,
+              transform 360ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 360ms;
 }
 
 .dark .site-header {
@@ -1079,6 +1091,30 @@ a {
     grid-row: 3;
     margin-top: 2rem;
   }
+}
+
+/* Rail fades with the header in reading-focus mode (wide viewports) */
+@media (min-width: 1180px) {
+  .post-shell--reading .post-toc {
+    transition: opacity 260ms ease, visibility 0s linear 260ms,
+                transform 360ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  html.reading-chrome--hidden .post-shell--reading .post-toc {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(14px);
+    pointer-events: none;
+    transition: opacity 200ms ease, visibility 0s linear 200ms,
+                transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+/* In-page heading jumps stay clear of the sticky chrome */
+.post-prose h2[id],
+.post-prose h3[id],
+.post-prose h4[id] {
+  scroll-margin-top: 5.25rem;
 }
 
 .post-toc h2 {

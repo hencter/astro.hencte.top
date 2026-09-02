@@ -287,9 +287,74 @@ function isNavActive(href: string): boolean {
         });
       }
 
+      // Reading focus chrome — hide nav (and the right TOC rail on
+      // desktop) while scrolling down or while idle mid-article, so the
+      // reader keeps the centered text column without chrome. Revealed
+      // on scroll-up or when the pointer approaches the top edge.
+      function initReadingChrome() {
+        if (window.__readingChromeBound) return;
+        const root = document.documentElement;
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduced) return;
+
+        const HIDE_AFTER = 2400;   // idle ms before chrome retreats
+        const SCROLL_BEGIN = 160;  // px before down-scroll hides chrome
+        const TOP_REVEAL = 96;     // pointer band that reveals chrome
+
+        let lastY = window.scrollY;
+        let idleTimer = 0;
+        let atTop = window.scrollY < SCROLL_BEGIN;
+
+        const apply = (hidden) => {
+          root.classList.toggle('reading-chrome--hidden', hidden && !atTop);
+        };
+
+        const armIdle = () => {
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(() => {
+            if (!atTop) apply(true);
+          }, HIDE_AFTER);
+        };
+
+        let ticking = false;
+        const onScroll = () => {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(() => {
+            const y = window.scrollY;
+            atTop = y < SCROLL_BEGIN;
+            if (atTop) {
+              apply(false);
+            } else {
+              const dy = y - lastY;
+              if (Math.abs(dy) > 6) {
+                if (dy > 0) {
+                  apply(true);
+                } else {
+                  apply(false);
+                  armIdle();
+                }
+              }
+            }
+            lastY = y;
+            ticking = false;
+          });
+        };
+
+        const onMove = (e) => {
+          if (e.clientY < TOP_REVEAL && !atTop) apply(false);
+        };
+
+        window.__readingChromeBound = true;
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('mousemove', onMove, { passive: true });
+        armIdle();
+      }
+
       initThemeToggle();
       initScrollReveal();
       initMobileNav();
+      initReadingChrome();
 
       document.addEventListener('astro:after-swap', () => {
         const saved = localStorage.getItem('theme');
@@ -302,6 +367,7 @@ function isNavActive(href: string): boolean {
         initThemeToggle();
         initScrollReveal();
         initMobileNav();
+        initReadingChrome();
       });
     </script>
   </body>
