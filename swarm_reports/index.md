@@ -32,6 +32,7 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | ui | 设计问答决策记录（含视差：不做） | main | [./ui/2026-09-03_design_decisions.md](./ui/2026-09-03_design_decisions.md) |
 | 2026-09-03 | ui | 首页单页 Hub 重构 + 转场柔化 | main | [./ui/2026-09-03_home_hub_singlepage.md](./ui/2026-09-03_home_hub_singlepage.md) |
 | 2026-09-03 | ui | 「亦」字印章 Logo + 导航修复 | main | [./ui/2026-09-03_brand_logo_nav_fix.md](./ui/2026-09-03_brand_logo_nav_fix.md) |
 | 2026-09-03 | ui | 全站组件化审计（读-only） | ui-auditor | [./ui/2026-09-03_componentization_audit.md](./ui/2026-09-03_componentization_audit.md) |
