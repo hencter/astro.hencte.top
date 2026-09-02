@@ -11,7 +11,7 @@ export const LOCALE_CONFIG: Record<
   "en-US": { path: "/en", htmlLang: "en", ogLocale: "en_US", label: "EN" },
 };
 
-export type ConnectPage = "home" | "about" | "projects" | "blog";
+export type ConnectPage = "home" | "about" | "projects" | "blog" | "links";
 
 const PAGE_PATHS: Record<ConnectPage, Record<SiteLocale, string>> = {
   home: {
@@ -37,6 +37,12 @@ const PAGE_PATHS: Record<ConnectPage, Record<SiteLocale, string>> = {
     "zh-TW": "/tw/blog",
     "zh-HK": "/hk/blog",
     "en-US": "/en/blog",
+  },
+  links: {
+    "zh-CN": "/links",
+    "zh-TW": "/tw/links",
+    "zh-HK": "/hk/links",
+    "en-US": "/en/links",
   },
 };
 
@@ -74,6 +80,7 @@ export function getNavLinks(locale: SiteLocale) {
       { href: "/en", label: "Home" },
       { href: "/en/projects", label: "Projects" },
       { href: "/en/blog", label: "Blog" },
+      { href: "/en/links", label: "Friends" },
       { href: "/en/about", label: "About" },
       { href: "#contact", label: "Contact" },
     ];
@@ -81,17 +88,19 @@ export function getNavLinks(locale: SiteLocale) {
 
   const labels =
     locale === "zh-TW"
-      ? { home: "首頁", projects: "項目", blog: "博客", about: "關於", contact: "聯繫" }
+      ? { home: "首頁", projects: "項目", blog: "博客", links: "友鏈", about: "關於", contact: "聯繫" }
       : locale === "zh-HK"
-        ? { home: "首頁", projects: "項目", blog: "博客", about: "關於", contact: "聯絡" }
-        : { home: "首页", projects: "项目", blog: "博客", about: "关于", contact: "联系" };
+        ? { home: "首頁", projects: "項目", blog: "博客", links: "友鏈", about: "關於", contact: "聯絡" }
+        : { home: "首页", projects: "项目", blog: "博客", links: "友链", about: "关于", contact: "联系" };
 
   const blogHref = locale === "zh-TW" ? "/tw/blog" : locale === "zh-HK" ? "/hk/blog" : "/blog";
+  const linksHref = locale === "zh-TW" ? "/tw/links" : locale === "zh-HK" ? "/hk/links" : "/links";
 
   return [
     { href: prefix || "/", label: labels.home },
     { href: `${prefix}/projects`, label: labels.projects },
     { href: blogHref, label: labels.blog },
+    { href: linksHref, label: labels.links },
     { href: `${prefix}/about`, label: labels.about },
     { href: "#contact", label: labels.contact },
   ];

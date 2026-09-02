@@ -8,7 +8,7 @@ const LOCALE_PREFIX: Record<TraditionalVariant, string> = {
 };
 
 /** Connect pages whose root paths should be rewritten for TW/HK locales. */
-const REWRITABLE_PATHS = new Set(["/", "/about", "/projects", "/blog"]);
+const REWRITABLE_PATHS = new Set(["/", "/about", "/projects", "/blog", "/links"]);
 
 function rewriteHref(href: string, prefix: string): string {
   if (!href.startsWith("/") || href.startsWith("//")) return href;

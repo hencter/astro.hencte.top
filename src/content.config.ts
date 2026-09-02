@@ -194,6 +194,39 @@ const connect = defineCollection({
             .optional(),
         })
         .optional(),
+      linksSection: z
+        .object({
+          title: z.string().optional(),
+          subtitle: z.string().optional(),
+          note: z.string().optional(),
+        })
+        .optional(),
+      friendLinks: z
+        .array(
+          z.object({
+            name: z.string(),
+            url: z.string(),
+            avatar: z.string().optional(),
+            description: z.string().optional(),
+            tags: z.array(z.string()).default([]),
+          })
+        )
+        .optional(),
+      ownSite: z
+        .object({
+          name: z.string(),
+          url: z.string(),
+          avatar: z.string().optional(),
+          description: z.string().optional(),
+        })
+        .optional(),
+      applyRules: z
+        .object({
+          title: z.string().optional(),
+          subtitle: z.string().optional(),
+          rules: z.array(z.string()).default([]),
+        })
+        .optional(),
     })
     .passthrough(),
 });

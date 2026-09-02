@@ -32,6 +32,7 @@ export async function GET() {
 
 - [首页](https://hencte.top/): 个人品牌主页与最新内容
 - [项目](https://hencte.top/projects): Nova、通天路、商业帝国 3D 等技术项目
+- [友链](https://hencte.top/links): 友情链接墙与交换规则
 - [关于](https://hencte.top/about): 作者背景与联系方式
 - [博客](https://hencte.top/blog): 技术文章索引
 - [博客（台灣）](https://hencte.top/tw/blog): 繁體中文（台灣）博客索引

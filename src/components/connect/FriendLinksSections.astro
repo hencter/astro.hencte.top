@@ -1,0 +1,310 @@
+---
+import type { SiteLocale } from "../../lib/i18n";
+
+interface FriendLinkData {
+  name: string;
+  url: string;
+  avatar?: string;
+  description?: string;
+  tags?: string[];
+}
+
+interface LinksData {
+  hero?: {
+    badge?: string;
+    headline?: string;
+    subtitle?: string;
+  };
+  linksSection?: {
+    title?: string;
+    subtitle?: string;
+    note?: string;
+  };
+  friendLinks?: FriendLinkData[];
+  ownSite?: {
+    name: string;
+    url: string;
+    avatar?: string;
+    description?: string;
+  };
+  applyRules?: {
+    title?: string;
+    subtitle?: string;
+    rules?: string[];
+  };
+  cta?: {
+    title?: string;
+    text?: string;
+    actions?: {
+      primary?: { label: string; href: string };
+      secondary?: { label: string; href: string };
+    };
+  };
+}
+
+interface Props {
+  page: LinksData;
+  locale: SiteLocale;
+  strings: {
+    linksTitle: string;
+    linksSubtitle: string;
+    visitSite: string;
+    ownSiteTitle: string;
+    ownSiteDesc: string;
+    applyRulesTitle: string;
+    applyRulesSubtitle: string;
+    noteTitle: string;
+    ctaTitle: string;
+    ctaText: string;
+  };
+}
+
+const { page, strings } = Astro.props;
+const hero = page.hero;
+const friendLinks = page.friendLinks ?? [];
+const ownSite = page.ownSite;
+const applyRules = page.applyRules;
+const cta = page.cta;
+
+const fallbackLetter = (name: string) => (name.trim()[0] ?? "✦").toUpperCase();
+const isExternal = (url: string) => url.startsWith("http");
+---
+
+<section class="hero hero-compact">
+  {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
+  {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
+  {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
+</section>
+
+<section class="section reveal-on-scroll">
+  <div class="section-heading">
+    <h2 class="section-title">{page.linksSection?.title ?? strings.linksTitle}</h2>
+    {page.linksSection?.subtitle && <p class="section-subtitle">{page.linksSection.subtitle}</p>}
+  </div>
+
+  {
+    friendLinks.length > 0 ? (
+      <div class="friend-grid">
+        {friendLinks.map((link) => (
+          <article class="friend-card">
+            {link.avatar ? (
+              <img class="friend-avatar" src={link.avatar} alt="" width="56" height="56" loading="lazy" />
+            ) : (
+              <span class="friend-avatar friend-avatar-fallback" aria-hidden="true">{fallbackLetter(link.name)}</span>
+            )}
+            <div class="friend-body">
+              <h3>
+                <a href={link.url} target={isExternal(link.url) ? "_blank" : undefined} rel={isExternal(link.url) ? "noopener noreferrer" : undefined}>
+                  {link.name}
+                </a>
+              </h3>
+              {link.description && <p>{link.description}</p>}
+              {link.tags && link.tags.length > 0 && (
+                <ul class="chip-list friend-tags">
+                  {link.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              )}
+            </div>
+            {isExternal(link.url) && (
+              <a
+                class="btn-secondary friend-visit"
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {strings.visitSite}
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p>{strings.noteTitle} —</p>
+    )
+  }
+</section>
+
+{
+  applyRules && (
+    <section class="section reveal-on-scroll">
+      <div class="section-heading">
+        <h2 class="section-title">{applyRules.title ?? strings.applyRulesTitle}</h2>
+        {applyRules.subtitle && <p class="section-subtitle">{applyRules.subtitle}</p>}
+      </div>
+      <div class="about-split">
+        {applyRules.rules && applyRules.rules.length > 0 && (
+          <article class="story-panel">
+            <ul class="detail-list detail-steps">
+              {applyRules.rules.map((rule, i) => <li><b>{i + 1}</b> {rule}</li>)}
+            </ul>
+          </article>
+        )}
+        {ownSite && (
+          <article class="story-panel own-site-panel">
+            <h3>{strings.ownSiteTitle}</h3>
+            <p>{strings.ownSiteDesc}</p>
+            <div class="own-site-row">
+              {ownSite.avatar ? (
+                <img class="friend-avatar" src={ownSite.avatar} alt="" width="56" height="56" loading="lazy" />
+              ) : (
+                <span class="friend-avatar friend-avatar-fallback" aria-hidden="true">{fallbackLetter(ownSite.name)}</span>
+              )}
+              <div>
+                <p class="own-site-name">{ownSite.name}</p>
+                <a class="own-site-url" href={ownSite.url} target={isExternal(ownSite.url) ? "_blank" : undefined} rel={isExternal(ownSite.url) ? "noopener noreferrer" : undefined}>
+                  {ownSite.url}
+                </a>
+                {ownSite.description && <p class="own-site-desc">{ownSite.description}</p>}
+              </div>
+            </div>
+          </article>
+        )}
+      </div>
+    </section>
+  )
+}
+
+{
+  cta && (
+    <section class="section reveal-on-scroll">
+      <div class="cta-banner">
+        <h2>{cta.title ?? strings.ctaTitle}</h2>
+        <p>{cta.text ?? strings.ctaText}</p>
+        <div class="hero-actions">
+          {cta.actions?.primary && (
+            <a class="btn-primary" href={cta.actions.primary.href}>{cta.actions.primary.label}</a>
+          )}
+          {cta.actions?.secondary && (
+            <a class="btn-secondary" href={cta.actions.secondary.href}>{cta.actions.secondary.label}</a>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .friend-grid {
+    display: grid;
+    gap: 0.95rem;
+  }
+
+  .friend-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 350ms ease,
+                border-color 350ms ease;
+  }
+
+  .friend-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--card-hover-border);
+    box-shadow: var(--shadow-card);
+  }
+
+  .friend-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    object-fit: cover;
+    border: 1px solid var(--card-border);
+    background: var(--chip-bg);
+    display: inline-grid;
+    place-items: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--brand-deep);
+  }
+
+  .friend-avatar-fallback {
+    background: linear-gradient(135deg, var(--grad-hero-a) 0%, var(--grad-hero-b) 100%);
+  }
+
+  .friend-body h3 {
+    margin: 0;
+    font-size: 1.08rem;
+  }
+
+  .friend-body h3 a {
+    color: var(--ink-900);
+    text-decoration: none;
+  }
+
+  .friend-body h3 a:hover {
+    color: var(--brand-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .friend-body p {
+    margin: 0.3rem 0 0;
+    color: var(--ink-700);
+  }
+
+  .friend-tags {
+    margin-top: 0.5rem;
+  }
+
+  .friend-visit {
+    white-space: nowrap;
+  }
+
+  .own-site-panel h3 {
+    margin-top: 0;
+  }
+
+  .own-site-row {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    margin-top: 0.75rem;
+  }
+
+  .own-site-name {
+    font-weight: 700;
+    color: var(--ink-900);
+  }
+
+  .own-site-url {
+    color: var(--brand-deep);
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .own-site-url:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .own-site-desc {
+    color: var(--ink-700);
+  }
+
+  .detail-steps li {
+    border-radius: var(--radius-md);
+  }
+
+  .detail-steps b {
+    color: var(--brand-deep);
+    margin-right: 0.3rem;
+  }
+
+  @media (max-width: 720px) {
+    .friend-card {
+      grid-template-columns: auto 1fr;
+    }
+
+    .friend-visit {
+      grid-column: 2;
+      justify-self: start;
+      white-space: normal;
+    }
+  }
+</style>

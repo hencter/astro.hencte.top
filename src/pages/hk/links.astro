@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/BaseLayout.astro";
+import FriendLinksSections from "../../components/connect/FriendLinksSections.astro";
+import { getPageAlternates } from "../../lib/i18n";
+import { getLinksStrings } from "../../lib/ui-strings";
+import { getMirroredConnect } from "../../lib/connect-mirror";
+
+const page = await getMirroredConnect("links", "hk");
+const locale = "zh-HK";
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  locale={locale}
+  canonicalPath="/hk/links"
+  connectPage="links"
+  alternates={getPageAlternates("links")}
+  keywords={page.keywords ?? []}
+>
+  <FriendLinksSections page={page} locale={locale} strings={getLinksStrings(locale)} />
+</Layout>
