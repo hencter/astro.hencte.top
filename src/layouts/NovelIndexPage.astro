@@ -3,6 +3,7 @@ import type { SiteLocale } from "../lib/i18n";
 import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
 import LocaleSelect from "../components/LocaleSelect.astro";
 import JsonLD from "../components/JsonLD.astro";
+import ThemeBoot from "../components/ThemeBoot.astro";
 
 interface Props {
   locale: SiteLocale;
@@ -276,9 +277,7 @@ function pickSpine(index: number) {
         .book { padding: 0.5rem 0.4rem; }
       }
     </style>
-    <script is:inline>
-      (function(){var s=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(s==='dark'||(!s&&d))document.documentElement.classList.add('dark')})();
-    </script>
+    <ThemeBoot />
   </head>
   <body>
     <a href={homeHref} class="back">&larr; {ui.backHome}</a>

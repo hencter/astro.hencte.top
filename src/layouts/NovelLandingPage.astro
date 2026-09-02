@@ -3,6 +3,7 @@ import type { SiteLocale } from "../lib/i18n";
 import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
 import LocaleSelect from "../components/LocaleSelect.astro";
 import JsonLD from "../components/JsonLD.astro";
+import ThemeBoot from "../components/ThemeBoot.astro";
 
 interface Props {
   locale: SiteLocale;
@@ -83,9 +84,7 @@ const htmlLang = htmlLangForLocale(locale);
       .series-cover{margin:0 auto 24px;max-width:320px;border-radius:10px;overflow:hidden;border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
       .series-cover img{display:block;width:100%;height:auto}
     </style>
-    <script is:inline>
-      (function(){var s=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(s==='dark'||(!s&&d))document.documentElement.classList.add('dark')})();
-    </script>
+    <ThemeBoot />
   </head>
   <body>
     <div class="top-row">

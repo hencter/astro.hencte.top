@@ -2,6 +2,7 @@
 import type { SiteLocale } from "../lib/i18n";
 import { htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
 import LocaleSelect from "../components/LocaleSelect.astro";
+import ThemeBoot from "../components/ThemeBoot.astro";
 
 interface ChapterInfo {
   title: string;
@@ -327,15 +328,7 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
       }
     </style>
 
-    <script is:inline>
-      (function() {
-        var saved = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (saved === 'dark' || (!saved && prefersDark)) {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
+    <ThemeBoot />
   </head>
   <body>
     <nav class="nv-top-bar" aria-label="小说导航">

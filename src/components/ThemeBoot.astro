@@ -1,0 +1,17 @@
+---
+/**
+ * ThemeBoot — inline, pre-paint dark-mode bootstrap shared by the
+ * standalone shells (novel chapter / landing / index). Renders only a
+ * script, so it can sit inside <head> before paint.
+ */
+---
+
+<script is:inline>
+  (function() {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>

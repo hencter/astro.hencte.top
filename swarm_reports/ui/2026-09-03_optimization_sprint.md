@@ -49,6 +49,12 @@
 |---|---|---|
 | B9 Hero 补遗 | 本批 | Hero 增加 named slot efore + 默认 slot；BlogSectionLayout（breadcrumb+subnav 自定义壳）与 obsidian/plugins zh/en 三处 hero 纳入组件；源码 class=hero 原生节 0 残留（全部经 Hero 渲染） |
 
+## Round 8 — 批次记录
+
+| 批次 | commit | 内容 |
+|---|---|---|
+| B10 样板去重 | 本批 | 新增 ThemeBoot.astro（pre-paint 暗色引导，纯 inline script）；NovelLayout/NovelLandingPage/NovelIndexPage 三壳重复 boot 脚本（两种排版）收敛为组件；产物验证三类小说页 boot 内联仍在、标题去重不回归。BaseLayout/Fullscreen 变体（含 else 分支）暂留原样 |
+
 ## 待办（后续轮）
 
 - P1 组件：`Hero`（8 处克隆）、`CtaBanner`（3 处）、`EditorialListItem`（文章行 3 处，先定 prop 契约）
