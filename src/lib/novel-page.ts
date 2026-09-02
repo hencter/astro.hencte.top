@@ -14,7 +14,7 @@ import {
   sourceLocaleForPage,
   type NovelEntry,
 } from "./novel-helpers";
-import { mirrorEntryData, renderNovelContent } from "./novel-render";
+import { mirrorEntryData, novelBodyOwnTitle, renderNovelContent } from "./novel-render";
 
 export interface ChapterItem {
   title: string;
@@ -36,6 +36,7 @@ export interface NovelPageContext {
     chapters: ChapterItem[];
     prevChapter: { title: string; href: string } | null;
     nextChapter: { title: string; href: string } | null;
+    contentOwnTitle: boolean;
   } | null;
   landingCtx: {
     novelTitle: string;
@@ -174,6 +175,7 @@ export async function buildNovelPageContext(
       novelTitle,
       novelSlug: seriesSlug,
       chapters,
+      contentOwnTitle: novelBodyOwnTitle(entryToUse.id),
       prevChapter:
         ci > 0
           ? {

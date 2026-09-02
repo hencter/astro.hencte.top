@@ -25,6 +25,8 @@ interface Props {
   imageAlt?: string;
   Content?: AstroComponentFactory | null;
   html?: string | null;
+  /** Chapter body already renders its own title heading — hide the layout h1 */
+  contentOwnTitle?: boolean;
 }
 
 const {
@@ -43,6 +45,7 @@ const {
   imageAlt = "",
   Content,
   html = null,
+  contentOwnTitle = false,
 } = Astro.props;
 
 const ui = getNovelUiStrings(locale);
@@ -349,7 +352,7 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 
     <main class="nv-content" id="nvContent">
       <div class="nv-prose">
-        <h1 class="nv-title">{title}</h1>
+        {!contentOwnTitle && <h1 class="nv-title">{title}</h1>}
         {chapterImage && (
           <figure class="nv-chapter-illustration">
             <img src={chapterImage} alt={imageAlt || title} width="680" height="227" loading="lazy" decoding="async" />

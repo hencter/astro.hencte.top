@@ -30,6 +30,7 @@ const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
     nextChapter={ctx.chapterCtx.nextChapter}
     novelSlug={ctx.chapterCtx.novelSlug}
     chapterSlug={ctx.slug!}
+    contentOwnTitle={ctx.chapterCtx.contentOwnTitle}
     languageLinks={ctx.languageLinks}
     chapterImage={ctx.displayData.chapterImage as string | undefined}
     imageAlt={ctx.displayData.imageAlt as string | undefined}
