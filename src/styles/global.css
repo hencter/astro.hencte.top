@@ -357,8 +357,6 @@ html.reading-chrome--hidden .site-header {
 .reveal-on-scroll .value-card,
 .reveal-on-scroll .project-card,
 .reveal-on-scroll .blog-post-card,
-.reveal-on-scroll .timeline-item,
-.reveal-on-scroll .principle-card,
 .reveal-on-scroll .story-panel {
   opacity: 0;
   transform: translateY(8px);
@@ -369,8 +367,6 @@ html.reading-chrome--hidden .site-header {
 .reveal-on-scroll.revealed .value-card,
 .reveal-on-scroll.revealed .project-card,
 .reveal-on-scroll.revealed .blog-post-card,
-.reveal-on-scroll.revealed .timeline-item,
-.reveal-on-scroll.revealed .principle-card,
 .reveal-on-scroll.revealed .story-panel {
   opacity: 1;
   transform: translateY(0);
@@ -378,27 +374,19 @@ html.reading-chrome--hidden .site-header {
 
 .reveal-on-scroll.revealed .value-card:nth-child(1),
 .reveal-on-scroll.revealed .project-card:nth-child(1),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(1),
-.reveal-on-scroll.revealed .timeline-item:nth-child(1),
-.reveal-on-scroll.revealed .principle-card:nth-child(1) { transition-delay: 0ms; }
+.reveal-on-scroll.revealed .blog-post-card:nth-child(1) { transition-delay: 0ms; }
 
 .reveal-on-scroll.revealed .value-card:nth-child(2),
 .reveal-on-scroll.revealed .project-card:nth-child(2),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(2),
-.reveal-on-scroll.revealed .timeline-item:nth-child(2),
-.reveal-on-scroll.revealed .principle-card:nth-child(2) { transition-delay: 40ms; }
+.reveal-on-scroll.revealed .blog-post-card:nth-child(2) { transition-delay: 40ms; }
 
 .reveal-on-scroll.revealed .value-card:nth-child(3),
 .reveal-on-scroll.revealed .project-card:nth-child(3),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(3),
-.reveal-on-scroll.revealed .timeline-item:nth-child(3),
-.reveal-on-scroll.revealed .principle-card:nth-child(3) { transition-delay: 90ms; }
+.reveal-on-scroll.revealed .blog-post-card:nth-child(3) { transition-delay: 90ms; }
 
 .reveal-on-scroll.revealed .value-card:nth-child(n+4),
 .reveal-on-scroll.revealed .project-card:nth-child(n+4),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(n+4),
-.reveal-on-scroll.revealed .timeline-item:nth-child(n+4),
-.reveal-on-scroll.revealed .principle-card:nth-child(n+4) { transition-delay: 140ms; }
+.reveal-on-scroll.revealed .blog-post-card:nth-child(n+4) { transition-delay: 140ms; }
 
 /* ============================================================
    Hero
@@ -656,10 +644,7 @@ html.reading-chrome--hidden .site-header {
    ============================================================ */
 .value-card,
 .project-card,
-.story-panel,
-.timeline-item,
-.principle-card,
-.blog-post-card {
+.story-panel {
   border-radius: var(--radius-lg);
   border: 1px solid var(--card-border);
   background: var(--card-bg);
@@ -672,6 +657,9 @@ html.reading-chrome--hidden .site-header {
   word-break: break-word;
 }
 
+/* Editorial row (blog-post-card) is intentionally bare; it is fully
+   defined by its dedicated rules and must not inherit card chrome. */
+
 /* Stretched link — makes the entire card clickable */
 .card-link::after {
   content: "";
@@ -682,9 +670,7 @@ html.reading-chrome--hidden .site-header {
 
 .value-card:hover,
 .project-card:hover,
-.story-panel:hover,
-.timeline-item:hover,
-.principle-card:hover {
+.story-panel:hover {
   transform: translateY(-3px);
   border-color: var(--card-hover-border);
   box-shadow: var(--shadow-card);
@@ -704,18 +690,14 @@ html.reading-chrome--hidden .site-header {
 
 .value-card h3,
 .project-card h3,
-.story-panel h3,
-.principle-card h3,
-.timeline-item h3 {
+.story-panel h3 {
   margin: 0.55rem 0 0;
   font-size: 1.08rem;
 }
 
 .value-card p,
 .project-card p,
-.story-panel p,
-.principle-card p,
-.timeline-item p {
+.story-panel p {
   margin: 0.55rem 0 0;
   color: var(--ink-700);
 }
@@ -771,12 +753,6 @@ html.reading-chrome--hidden .site-header {
 .timeline {
   display: grid;
   gap: 0.9rem;
-}
-
-.timeline-item span {
-  font-weight: 800;
-  color: var(--brand-deep);
-  font-size: 0.84rem;
 }
 
 /* ============================================================
@@ -1742,8 +1718,6 @@ html.reading-chrome--hidden .site-header {
   .reveal-on-scroll .value-card,
   .reveal-on-scroll .project-card,
   .reveal-on-scroll .blog-post-card,
-  .reveal-on-scroll .timeline-item,
-  .reveal-on-scroll .principle-card,
   .reveal-on-scroll .story-panel {
     opacity: 1;
     transform: none;

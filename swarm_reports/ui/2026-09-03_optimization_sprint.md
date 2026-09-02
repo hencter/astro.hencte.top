@@ -37,6 +37,12 @@
 |---|---|---|
 | B7 组件 | 本批 | 新增 EditorialListItem.astro（kicker/title/href/date/description/tags/maxTags/prefetch/stretched）；Home hub（4 行）、BlogIndexView（8 行）、BlogSectionLayout 三处文章行收敛；DOM 输出类名与行数一致（home4/blog8/栏目页 N） |
 
+## Round 6 — 批次记录
+
+| 批次 | commit | 内容 |
+|---|---|---|
+| B8 CSS 治理 | 本批 | 清除死选择器 .timeline-item/.principle-card（模板零引用，涉及 base/hover/h3/p、reveal 子项与 nth 延迟、reduced-motion 内联列表、.timeline-item span 整块）；从共享卡组移除 .blog-post-card 消除双基类（行规则由专有段落接管）；括号平衡 276/276、残留 0，构建通过 |
+
 ## 待办（后续轮）
 
 - P1 组件：`Hero`（8 处克隆）、`CtaBanner`（3 处）、`EditorialListItem`（文章行 3 处，先定 prop 契约）
