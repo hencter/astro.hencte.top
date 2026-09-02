@@ -1,0 +1,58 @@
+---
+/**
+ * CtaBanner — the single closing call-to-action surface per page
+ * (UI Surface Policy: every page ends with at most one CTA frame).
+ * Extracted from About/Home/FriendLinks isomorphic copies; the "split"
+ * variant lays text+actions beside an optional right-side slot (QR).
+ */
+interface CtaAction {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  text?: string;
+  primary?: CtaAction;
+  secondary?: CtaAction;
+  variant?: "default" | "split";
+}
+
+const { title, text, primary, secondary, variant = "default" } = Astro.props;
+const isSplit = variant === "split";
+---
+
+<div class:list={["cta-banner", { "cta-banner--split": isSplit }]}>
+  <div class:list={["cta-banner__main", { "cta-banner__main--split": isSplit }]}>
+    <h2>{title}</h2>
+    {text && <p>{text}</p>}
+    {(primary || secondary) && (
+      <div class="hero-actions">
+        {primary && <a class="btn-primary" href={primary.href}>{primary.label}</a>}
+        {secondary && <a class="btn-secondary" href={secondary.href}>{secondary.label}</a>}
+      </div>
+    )}
+  </div>
+  <slot />
+</div>
+
+<style>
+  .cta-banner--split {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .cta-banner__main--split {
+    flex: 1 1 16rem;
+    min-width: 15rem;
+  }
+
+  /* QR badge tokenized (was an inline #f5f0e6 box, dark-mode hostile) */
+  .cta-banner :global(img.cta-banner__qr) {
+    border-radius: 12px;
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+</style>

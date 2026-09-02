@@ -25,6 +25,12 @@
 |---|---|---|
 | B5 组件 | 本批 | 新增 Hero.astro（badge/headline/subtitle/actions/prefetch/compact，surface policy 唯一大气面）；Home/About/Projects/FriendLinks/BlogIndex 五处 hero 同构块收敛为组件；渲染 DOM 逐页一致（每页恰 1 个 hero） |
 
+## Round 4 — 批次记录
+
+| 批次 | commit | 内容 |
+|---|---|---|
+| B6 组件 | 本批 | 新增 CtaBanner.astro（title/text/primary/secondary/variant: default|split + slot）；About/Home/FriendLinks 三处 CTA 收敛；Home 的语言分支内联样式（display:flex/gap/flex）改组件 --split 变体类，QR 底色内联 #f5f0e6 改 ar(--bg) token（暗色友好）；产物核对：zh 首页 split+QR、en 首页 default 无 QR |
+
 ## 待办（后续轮）
 
 - P1 组件：`Hero`（8 处克隆）、`CtaBanner`（3 处）、`EditorialListItem`（文章行 3 处，先定 prop 契约）

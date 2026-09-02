@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
+import CtaBanner from "../CtaBanner.astro";
 import Hero from "../Hero.astro";
 import SectionHeading from "../SectionHeading.astro";
 
@@ -159,18 +160,12 @@ const isExternal = (url: string) => url.startsWith("http");
 {
   cta && (
     <section class="section reveal-on-scroll">
-      <div class="cta-banner">
-        <h2>{cta.title ?? strings.ctaTitle}</h2>
-        <p>{cta.text ?? strings.ctaText}</p>
-        <div class="hero-actions">
-          {cta.actions?.primary && (
-            <a class="btn-primary" href={cta.actions.primary.href}>{cta.actions.primary.label}</a>
-          )}
-          {cta.actions?.secondary && (
-            <a class="btn-secondary" href={cta.actions.secondary.href}>{cta.actions.secondary.label}</a>
-          )}
-        </div>
-      </div>
+      <CtaBanner
+        title={cta.title ?? strings.ctaTitle}
+        text={cta.text ?? strings.ctaText}
+        primary={cta.actions?.primary}
+        secondary={cta.actions?.secondary}
+      />
     </section>
   )
 }

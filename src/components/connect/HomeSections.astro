@@ -1,6 +1,7 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
 import { getDateLocale } from "../../lib/i18n";
+import CtaBanner from "../CtaBanner.astro";
 import Hero from "../Hero.astro";
 import SectionHeading from "../SectionHeading.astro";
 
@@ -208,27 +209,24 @@ function featuredIcon(title: string): string {
 </section>
 
 <section class="section reveal-on-scroll">
-  <div class="cta-banner" style={locale === "en-US" ? undefined : "display:flex;flex-wrap:wrap;align-items:center;gap:24px"}>
-    <div style={locale === "en-US" ? undefined : "flex:1;min-width:260px"}>
-      <h2>{cta?.title ?? (locale === "en-US" ? "Follow project updates" : "欢迎关注项目更新")}</h2>
-      <p>{cta?.text ?? (locale === "en-US" ? "Start from the projects page for product overviews, then jump into the blog for implementation details and technical notes." : "你可以从项目页快速了解主要产品，也可以在博客中查看详细技术实现与复盘记录。")}</p>
-      <div class="hero-actions">
-        {cta?.actions?.primary && (
-          <a class="btn-primary" href={cta.actions.primary.href}>
-            {cta.actions.primary.label}
-          </a>
-        )}
-        {cta?.actions?.secondary && (
-          <a class="btn-secondary" href={cta.actions.secondary.href}>
-            {cta.actions.secondary.label}
-          </a>
-        )}
-      </div>
-    </div>
+  <CtaBanner
+    variant={locale === "en-US" ? "default" : "split"}
+    title={cta?.title ?? (locale === "en-US" ? "Follow project updates" : "欢迎关注项目更新")}
+    text={cta?.text ?? (locale === "en-US" ? "Start from the projects page for product overviews, then jump into the blog for implementation details and technical notes." : "你可以从项目页快速了解主要产品，也可以在博客中查看详细技术实现与复盘记录。")}
+    primary={cta?.actions?.primary}
+    secondary={cta?.actions?.secondary}
+  >
     {locale !== "en-US" && (
-      <img src="/qr-wechat.svg" alt={strings.wechatQrAlt} width="140" height="140" style="border-radius:12px;background:#f5f0e6;flex-shrink:0" loading="lazy" />
+      <img
+        class="cta-banner__qr"
+        src="/qr-wechat.svg"
+        alt={strings.wechatQrAlt}
+        width="140"
+        height="140"
+        loading="lazy"
+      />
     )}
-  </div>
+  </CtaBanner>
 </section>
 
 <style>
