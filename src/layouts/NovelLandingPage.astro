@@ -1,7 +1,7 @@
 ---
 import type { SiteLocale } from "../lib/i18n";
 import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
-import NovelLocaleSwitcher from "../components/novel/NovelLocaleSwitcher.astro";
+import LocaleSelect from "../components/LocaleSelect.astro";
 import JsonLD from "../components/JsonLD.astro";
 
 interface Props {
@@ -88,7 +88,7 @@ const htmlLang = htmlLangForLocale(locale);
   <body>
     <div class="top-row">
       <a href={novelIndexHref} class="back">&larr; {ui.novelIndex}</a>
-      <NovelLocaleSwitcher links={languageLinks} label={ui.language} />
+      <LocaleSelect links={languageLinks} label={ui.language} />
     </div>
     <h1>{title}</h1>
     {cover && (

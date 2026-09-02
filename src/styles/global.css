@@ -306,26 +306,6 @@ a {
 .dark .icon-sun  { display: none; }
 
 /* ============================================================
-   Language Link
-   ============================================================ */
-.language-link {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  padding: 0.42rem 0.78rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--ink-700);
-  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
-}
-
-.language-link:hover,
-.language-link:focus-visible {
-  color: var(--brand-deep);
-  border-color: color-mix(in srgb, var(--brand) 35%, var(--line));
-  background: var(--nav-hover-bg);
-}
-
-/* ============================================================
    Main Content Area
    ============================================================ */
 .site-main {

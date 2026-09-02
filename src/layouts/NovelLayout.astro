@@ -1,7 +1,7 @@
 ---
 import type { SiteLocale } from "../lib/i18n";
 import { htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
-import NovelLocaleSwitcher from "../components/novel/NovelLocaleSwitcher.astro";
+import LocaleSelect from "../components/LocaleSelect.astro";
 
 interface ChapterInfo {
   title: string;
@@ -343,7 +343,7 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
         ))}
       </select>
       <div class="nv-lang-slot">
-        <NovelLocaleSwitcher links={languageLinks} label={ui.language} />
+        <LocaleSelect links={languageLinks} label={ui.language} />
       </div>
     </nav>
 
