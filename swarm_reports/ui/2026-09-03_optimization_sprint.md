@@ -55,6 +55,12 @@
 |---|---|---|
 | B10 样板去重 | 本批 | 新增 ThemeBoot.astro（pre-paint 暗色引导，纯 inline script）；NovelLayout/NovelLandingPage/NovelIndexPage 三壳重复 boot 脚本（两种排版）收敛为组件；产物验证三类小说页 boot 内联仍在、标题去重不回归。BaseLayout/Fullscreen 变体（含 else 分支）暂留原样 |
 
+## Round 9 — 批次记录
+
+| 批次 | commit | 内容 |
+|---|---|---|
+| B11 内容清理 | 本批 | 删除 6 个死内容：posts/post-1..3（Lorem 样例）、log/hugo-test、log/table-rowspan-and-coilspan（测试）、legacy-home（迁移前旧首页）——均为 draft:true 不产出页面；重新统计：**公开条目缺 description = 0**（原 23 缺 desc 全部为 draft 或栏目落地页），内容描述覆盖达标 |
+
 ## 待办（后续轮）
 
 - P1 组件：`Hero`（8 处克隆）、`CtaBanner`（3 处）、`EditorialListItem`（文章行 3 处，先定 prop 契约）
