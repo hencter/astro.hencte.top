@@ -114,7 +114,7 @@ const summaryFallback =
     <h2 class="section-title">{page.latestTitle ?? (locale === "en-US" ? "Latest posts" : "最新文章")}</h2>
     <div class="post-list">
       {
-        latestPosts.map((post) => {
+        latestPosts.slice(0, 8).map((post) => {
           const label = sectionLabels[post.sectionKey] || post.sectionKey;
           return (
             <article class="blog-post-card">
