@@ -1,0 +1,50 @@
+---
+/**
+ * EditorialListItem — one divider row in an article list (.post-list).
+ * Extracted from the isomorphic blog-post-card row clones on the home
+ * hub, the blog index and section pages; link affordance stays on the
+ * title (optionally stretched over the whole row), not on a box.
+ */
+interface Props {
+  title: string;
+  href: string;
+  kicker?: string;
+  date?: string;
+  description?: string;
+  tags?: string[];
+  maxTags?: number;
+  prefetch?: boolean;
+  /** render the stretched-link class so the entire row is the target */
+  stretched?: boolean;
+}
+
+const {
+  title,
+  href,
+  kicker,
+  date,
+  description,
+  tags = [],
+  maxTags = 4,
+  prefetch = false,
+  stretched = false,
+} = Astro.props;
+---
+
+<article class="blog-post-card">
+  {kicker && <p class="card-kicker">{kicker}</p>}
+  <h3>
+    <a
+      href={href}
+      class={stretched ? "card-link" : undefined}
+      data-astro-prefetch={prefetch ? "hover" : undefined}
+    >{title}</a>
+  </h3>
+  {date && <p class="post-meta-line">{date}</p>}
+  {description && <p>{description}</p>}
+  {tags.length > 0 && (
+    <ul class="chip-list">
+      {tags.slice(0, maxTags).map((tag) => <li>{tag}</li>)}
+    </ul>
+  )}
+</article>

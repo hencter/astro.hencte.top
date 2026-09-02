@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import JsonLD from "../components/JsonLD.astro";
+import EditorialListItem from "../components/EditorialListItem.astro";
 
 interface PostItem {
   title: string;
@@ -150,18 +151,16 @@ const navActive = canonicalPath.replace(/\/+$/, "");
         <div class="post-list">
           {
             posts.map((post) => (
-              <article class="blog-post-card">
-                <h3>
-                  <a href={post.href} class="card-link" data-astro-prefetch="hover">{post.title}</a>
-                </h3>
-                <p class="post-meta-line">{formatDate(post.date)}</p>
-                {post.description && <p>{post.description}</p>}
-                {post.tags && post.tags.length > 0 && (
-                  <ul class="chip-list">
-                    {post.tags.slice(0, 4).map((tag) => <li>{tag}</li>)}
-                  </ul>
-                )}
-              </article>
+              <EditorialListItem
+                title={post.title}
+                href={post.href}
+                date={formatDate(post.date)}
+                description={post.description}
+                tags={post.tags ?? []}
+                maxTags={4}
+                prefetch
+                stretched
+              />
             ))
           }
         </div>

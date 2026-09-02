@@ -2,6 +2,7 @@
 import type { SiteLocale } from "../../lib/i18n";
 import { getDateLocale } from "../../lib/i18n";
 import CtaBanner from "../CtaBanner.astro";
+import EditorialListItem from "../EditorialListItem.astro";
 import Hero from "../Hero.astro";
 import SectionHeading from "../SectionHeading.astro";
 
@@ -188,14 +189,14 @@ function featuredIcon(title: string): string {
   <div class="post-list">
     {
       latestPosts.slice(0, 4).map((post) => (
-        <article class="blog-post-card">
-          <p class="card-kicker">{post.data.section || "blog"}</p>
-          <h3>
-            <a href={`/${post.id}`} data-astro-prefetch="hover">{post.data.title}</a>
-          </h3>
-          <p class="post-meta-line">{formatDate(post.data.date)}</p>
-          <p>{post.data.description || strings.readMore}</p>
-        </article>
+        <EditorialListItem
+          kicker={post.data.section || "blog"}
+          title={post.data.title}
+          href={`/${post.id}`}
+          date={formatDate(post.data.date)}
+          description={post.data.description || strings.readMore}
+          prefetch
+        />
       ))
     }
   </div>

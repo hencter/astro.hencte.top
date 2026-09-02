@@ -31,6 +31,12 @@
 |---|---|---|
 | B6 组件 | 本批 | 新增 CtaBanner.astro（title/text/primary/secondary/variant: default|split + slot）；About/Home/FriendLinks 三处 CTA 收敛；Home 的语言分支内联样式（display:flex/gap/flex）改组件 --split 变体类，QR 底色内联 #f5f0e6 改 ar(--bg) token（暗色友好）；产物核对：zh 首页 split+QR、en 首页 default 无 QR |
 
+## Round 5 — 批次记录
+
+| 批次 | commit | 内容 |
+|---|---|---|
+| B7 组件 | 本批 | 新增 EditorialListItem.astro（kicker/title/href/date/description/tags/maxTags/prefetch/stretched）；Home hub（4 行）、BlogIndexView（8 行）、BlogSectionLayout 三处文章行收敛；DOM 输出类名与行数一致（home4/blog8/栏目页 N） |
+
 ## 待办（后续轮）
 
 - P1 组件：`Hero`（8 处克隆）、`CtaBanner`（3 处）、`EditorialListItem`（文章行 3 处，先定 prop 契约）

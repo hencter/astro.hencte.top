@@ -7,6 +7,7 @@ import {
   formatBlogDate,
 } from "../../lib/blog-helpers";
 import Hero from "../Hero.astro";
+import EditorialListItem from "../EditorialListItem.astro";
 
 interface Props {
   locale: SiteLocale;
@@ -102,21 +103,17 @@ const summaryFallback =
         latestPosts.slice(0, 8).map((post) => {
           const label = sectionLabels[post.sectionKey] || post.sectionKey;
           return (
-            <article class="blog-post-card">
-              <p class="card-kicker">{label}</p>
-              <h3>
-                <a href={`/${post.id}`} class="card-link" data-astro-prefetch="hover">
-                  {post.title}
-                </a>
-              </h3>
-              <p class="post-meta-line">{formatBlogDate(post.date, locale, pendingDate)}</p>
-              <p>{extractSummary(post.description, post.body, summaryFallback)}</p>
-              {post.tags.length > 0 && (
-                <ul class="chip-list">
-                  {post.tags.slice(0, 4).map((tag) => <li>{tag}</li>)}
-                </ul>
-              )}
-            </article>
+            <EditorialListItem
+              kicker={label}
+              title={post.title}
+              href={`/${post.id}`}
+              date={formatBlogDate(post.date, locale, pendingDate)}
+              description={extractSummary(post.description, post.body, summaryFallback)}
+              tags={post.tags}
+              maxTags={4}
+              prefetch
+              stretched
+            />
           );
         })
       }
