@@ -824,18 +824,28 @@ html.reading-chrome--hidden .site-header {
 .blog-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
-  margin-bottom: 1rem;
+  align-items: baseline;
+  gap: 0.35rem 0.9rem;
+  margin-bottom: 1.25rem;
+  color: var(--ink-500);
+  font-size: 0.92rem;
 }
 
+/* Editorial text taxonomy — no pill chrome on stats (density decision) */
 .blog-stats p {
   margin: 0;
-  border-radius: 999px;
-  border: 1px solid var(--chip-border);
-  background: var(--chip-bg);
-  padding: 0.34rem 0.75rem;
-  font-size: 0.85rem;
-  color: var(--ink-700);
+  color: inherit;
+}
+
+.blog-stats strong {
+  color: var(--ink-900);
+  font-weight: 700;
+}
+
+.blog-stats p + p::before {
+  content: "·";
+  margin-right: 0.9rem;
+  color: var(--ink-400);
 }
 
 /* ============================================================
