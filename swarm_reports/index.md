@@ -32,6 +32,7 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-02 | ui | Forum 设计移植 — 鎏金替换青瓷 | ui-refactorer | [./ui/2026-09-02_forum_design_port.md](./ui/2026-09-02_forum_design_port.md) |
 | 2026-09-02 | ui | 主题视觉刷新 — 墨纸·青瓷 | ui-refactorer | [./ui/2026-09-02_theme_visual_refresh.md](./ui/2026-09-02_theme_visual_refresh.md) |
 | 2026-09-02 | content | Astro Content Collections 全面审计（无 Astron） | content-editor | [./content/2026-09-02_astro_content_collections_audit.md](./content/2026-09-02_astro_content_collections_audit.md) |
 | 2026-09-02 | content | 小说 per-novel 目录结构重构 | content-editor | [./content/2026-09-02_novel_directory_structure.md](./content/2026-09-02_novel_directory_structure.md) |

@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design Tokens — Light  (墨纸 · Ink & Celadon)
+   Design Tokens — Light  (墨纸 · Ink & Gold — DoggyArium forum)
    ============================================================ */
 :root {
-  --bg: #f5f1e8;
-  --surface: #fcfaf5;
-  --surface-glass: rgba(252, 250, 245, 0.92);
-  --line: #ddd5c8;
-  --ink-900: #1a1814;
-  --ink-700: #3d3830;
-  --ink-500: #6b6358;
+  --bg: #f5f0e6;
+  --surface: #fffcf5;
+  --surface-glass: rgba(255, 252, 245, 0.92);
+  --line: #d8cdba;
+  --ink-900: #19150f;
+  --ink-700: #3b3124;
+  --ink-500: #5f5548;
   --ink-400: #9a9288;
-  --brand: #3d6b5e;
-  --brand-deep: #2a5248;
-  --accent: #b85c42;
-  --highlight: #4a8b7a;
-  --shadow-soft: 0 22px 60px rgba(26, 24, 20, 0.08);
-  --shadow-card: 0 14px 28px rgba(26, 24, 20, 0.06);
+  --brand: #b8792c;
+  --brand-deep: #845414;
+  --accent: #a14932;
+  --highlight: #3c5b73;
+  --shadow-soft: 0 22px 60px rgba(25, 21, 15, 0.08);
+  --shadow-card: 0 14px 28px rgba(25, 21, 15, 0.06);
   --radius-sm: 0.65rem;
   --radius-md: 0.8rem;
   --radius-lg: 1.1rem;
@@ -27,23 +27,23 @@
   --font-display: "ZCOOL XiaoWei", "Noto Serif SC", serif;
   --font-mono: "Cascadia Mono", "Consolas", "SFMono-Regular", monospace;
 
-  --grad-hero-a: rgba(61, 107, 94, 0.1);
-  --grad-hero-b: rgba(184, 92, 66, 0.08);
-  --grad-ambient-a: rgba(74, 139, 122, 0.05);
-  --grad-ambient-b: rgba(61, 107, 94, 0.04);
+  --grad-hero-a: rgba(184, 121, 44, 0.1);
+  --grad-hero-b: rgba(161, 73, 50, 0.08);
+  --grad-ambient-a: rgba(60, 91, 115, 0.05);
+  --grad-ambient-b: rgba(184, 121, 44, 0.04);
   --card-bg: var(--surface);
   --card-border: #e4ddd2;
   --card-hover-border: #cfc5b6;
-  --code-bg: #f0ece3;
-  --code-border: #ddd5c8;
+  --code-bg: #eee7da;
+  --code-border: #d8cdba;
   --toc-bg: #f8f5ee;
-  --chip-bg: #f3efe6;
-  --chip-border: #ddd5c8;
-  --nav-hover-bg: rgba(61, 107, 94, 0.08);
+  --chip-bg: #eee7da;
+  --chip-border: #d8cdba;
+  --nav-hover-bg: rgba(184, 121, 44, 0.08);
   --blockquote-bg: #f8f5ee;
-  --blockquote-border: #8fb5a8;
-  --th-bg: #f3efe6;
-  --footer-border: #ddd5c8;
+  --blockquote-border: #b8792c;
+  --th-bg: #eee7da;
+  --footer-border: #d8cdba;
 
   /* Reading — long-form measure & palette (warm paper) */
   --read-max-width: 70ch;
@@ -52,9 +52,9 @@
   --read-max-width-ancient: 56rem;
   --read-padding-x: clamp(1rem, 4vw, 2rem);
   --read-bg: #faf8f5;
-  --read-fg: #2a2722;
-  --read-muted: #6b6358;
-  --read-accent: #2a5248;
+  --read-fg: #19150f;
+  --read-muted: #5f5548;
+  --read-accent: #845414;
   --read-line-height: 1.75;
   --read-line-height-cjk: 1.9;
   --read-letter-spacing: 0.005em;
@@ -62,47 +62,47 @@
 }
 
 /* ============================================================
-   Design Tokens — Dark  (夜墨 · Warm Ink)
+   Design Tokens — Dark  (夜墨 · Warm Gold — DoggyArium forum)
    ============================================================ */
 :root.dark {
-  --bg: #121110;
-  --surface: #1a1917;
-  --surface-glass: rgba(26, 25, 23, 0.92);
-  --line: #2e2b27;
-  --ink-900: #ebe6dc;
-  --ink-700: #b8b0a4;
-  --ink-500: #8a8278;
-  --ink-400: #5c564e;
-  --brand: #6db8a4;
-  --brand-deep: #8fd4bc;
-  --accent: #d4846a;
-  --highlight: #5a9e8c;
+  --bg: #0b0907;
+  --surface: #15110d;
+  --surface-glass: rgba(21, 17, 13, 0.92);
+  --line: #3b3021;
+  --ink-900: #f2e8d9;
+  --ink-700: #baac97;
+  --ink-500: #baac97;
+  --ink-400: #7a6f5e;
+  --brand: #d9aa4e;
+  --brand-deep: #e8bd68;
+  --accent: #c46a52;
+  --highlight: #5a8aad;
   --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.45);
   --shadow-card: 0 14px 28px rgba(0, 0, 0, 0.35);
 
-  --grad-hero-a: rgba(109, 184, 164, 0.07);
-  --grad-hero-b: rgba(212, 132, 106, 0.05);
-  --grad-ambient-a: rgba(90, 158, 140, 0.04);
-  --grad-ambient-b: rgba(109, 184, 164, 0.04);
-  --card-bg: #1a1917;
-  --card-border: #2e2b27;
-  --card-hover-border: #444038;
-  --code-bg: #141312;
-  --code-border: #2e2b27;
-  --toc-bg: #121110;
-  --chip-bg: #1a1917;
-  --chip-border: #2e2b27;
-  --nav-hover-bg: rgba(109, 184, 164, 0.1);
-  --blockquote-bg: #121110;
-  --blockquote-border: #3d6b5e;
-  --th-bg: #1a1917;
-  --footer-border: #2e2b27;
+  --grad-hero-a: rgba(217, 170, 78, 0.07);
+  --grad-hero-b: rgba(196, 106, 82, 0.05);
+  --grad-ambient-a: rgba(60, 91, 115, 0.04);
+  --grad-ambient-b: rgba(217, 170, 78, 0.04);
+  --card-bg: #15110d;
+  --card-border: #3b3021;
+  --card-hover-border: #4a3d2a;
+  --code-bg: #0b0907;
+  --code-border: #3b3021;
+  --toc-bg: #0b0907;
+  --chip-bg: #1e1a14;
+  --chip-border: #3b3021;
+  --nav-hover-bg: rgba(217, 170, 78, 0.1);
+  --blockquote-bg: #0b0907;
+  --blockquote-border: #d9aa4e;
+  --th-bg: #1e1a14;
+  --footer-border: #3b3021;
 
   /* Reading — warm dark ink (distinct from page chrome) */
-  --read-bg: #1a1814;
-  --read-fg: #ddd8ce;
-  --read-muted: #9a9288;
-  --read-accent: #6db3a0;
+  --read-bg: #15110d;
+  --read-fg: #f2e8d9;
+  --read-muted: #baac97;
+  --read-accent: #d9aa4e;
 }
 
 /* ============================================================
