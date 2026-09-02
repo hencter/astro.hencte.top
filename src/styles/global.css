@@ -1030,13 +1030,55 @@ a {
 }
 
 /* ============================================================
-   Post TOC
+   Post TOC — bare editorial list (no card box). On wide viewports
+   the reading shell (.post-shell--reading) floats it as a sticky
+   right rail; below that width it stays a quiet list above prose.
    ============================================================ */
 .post-toc {
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--card-border);
-  background: var(--toc-bg);
-  padding: 0.9rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0.25rem 0 0;
+}
+
+/* Floating right rail — wide viewports, ordinary article shells only */
+@media (min-width: 1180px) {
+  .post-shell--reading {
+    grid-template-columns: minmax(0, 1fr) 15.5rem;
+    column-gap: 2.5rem;
+    row-gap: 0;
+    align-items: start;
+  }
+
+  .post-shell--reading .post-header {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .post-shell--reading .post-toc {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    position: sticky;
+    top: 5.5rem;
+    align-self: start;
+    max-width: none;
+    width: auto;
+    margin: 0;
+    padding-inline: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--line);
+  }
+
+  .post-shell--reading .post-prose {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .post-shell--reading .related-posts {
+    grid-column: 1;
+    grid-row: 3;
+    margin-top: 2rem;
+  }
 }
 
 .post-toc h2 {

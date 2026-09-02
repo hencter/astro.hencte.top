@@ -268,7 +268,7 @@ if (isSectionLanding && !isAncient) {
           { name: post.data.title, url: canonicalPath },
         ]}
       />
-      <section class="section post-shell">
+      <section class={headings.length > 0 ? "section post-shell post-shell--reading" : "section post-shell"}>
         <header class="post-header">
           <nav class="breadcrumb" aria-label="面包屑">
             <ol>
