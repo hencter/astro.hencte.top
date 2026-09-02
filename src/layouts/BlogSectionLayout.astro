@@ -2,6 +2,7 @@
 import BaseLayout from "./BaseLayout.astro";
 import JsonLD from "../components/JsonLD.astro";
 import EditorialListItem from "../components/EditorialListItem.astro";
+import Hero from "../components/Hero.astro";
 
 interface PostItem {
   title: string;
@@ -95,8 +96,8 @@ const navActive = canonicalPath.replace(/\/+$/, "");
       { name: title, url: canonicalPath },
     ]}
   />
-  <section class="hero hero-compact">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
+  <Hero compact badge={badge} headline={title} subtitle={description}>
+    <nav slot="before" class="breadcrumb" aria-label="Breadcrumb">
       <ol>
         <li><a href={isEnglish ? "/en" : "/"}>{labels.home}</a></li>
         <li aria-hidden="true" class="breadcrumb-separator">›</li>
@@ -105,9 +106,6 @@ const navActive = canonicalPath.replace(/\/+$/, "");
         <li class="breadcrumb-current" aria-current="page">{title}</li>
       </ol>
     </nav>
-    <p class="hero-badge">{badge}</p>
-    <h1 class="hero-title">{title}</h1>
-    {description && <p class="hero-subtitle">{description}</p>}
     <nav class="blog-subnav" aria-label="Blog navigation">
       {
         blogNav.map((link) => (
@@ -117,7 +115,7 @@ const navActive = canonicalPath.replace(/\/+$/, "");
         ))
       }
     </nav>
-  </section>
+  </Hero>
 
   <section class="section reveal-on-scroll">
     <div class="post-prose read-container read-container--intro">

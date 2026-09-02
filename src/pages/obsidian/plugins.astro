@@ -1,6 +1,7 @@
 ---
 import { getEntry, render } from "astro:content";
 import Layout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
 
 const entry = await getEntry("connect", "zh/obsidian/plugins");
 if (!entry) {
@@ -24,25 +25,7 @@ const { Content } = await render(entry);
   }}
   keywords={page.keywords ?? []}
 >
-  <section class="hero hero-compact">
-    {hero?.badge && <p class="hero-badge">{hero.badge}</p>}
-    {hero?.headline && <h1 class="hero-title">{hero.headline}</h1>}
-    {hero?.subtitle && <p class="hero-subtitle">{hero.subtitle}</p>}
-    {hero?.actions && (
-      <div class="hero-actions">
-        {hero.actions.primary && (
-          <a class="btn-primary" href={hero.actions.primary.href}>
-            {hero.actions.primary.label}
-          </a>
-        )}
-        {hero.actions.secondary && (
-          <a class="btn-secondary" href={hero.actions.secondary.href}>
-            {hero.actions.secondary.label}
-          </a>
-        )}
-      </div>
-    )}
-  </section>
+  <Hero compact badge={hero?.badge} headline={hero?.headline} subtitle={hero?.subtitle} actions={hero?.actions} />
 
   <section class="section">
     <div class="post-prose">

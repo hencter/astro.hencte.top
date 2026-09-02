@@ -23,6 +23,7 @@ const { badge, headline, subtitle, compact, id, actions, prefetch = false } = As
 ---
 
 <section class:list={["hero", { "hero-compact": compact }]} id={id}>
+  <slot name="before" />
   {badge && <p class="hero-badge">{badge}</p>}
   {headline && <h1 class="hero-title">{headline}</h1>}
   {subtitle && <p class="hero-subtitle">{subtitle}</p>}
@@ -40,4 +41,5 @@ const { badge, headline, subtitle, compact, id, actions, prefetch = false } = As
       )}
     </div>
   )}
+  <slot />
 </section>

@@ -43,6 +43,12 @@
 |---|---|---|
 | B8 CSS 治理 | 本批 | 清除死选择器 .timeline-item/.principle-card（模板零引用，涉及 base/hover/h3/p、reveal 子项与 nth 延迟、reduced-motion 内联列表、.timeline-item span 整块）；从共享卡组移除 .blog-post-card 消除双基类（行规则由专有段落接管）；括号平衡 276/276、残留 0，构建通过 |
 
+## Round 7 — 批次记录
+
+| 批次 | commit | 内容 |
+|---|---|---|
+| B9 Hero 补遗 | 本批 | Hero 增加 named slot efore + 默认 slot；BlogSectionLayout（breadcrumb+subnav 自定义壳）与 obsidian/plugins zh/en 三处 hero 纳入组件；源码 class=hero 原生节 0 残留（全部经 Hero 渲染） |
+
 ## 待办（后续轮）
 
 - P1 组件：`Hero`（8 处克隆）、`CtaBanner`（3 处）、`EditorialListItem`（文章行 3 处，先定 prop 契约）
