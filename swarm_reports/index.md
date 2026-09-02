@@ -32,6 +32,10 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | 收敛 | UI Surface 与 Card 使用综合收敛 | convergence | [./2026-09-03_ui_surface_convergence.md](./2026-09-03_ui_surface_convergence.md) |
+| 2026-09-03 | ui | shadcn/ui 与 Card 容器盘点 | card-auditor | [./ui/2026-09-03_shadcn_card_inventory.md](./ui/2026-09-03_shadcn_card_inventory.md) |
+| 2026-09-03 | ui | 编辑式阅读体验与 Surface Policy 审计 | editorial-auditor | [./ui/2026-09-03_editorial_surface_audit.md](./ui/2026-09-03_editorial_surface_audit.md) |
+| 2026-09-03 | ui | 视觉流审计阻碍说明与结构证据 | visual-auditor | [./ui/2026-09-03_visual_flow_audit.md](./ui/2026-09-03_visual_flow_audit.md) |
 | 2026-09-02 | ui | Forum 设计移植 — 鎏金替换青瓷 | ui-refactorer | [./ui/2026-09-02_forum_design_port.md](./ui/2026-09-02_forum_design_port.md) |
 | 2026-09-02 | ui | 主题视觉刷新 — 墨纸·青瓷 | ui-refactorer | [./ui/2026-09-02_theme_visual_refresh.md](./ui/2026-09-02_theme_visual_refresh.md) |
 | 2026-09-02 | content | Astro Content Collections 全面审计（无 Astron） | content-editor | [./content/2026-09-02_astro_content_collections_audit.md](./content/2026-09-02_astro_content_collections_audit.md) |
