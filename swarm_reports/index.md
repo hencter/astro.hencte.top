@@ -28,6 +28,14 @@ swarm_reports/
 | 2026-05-20 | content | 内容运营全面审计 | content-editor | [./content/2026-05-20_content_audit.md](./content/2026-05-20_content_audit.md) |
 | 2026-05-20 | ops | 站点健康全面审计 | ops-monitor | [./ops/2026-05-20_ops_audit.md](./ops/2026-05-20_ops_audit.md) |
 
+### 2026-Q3（续）
+
+| 日期 | 领域 | 标题 | 代理 | 文件 |
+|------|------|------|------|------|
+| 2026-09-03 | ui | 极简阅读体验 Sprint 任务拆解 | main | [./2026-09-03_plan_minimal_reading_sprint.md](./2026-09-03_plan_minimal_reading_sprint.md) |
+| 2026-09-03 | ui | 阅读/首页合并审计（正文离轴144px + TOC唤回） | reading-auditor | [./ui/2026-09-03_reading_homepage_audit.md](./ui/2026-09-03_reading_homepage_audit.md) |
+| 2026-09-03 | ui | CSS极简化+响应式合并审计（表格P0+60行减法） | minimalism-auditor | [./ui/2026-09-03_css_responsive_audit.md](./ui/2026-09-03_css_responsive_audit.md) |
+
 ### 2026-Q3
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
