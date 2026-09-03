@@ -32,6 +32,7 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | ui | 极简阅读体验 Sprint 终报（20/20 通过） | main | [./ui/2026-09-03_minimal_reading_sprint_final.md](./ui/2026-09-03_minimal_reading_sprint_final.md) |
 | 2026-09-03 | ui | 极简阅读体验 Sprint 任务拆解 | main | [./2026-09-03_plan_minimal_reading_sprint.md](./2026-09-03_plan_minimal_reading_sprint.md) |
 | 2026-09-03 | ui | 阅读/首页合并审计（正文离轴144px + TOC唤回） | reading-auditor | [./ui/2026-09-03_reading_homepage_audit.md](./ui/2026-09-03_reading_homepage_audit.md) |
 | 2026-09-03 | ui | CSS极简化+响应式合并审计（表格P0+60行减法） | minimalism-auditor | [./ui/2026-09-03_css_responsive_audit.md](./ui/2026-09-03_css_responsive_audit.md) |
@@ -40,6 +41,7 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | content | 配图与文案优化 Sprint | main | [./content/2026-09-03_illustration_copy_sprint.md](./content/2026-09-03_illustration_copy_sprint.md) |
 | 2026-09-03 | ui | 全站优化冲刺（10 轮终报） | main | [./ui/2026-09-03_optimization_sprint_final.md](./ui/2026-09-03_optimization_sprint_final.md) |
 | 2026-09-03 | ui | 全站优化冲刺日志（分轮） | main | [./ui/2026-09-03_optimization_sprint.md](./ui/2026-09-03_optimization_sprint.md) |
 | 2026-09-03 | ui | 设计问答决策记录（含视差：不做） | main | [./ui/2026-09-03_design_decisions.md](./ui/2026-09-03_design_decisions.md) |

@@ -107,6 +107,8 @@ const connect = defineCollection({
             result: z.string().optional(),
             tags: z.array(z.string()).default([]),
             url: z.string().optional(),
+            image: z.string().optional(),
+            imageAlt: z.string().optional(),
           })
         )
         .optional(),

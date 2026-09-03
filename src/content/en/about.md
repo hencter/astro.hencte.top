@@ -18,21 +18,19 @@ hero:
   badge: "About"
   headline: "Hencter Lew"
   subtitle: |
-    Based in China. I primarily work with TypeScript / Lua / Python.
-    I keep one long-term loop: ship -> capture -> review -> iterate.
+    TypeScript / Lua / Python. One loop: ship → capture → review → iterate.
 panels:
   left:
     title: "What I focus on"
     body: |
-      I focus on shipping accessible products and tools,
-      then turning real execution into reusable notes and methods.
+      Shipping accessible products and tools, then turning real execution into reusable notes and methods.
     bullets:
       - "Languages: TypeScript / Lua / Python"
       - "Editor: Neovim (LazyVim)"
       - "Knowledge system: Obsidian (templates + reviews)"
       - "Themes: trust, product iteration, toolchains"
-      - "Latest build: Nova — self-bootstrapping AI knowledge vault (github.com/hencter/Nova)"
-      - "Community: Tongtianlu tongtianlu.cn — invite-only AI creator community"
+      - "Latest: Nova — self-bootstrapping AI knowledge vault"
+      - "Community: Tongtianlu tongtianlu.cn"
   right:
     title: "Contact and links"
     body: |

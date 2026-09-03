@@ -8,7 +8,11 @@ description: "大模型时代 SEO 与 GEO 融合的技术实践：数据层结�
 draft: false
 section: "tech"
 keywords: ["SEO", "GEO", "生成式引擎优化", "JSON-LD", "llm.txt", "结构化数据", "Schema.org"]
+images:
+  - "/img/blog/seo-geo-cover.png"
 ---
+
+![封面](/img/blog/seo-geo-cover.png)
 
 ## SEO 与 GEO 的核心差异
 

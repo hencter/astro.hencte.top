@@ -20,21 +20,19 @@ hero:
   badge: "About"
   headline: "亦幸（Hencter Lew）"
   subtitle: |
-    我在中国，主要使用 TypeScript / Lua / Python。
-    我把产品实践、知识管理和技术写作放在同一个长期循环里：做出来 -> 记录下来 -> 迭代。
+    TypeScript / Lua / Python。产品实践、知识管理与技术写作放在同一个循环里：做出来 → 记录下来 → 迭代。
 panels:
   left:
     title: "我在做什么"
     body: |
-      我专注于把想法落到可访问的产品与工具上，
-      并把过程沉淀成可复用的文档与方法论。
+      把想法落到可访问的产品与工具上，并把过程沉淀成可复用的文档与方法论。
     bullets:
       - "语言：TypeScript / Lua / Python"
       - "环境：Neovim（LazyVim）"
       - "知识管理：Obsidian（模板驱动 + 定期复盘）"
       - "方向：可信信息、产品迭代、工具链建设"
-      - "最新构建：Nova · AI 自举知识库（github.com/hencter/Nova）"
-      - "社区：通天路 tongtianlu.cn —— 邀请制 AI 创作者互助社区"
+      - "最新：Nova · AI 自举知识库"
+      - "社区：通天路 tongtianlu.cn"
   right:
     title: "联系与链接"
     body: |

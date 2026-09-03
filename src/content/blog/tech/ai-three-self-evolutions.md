@@ -12,7 +12,11 @@ tags:
 section: "tech"
 description: "李彦宏说自我进化，OpenAI接管了耳朵，一个26M的小模型在手机上跑函数调用——这三件事讲的是同一个故事的不同章节。"
 keywords: ["AI智能体", "自我进化", "DeepSeek-TUI", "Needle", "GPT-5", "百度Create", "小模型"]
+images:
+  - "/img/blog/ai-three-gates-cover.png"
 ---
+
+![封面](/img/blog/ai-three-gates-cover.png)
 
 > 2026-05-13 | 李彦宏说"自我进化"，OpenAI 接管了耳朵，一个26M的小模型在手机上跑函数调用——这三件事讲的是同一个故事的不同章节。
 

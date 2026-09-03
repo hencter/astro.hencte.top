@@ -295,16 +295,18 @@ if (isSectionLanding && !isAncient) {
         </header>
 
         {headings.length > 0 && (
-          <aside class="post-toc">
-            <h2>目录</h2>
-            <ul>
-              {headings.filter((item) => item.depth <= 3).map((item) => (
-                <li>
-                  <a href={`#${item.slug}`}>{item.text}</a>
-                </li>
-              ))}
-            </ul>
-          </aside>
+          <div class="toc-rail">
+            <aside class="post-toc">
+              <h2>目录</h2>
+              <ul>
+                {headings.filter((item) => item.depth <= 3).map((item) => (
+                  <li>
+                    <a href={`#${item.slug}`}>{item.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          </div>
         )}
 
         <div class="post-prose read-container">

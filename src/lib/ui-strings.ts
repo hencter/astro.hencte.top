@@ -17,7 +17,7 @@ const HOME_STRINGS_ZH: UiStrings = {
   hubContact: "联系",
   aboutTitle: "关于亦幸",
   aboutBody:
-    "写代码、也写小说和技术笔记——把长期主义落到一个可持续增长的个人品牌上，让每一次迭代都被看见。",
+    "写代码、也写小说与技术笔记——把长期主义落到可持续增长的个人品牌上。",
   aboutCta: "深入了解 →",
   viewNovels: "浏览原创小说 →",
   viewAllProjects: "查看全部项目 →",
@@ -56,7 +56,7 @@ const HOME_STRINGS_EN: UiStrings = {
   hubContact: "Contact",
   aboutTitle: "About Yi Xing",
   aboutBody:
-    "Code, fiction, and the engineering notes in between — a personal brand built with long-term patience, where every iteration is meant to be seen.",
+    "Code, fiction, and engineering notes — a personal brand built with long-term patience.",
   aboutCta: "Learn more →",
   viewNovels: "Browse original fiction →",
   viewAllProjects: "View all projects →",

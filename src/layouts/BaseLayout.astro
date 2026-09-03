@@ -131,7 +131,6 @@ function isNavActive(href: string): boolean {
   <body>
     <a class="skip-link" href="#main-content">{locale === "en-US" ? "Skip to content" : "跳转到主内容"}</a>
     <div class="ambient-bg" aria-hidden="true"></div>
-    <div class="noise-overlay" aria-hidden="true"></div>
     <div class="page-shell">
       <header class="site-header">
         <a class="brand-link" href={homeHref}>
@@ -166,7 +165,6 @@ function isNavActive(href: string): boolean {
           </svg>
           <span class="brand-copy">
             <strong>{brandName}</strong>
-            <small>{brandTagline}</small>
           </span>
         </a>
 
@@ -305,8 +303,13 @@ function isNavActive(href: string): boolean {
         let idleTimer = 0;
         let atTop = window.scrollY < SCROLL_BEGIN;
 
+        const header = document.querySelector('.site-header');
+        const navPanel = document.getElementById('primary-nav');
+        const ambient = document.querySelector('.ambient-bg');
+
         const apply = (hidden) => {
-          root.classList.toggle('reading-chrome--hidden', hidden && !atTop);
+          const open = navPanel && navPanel.classList.contains('is-open');
+          root.classList.toggle('reading-chrome--hidden', hidden && !atTop && !open);
         };
 
         const armIdle = () => {
@@ -322,6 +325,8 @@ function isNavActive(href: string): boolean {
           ticking = true;
           window.requestAnimationFrame(() => {
             const y = window.scrollY;
+            driftAmbient(y);
+            if (header) header.classList.toggle('is-scrolled', y > 24);
             atTop = y < SCROLL_BEGIN;
             if (atTop) {
               apply(false);
@@ -345,9 +350,19 @@ function isNavActive(href: string): boolean {
           if (e.clientY < TOP_REVEAL && !atTop) apply(false);
         };
 
+        // Keyboard reachability: focusing into the hidden bar reveals it.
+        const onFocusIn = () => apply(false);
+
+        // Ambient parallax — restrained: the atmosphere layer drifts a
+        // little slower than the page (max 120px) while scrolling.
+        const driftAmbient = (y) => {
+          if (ambient) ambient.style.transform = 'translateY(' + Math.min(y * -0.04, 120) + 'px)';
+        };
+
         window.__readingChromeBound = true;
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('mousemove', onMove, { passive: true });
+        if (header) header.addEventListener('focusin', onFocusIn);
         armIdle();
       }
 

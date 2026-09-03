@@ -2,7 +2,7 @@
 page: projects
 locale: en-US
 title: "Projects | 亦幸小阁"
-description: "Public showcase of Hencter Lew's product work: Nova, Tongtianlu community, AI.LinkTrust.Top, hencte.top, content migration, and Obsidian tooling."
+description: "Public showcase of Hencter Lew's product work: Nova, Tongtianlu, AI.LinkTrust.Top, hencte.top, and Obsidian tooling."
 keywords:
   - "projects"
   - "product portfolio"
@@ -16,8 +16,7 @@ hero:
   badge: "Projects Showcase"
   headline: "Public projects and product work"
   subtitle: |
-    I primarily work with TypeScript / Lua / Python.
-    Here are publicly accessible products, along with tooling that supports my daily workflows.
+    TypeScript / Lua / Python. Focused on trusted information, knowledge systems, and verifiable product iteration.
   actions:
     primary:
       label: "View featured projects"
@@ -28,44 +27,52 @@ hero:
 featuredProjects:
   - stage: "Open-source Template"
     title: "Nova — Self-Bootstrapping Knowledge Vault"
-    description: "A self-bootstrapping knowledge vault continuously maintained by an AI agent: automatic knowledge intake, cross-linking, health checks, and automatic git commits — you only need to talk to it. Every clone answers a mandatory onboarding Q&A to get its own Nova instead of inheriting an identity."
-    result: "Official GitHub template repository with one-click setup and a 2-minute start; ready out of the box and iterating fast."
+    description: "An AI-maintained vault: intake, cross-linking, health checks, and auto commits. Each clone answers onboarding Q&A to get its own Nova."
+    result: "Official GitHub template with ~2-minute start; iterating fast."
     tags: ["AI Agent", "Obsidian", "Zettelkasten", "Knowledge Vault"]
     url: "https://github.com/hencter/Nova"
+    image: "/img/projects/nova.png"
+    imageAlt: "Nova vault: celadon note constellation on ink-paper ground with soft lamp light"
   - stage: "Community Operations"
     title: "Tongtianlu Community"
-    description: "An invite-only Chinese community forum built and run by me, where everyone can create their first piece of content with AI tools — start now instead of waiting until you feel ready. On-site AI agents assist operations under a human-management + AI-assistance model. Tech stack: Tailwind CSS + htmx lightweight frontend, CSP hardening, and dark mode support."
-    result: "Invite-only sign-up with boards covering discovery, knowledge base, skills, and prompts. Slogan: every step counts."
+    description: "Invite-only Chinese forum for AI creators to ship their first piece of content. Human ops + on-site agents; Tailwind + htmx, CSP, dark mode."
+    result: "Boards for discovery, knowledge, skills, and prompts. Slogan: every step counts."
     tags: ["Community", "AI Creator", "Invite-only"]
     url: "https://tongtianlu.cn"
+    image: "/img/projects/tongtianlu.png"
+    imageAlt: "Tongtianlu: lantern path ascending a night market road toward distant mountains"
   - stage: "Open-source Game"
     title: "Monopoly 3D — AI Business Empire"
-    description: "A Three.js 3D monopoly game with DeepSeek AI opponents, card mechanics, industry cycles, and banking systems, supporting 2-34 players on one screen and turn-based online matches. Paired with monopoly-engine, a zero-dependency rules engine that can drive any presentation layer."
+    description: "Three.js monopoly with DeepSeek opponents, cards, industry cycles, and banking; 2–34 players local or turn-based online. Paired with monopoly-engine."
     result: "MIT open source, actively iterating."
     tags: ["Three.js", "AI", "Multiplayer", "WebSocket"]
     url: "https://github.com/hencter/monopoly-3d-ai"
+    image: "/img/projects/monopoly-3d.png"
+    imageAlt: "Monopoly 3D: elevated view of a stylized city board with warm path lights"
   - stage: "External Product"
     title: "AI.LinkTrust.Top"
-    description: "A public-facing external site focused on link trust assessment and quality filtering in AI-driven information workflows."
-    result: "Running as an independent product endpoint for real user validation."
+    description: "Public product for link trust assessment and quality filtering in AI information workflows."
+    result: "Independent product endpoint for real user validation."
     tags: ["AI", "Web Product", "Trust"]
     url: "https://ai.linktrust.top"
+    image: "/img/projects/linktrust.png"
+    imageAlt: "LinkTrust: celadon and gold balance weighing trustworthy link networks"
   - stage: "Brand Hub"
     title: "hencte.top"
-    description: "The main personal site connecting project showcases, technical writing, and contact channels in one place."
-    result: "Upgraded from a simple page to a continuously updated projects + blog platform."
+    description: "Main personal site connecting projects, technical writing, and contact channels."
+    result: "Continuously updated projects + blog platform."
     tags: ["Astro", "Bilingual", "Personal Brand"]
     url: "/"
   - stage: "Migration Workflow"
     title: "Hugo to Astro Content Migration"
-    description: "Migrated legacy blog content into the new stack with unified YAML front matter for long-term maintainability."
-    result: "Historical posts preserved with a cleaner publishing workflow."
+    description: "Legacy blog migrated with unified YAML front matter for long-term maintainability."
+    result: "History preserved with a cleaner publishing workflow."
     tags: ["Migration", "Markdown", "Tooling"]
     url: "/blog"
   - stage: "Tooling / Plugin"
     title: "Obsidian memo plugin"
-    description: "A lightweight memo and quick-capture plugin for personal knowledge workflows, built around templates and periodic reviews."
-    result: "Used in my daily Obsidian workflow for long-term knowledge accumulation."
+    description: "Lightweight memo and quick-capture plugin built around templates and periodic reviews."
+    result: "Used in daily Obsidian workflow for long-term accumulation."
     tags: ["Obsidian", "TypeScript", "Plugin"]
     url: "https://github.com/hencter"
 timeline:

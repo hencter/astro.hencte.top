@@ -1,8 +1,8 @@
 ---
-title: "小说"
-description: "原创小说 · 持续更新"
+title: "原创小说"
+description: "《天空税》《我被AI反向驯化了》——科幻连载，持续更新。"
 draft: false
 locale: "zh-CN"
 ---
 
-原创小说 by Hencter Lew。
+在这里阅读亦幸的原创小说：星链配额下的《天空税》，以及人机驯化关系暧昧的《我被AI反向驯化了》。

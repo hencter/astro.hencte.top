@@ -16,9 +16,8 @@
   --brand-deep: #845414;
   --accent: #a14932;
   --highlight: #3c5b73;
-  --shadow-soft: 0 22px 60px rgba(25, 21, 15, 0.08);
+  --shadow-soft: 0 8px 24px rgba(25, 21, 15, 0.08);
   --shadow-card: 0 14px 28px rgba(25, 21, 15, 0.06);
-  --radius-sm: 0.65rem;
   --radius-md: 0.8rem;
   --radius-lg: 1.1rem;
   --radius-xl: 1.6rem;
@@ -31,29 +30,17 @@
   --grad-hero-b: rgba(161, 73, 50, 0.08);
   --grad-ambient-a: rgba(60, 91, 115, 0.05);
   --grad-ambient-b: rgba(184, 121, 44, 0.04);
-  --card-bg: var(--surface);
   --card-border: #e4ddd2;
   --card-hover-border: #cfc5b6;
-  --code-bg: #eee7da;
-  --code-border: #d8cdba;
   --toc-bg: #f8f5ee;
   --chip-bg: #eee7da;
-  --chip-border: #d8cdba;
   --nav-hover-bg: rgba(184, 121, 44, 0.08);
-  --blockquote-bg: #f8f5ee;
-  --blockquote-border: #b8792c;
-  --th-bg: #eee7da;
-  --footer-border: #d8cdba;
 
   /* Reading — long-form measure & palette (warm paper) */
   --read-max-width: 70ch;
   --read-max-width-cjk: 40em;
-  --read-max-width-novel: 42em;
-  --read-max-width-ancient: 56rem;
   --read-padding-x: clamp(1rem, 4vw, 2rem);
-  --read-bg: #faf8f5;
   --read-fg: #19150f;
-  --read-muted: #5f5548;
   --read-accent: #845414;
   --read-line-height: 1.75;
   --read-line-height-cjk: 1.9;
@@ -77,31 +64,21 @@
   --brand-deep: #e8bd68;
   --accent: #c46a52;
   --highlight: #5a8aad;
-  --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.45);
+  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
   --shadow-card: 0 14px 28px rgba(0, 0, 0, 0.35);
 
   --grad-hero-a: rgba(217, 170, 78, 0.07);
   --grad-hero-b: rgba(196, 106, 82, 0.05);
   --grad-ambient-a: rgba(60, 91, 115, 0.04);
   --grad-ambient-b: rgba(217, 170, 78, 0.04);
-  --card-bg: #15110d;
   --card-border: #3b3021;
   --card-hover-border: #4a3d2a;
-  --code-bg: #0b0907;
-  --code-border: #3b3021;
   --toc-bg: #0b0907;
   --chip-bg: #1e1a14;
-  --chip-border: #3b3021;
   --nav-hover-bg: rgba(217, 170, 78, 0.1);
-  --blockquote-bg: #0b0907;
-  --blockquote-border: #d9aa4e;
-  --th-bg: #1e1a14;
-  --footer-border: #3b3021;
 
   /* Reading — warm dark ink (distinct from page chrome) */
-  --read-bg: #15110d;
   --read-fg: #f2e8d9;
-  --read-muted: #baac97;
   --read-accent: #d9aa4e;
 }
 
@@ -122,11 +99,7 @@ body {
   color: var(--ink-900);
   font-family: var(--font-sans);
   line-height: 1.65;
-  background:
-    radial-gradient(circle at 15% 12%, var(--grad-hero-a), transparent 35%),
-    radial-gradient(circle at 82% 4%, var(--grad-hero-b), transparent 32%),
-    linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
-  background-attachment: fixed;
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 400ms ease, color 400ms ease;
@@ -138,31 +111,19 @@ a {
 }
 
 /* ============================================================
-   Ambient Background
+   Ambient Background — the only atmosphere layer. Extended above
+   the fold by 10rem so the restrained scroll parallax (max 120px)
+   never reveals its lower edge. (Noise overlay removed: grain
+   worked against the minimalist reading ground.)
    ============================================================ */
 .ambient-bg {
   position: fixed;
-  inset: 0;
+  inset: -10rem 0 0 0;
   background:
     radial-gradient(circle at 68% 28%, var(--grad-ambient-a), transparent 28%),
     radial-gradient(circle at 22% 78%, var(--grad-ambient-b), transparent 24%);
   pointer-events: none;
   z-index: -1;
-}
-
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 180px 180px;
-}
-
-.dark .noise-overlay {
-  opacity: 0.055;
 }
 
 /* ============================================================
@@ -175,40 +136,48 @@ a {
 }
 
 /* ============================================================
-   Header
+   Header — bare paper nav (minimalist redesign)
+   No card box: transparent on the paper ground; after scrolling
+   a hairline + light glass fades in for separation from content.
    ============================================================ */
 .site-header {
   position: sticky;
-  top: 1rem;
+  top: 0.85rem;
   z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.75rem 1.1rem;
-  border: 1px solid var(--line);
+  padding: 0.6rem 0.4rem;
+  border: 0;
   border-radius: var(--radius-lg);
+  background: transparent;
+  box-shadow: none;
+  transition: background 300ms ease, box-shadow 300ms ease,
+              transform 360ms cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 300ms ease, visibility 0s;
+}
+
+/* Scrolled state — hairline + light glass only */
+.site-header.is-scrolled {
   background: var(--surface-glass);
-  backdrop-filter: blur(14px) saturate(1.6);
-  -webkit-backdrop-filter: blur(14px) saturate(1.6);
-  box-shadow: 0 8px 24px rgba(26, 24, 20, 0.06);
-  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease,
-              transform 360ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s;
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  box-shadow: 0 1px 0 var(--line);
 }
 
 /* Reading focus — hide chrome while scrolling down or idle; the
    transform is visual only, so the layout (and centered reading
-   column) never shifts. Reveal on scroll-up or pointer near top.
+   column) never shifts. Reveal on scroll-up, pointer near top,
+   keyboard focus (focusin), or an open mobile nav panel.
    visibility is delayed so focus cannot land on the hidden bar. */
 html.reading-chrome--hidden .site-header {
+  opacity: 0;
   transform: translateY(calc(-100% - 1.35rem));
   visibility: hidden;
-  transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease,
-              transform 360ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 360ms;
-}
-
-.dark .site-header {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: background 300ms ease, box-shadow 300ms ease,
+              transform 360ms cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 300ms ease, visibility 0s linear 360ms;
 }
 
 .brand-link {
@@ -257,52 +226,66 @@ html.reading-chrome--hidden .site-header {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 1.15rem;
   margin: 0;
   padding: 0;
 }
 
 .nav-list a {
-  color: var(--ink-700);
+  color: var(--ink-500);
   font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.45rem 0.75rem;
-  border-radius: var(--radius-md);
-  transition: background-color 200ms ease, color 200ms ease;
+  font-weight: 500;
+  padding: 0.45rem 0.15rem;
+  background: linear-gradient(currentColor, currentColor) 0% 100% / 0% 2px no-repeat;
+  transition: background-size 300ms ease, color 200ms ease;
 }
 
 .nav-list a:hover,
 .nav-list a:focus-visible {
-  color: var(--brand-deep);
-  background: var(--nav-hover-bg);
+  color: var(--ink-900);
+  background-size: 100% 2px;
 }
 
 .nav-list a.is-active {
   color: var(--brand-deep);
-  background: var(--nav-hover-bg);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--brand) 25%, transparent);
+  background: linear-gradient(var(--brand), var(--brand)) 0% 100% / 100% 2px no-repeat;
 }
 
 /* ============================================================
-   Theme Toggle
+   Theme Toggle — borderless icon button (minimalist)
    ============================================================ */
 .theme-toggle {
   display: grid;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 0;
+  border-radius: 999px;
   background: transparent;
   color: var(--ink-700);
   cursor: pointer;
-  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+  transition: color 200ms ease, background 200ms ease;
 }
 
-.theme-toggle:hover {
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
   color: var(--accent);
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
   background: var(--nav-hover-bg);
+}
+
+/* LocaleSelect trigger — quiet round control inside the bare header
+   (overrides the component's boxed style only in the site header) */
+.header-actions .locale-select__control {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding-block: 0.5rem;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.header-actions .locale-select__control:hover {
+  background: var(--nav-hover-bg);
+  border: 0;
 }
 
 .icon-moon { display: none; }
@@ -354,7 +337,6 @@ html.reading-chrome--hidden .site-header {
 }
 
 /* Stagger children inside card grids (capped, subtle) */
-.reveal-on-scroll .value-card,
 .reveal-on-scroll .project-card,
 .reveal-on-scroll .blog-post-card,
 .reveal-on-scroll .story-panel {
@@ -364,29 +346,12 @@ html.reading-chrome--hidden .site-header {
               transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.reveal-on-scroll.revealed .value-card,
 .reveal-on-scroll.revealed .project-card,
 .reveal-on-scroll.revealed .blog-post-card,
 .reveal-on-scroll.revealed .story-panel {
   opacity: 1;
   transform: translateY(0);
 }
-
-.reveal-on-scroll.revealed .value-card:nth-child(1),
-.reveal-on-scroll.revealed .project-card:nth-child(1),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(1) { transition-delay: 0ms; }
-
-.reveal-on-scroll.revealed .value-card:nth-child(2),
-.reveal-on-scroll.revealed .project-card:nth-child(2),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(2) { transition-delay: 40ms; }
-
-.reveal-on-scroll.revealed .value-card:nth-child(3),
-.reveal-on-scroll.revealed .project-card:nth-child(3),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(3) { transition-delay: 90ms; }
-
-.reveal-on-scroll.revealed .value-card:nth-child(n+4),
-.reveal-on-scroll.revealed .project-card:nth-child(n+4),
-.reveal-on-scroll.revealed .blog-post-card:nth-child(n+4) { transition-delay: 140ms; }
 
 /* ============================================================
    Hero
@@ -395,21 +360,10 @@ html.reading-chrome--hidden .site-header {
   border-radius: var(--radius-xl);
   border: 1px solid var(--line);
   padding: clamp(1.8rem, 2.8vw, 3rem);
-  background:
-    linear-gradient(130deg, var(--grad-hero-a) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 55%),
-    linear-gradient(310deg, var(--grad-hero-b) 0%, transparent 42%);
+  background: linear-gradient(130deg, var(--grad-hero-a) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 55%);
   box-shadow: var(--shadow-soft);
   overflow: hidden;
   position: relative;
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 80% 0%, var(--grad-hero-a), transparent 50%);
-  opacity: 0.5;
-  pointer-events: none;
 }
 
 .hero-compact {
@@ -475,7 +429,6 @@ html.reading-chrome--hidden .site-header {
 .btn-primary {
   color: #f8f5ee;
   background: var(--brand);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--brand) 22%, transparent);
 }
 
 .btn-secondary {
@@ -488,7 +441,6 @@ html.reading-chrome--hidden .site-header {
 .btn-primary:focus-visible {
   transform: translateY(-2px);
   background: var(--brand-deep);
-  box-shadow: 0 12px 24px color-mix(in srgb, var(--brand) 28%, transparent);
 }
 
 .btn-secondary:hover,
@@ -509,14 +461,6 @@ html.reading-chrome--hidden .site-header {
   border: 0;
   border-radius: 0;
   background: transparent;
-}
-
-/* Opt-in surface variant — only for regions that genuinely need a frame */
-.section--surface {
-  padding: clamp(1.25rem, 2.4vw, 2rem);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-xl);
-  background: color-mix(in srgb, var(--surface) 94%, var(--bg) 6%);
 }
 
 .section-heading {
@@ -550,6 +494,10 @@ html.reading-chrome--hidden .site-header {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.card-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 /* ============================================================
    Asymmetric Layouts
    ============================================================ */
@@ -559,16 +507,10 @@ html.reading-chrome--hidden .site-header {
   gap: 0.95rem;
 }
 
-.layout-asymmetric-reverse {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 0.95rem;
-}
-
 .card-featured {
   border-radius: var(--radius-xl);
   border: 1px solid var(--card-border);
-  background: var(--card-bg);
+  background: var(--surface);
   padding: 1.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -598,12 +540,15 @@ html.reading-chrome--hidden .site-header {
   position: relative;
 }
 
-.card-featured-visual::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 70%, var(--accent) 0%, transparent 60%);
-  opacity: 0.15;
+.card-featured-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-featured-visual--image {
+  background: color-mix(in srgb, var(--surface) 90%, var(--brand) 10%);
 }
 
 .card-featured-body {
@@ -625,7 +570,7 @@ html.reading-chrome--hidden .site-header {
   border-radius: var(--radius-lg);
   border: 1px solid var(--card-border);
   border-left: 4px solid var(--brand);
-  background: var(--card-bg);
+  background: var(--surface);
   padding: 1rem 1rem 1rem 1.2rem;
   transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1),
               box-shadow 300ms ease,
@@ -642,12 +587,11 @@ html.reading-chrome--hidden .site-header {
 /* ============================================================
    Cards
    ============================================================ */
-.value-card,
 .project-card,
 .story-panel {
   border-radius: var(--radius-lg);
   border: 1px solid var(--card-border);
-  background: var(--card-bg);
+  background: var(--surface);
   padding: 1rem;
   position: relative;
   transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -668,7 +612,6 @@ html.reading-chrome--hidden .site-header {
   z-index: 1;
 }
 
-.value-card:hover,
 .project-card:hover,
 .story-panel:hover {
   transform: translateY(-3px);
@@ -688,14 +631,12 @@ html.reading-chrome--hidden .site-header {
   color: var(--accent);
 }
 
-.value-card h3,
 .project-card h3,
 .story-panel h3 {
   margin: 0.55rem 0 0;
   font-size: 1.08rem;
 }
 
-.value-card p,
 .project-card p,
 .story-panel p {
   margin: 0.55rem 0 0;
@@ -723,7 +664,7 @@ html.reading-chrome--hidden .site-header {
 .chip-list li,
 .detail-list li {
   border-radius: 999px;
-  border: 1px solid var(--chip-border);
+  border: 1px solid var(--line);
   padding: 0.28rem 0.72rem;
   font-size: 0.8rem;
   color: var(--ink-700);
@@ -735,16 +676,6 @@ html.reading-chrome--hidden .site-header {
   border-color: var(--brand);
   color: var(--brand-deep);
   background: color-mix(in srgb, var(--brand) 8%, var(--chip-bg) 92%);
-}
-
-/* Novel cards on home — literary accent */
-.novel-card {
-  border-left: 3px solid var(--accent);
-}
-
-.novel-card h3 {
-  font-family: var(--font-display);
-  letter-spacing: 0.04em;
 }
 
 /* ============================================================
@@ -776,9 +707,7 @@ html.reading-chrome--hidden .site-header {
 .cta-banner {
   border-radius: var(--radius-xl);
   border: 1px solid var(--line);
-  background:
-    linear-gradient(130deg, var(--grad-hero-a) 0%, color-mix(in srgb, var(--surface) 95%, transparent) 70%),
-    linear-gradient(310deg, var(--grad-hero-b) 0%, transparent 45%);
+  background: linear-gradient(130deg, var(--grad-hero-a) 0%, color-mix(in srgb, var(--surface) 95%, transparent) 70%);
   padding: clamp(1.25rem, 2.6vw, 2rem);
   display: grid;
   gap: 0.8rem;
@@ -836,7 +765,7 @@ html.reading-chrome--hidden .site-header {
 
 .blog-subnav a {
   border-radius: 999px;
-  border: 1px solid var(--chip-border);
+  border: 1px solid var(--line);
   background: var(--surface-glass);
   padding: 0.3rem 0.7rem;
   font-size: 0.85rem;
@@ -1039,60 +968,103 @@ html.reading-chrome--hidden .site-header {
   padding: 0.25rem 0 0;
 }
 
-/* Floating right rail — wide viewports, ordinary article shells only */
+/* Floating right rail — wide viewports, ordinary article shells only.
+   Three-column grid: symmetric gutters keep the reading column on the
+   page's true center; the TOC floats in the right gutter as a rail. */
 @media (min-width: 1180px) {
   .post-shell--reading {
-    grid-template-columns: minmax(0, 1fr) 15.5rem;
-    column-gap: 2.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, var(--read-max-width-cjk)) minmax(0, 1fr);
+    column-gap: 2rem;
     row-gap: 0;
     align-items: start;
   }
 
   .post-shell--reading .post-header {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 1;
   }
 
-  .post-shell--reading .post-toc {
-    grid-column: 2;
+  .post-shell--reading .toc-rail {
+    grid-column: 3;
     grid-row: 1 / span 3;
+    align-self: stretch;
+    min-width: 0;
+  }
+
+  .post-shell--reading .toc-rail .post-toc {
     position: sticky;
     top: 5.5rem;
-    align-self: start;
-    max-width: none;
-    width: auto;
+    width: 100%;
+    max-width: 13rem;
     margin: 0;
     padding-inline: 0;
     padding-left: 1rem;
     border-left: 2px solid var(--line);
   }
 
+  /* When the chrome retreats, the rail rises toward the viewport top so
+     a hover target stays reachable; reveal rules below restore it. */
+  html.reading-chrome--hidden .post-shell--reading .toc-rail .post-toc {
+    top: 1.5rem;
+  }
+
   .post-shell--reading .post-prose {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 2;
   }
 
   .post-shell--reading .related-posts {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 3;
     margin-top: 2rem;
   }
 }
 
-/* Rail fades with the header in reading-focus mode (wide viewports) */
+/* Rail fades with the header in reading-focus mode (wide viewports).
+   Visibility delay applies only when hiding; the visible state must
+   not delay visibility, or the fade-in skips a frame. */
 @media (min-width: 1180px) {
-  .post-shell--reading .post-toc {
-    transition: opacity 260ms ease, visibility 0s linear 260ms,
+  .post-shell--reading .toc-rail .post-toc {
+    transition: opacity 260ms ease, visibility 0s,
                 transform 360ms cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  html.reading-chrome--hidden .post-shell--reading .post-toc {
+  html.reading-chrome--hidden .post-shell--reading .toc-rail .post-toc {
     opacity: 0;
     visibility: hidden;
     transform: translateX(14px);
     pointer-events: none;
     transition: opacity 200ms ease, visibility 0s linear 200ms,
                 transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* Revive: hovering the right gutter or focusing into the rail
+     brings the TOC back while the chrome stays hidden. */
+  html.reading-chrome--hidden .post-shell--reading .toc-rail:hover .post-toc,
+  html.reading-chrome--hidden .post-shell--reading .toc-rail:focus-within .post-toc {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  /* Touch screens have no hover: never hide the rail there. */
+  @media (hover: none) {
+    html.reading-chrome--hidden .post-shell--reading .toc-rail .post-toc {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      pointer-events: auto;
+      top: 5.5rem;
+    }
+  }
+}
+
+/* Below the rail breakpoint the wrapper disappears from the layout
+   and the TOC stays a quiet inline list above the prose. */
+@media (max-width: 1179.98px) {
+  .toc-rail {
+    display: contents;
   }
 }
 
@@ -1157,6 +1129,7 @@ html.reading-chrome--hidden .site-header {
    Post Prose — Typography
    ============================================================ */
 .post-prose {
+  overflow-wrap: anywhere;
   max-width: var(--read-max-width);
   margin: 0 auto;
   padding-inline: var(--read-padding-x);
@@ -1233,17 +1206,17 @@ html.reading-chrome--hidden .site-header {
 .post-prose blockquote {
   margin-left: 0;
   padding: 0.75rem 0.95rem;
-  border-left: 4px solid var(--blockquote-border);
-  background: var(--blockquote-bg);
+  border-left: 4px solid var(--brand);
+  background: var(--toc-bg);
   border-radius: 0.65rem;
 }
 
 .post-prose pre {
   overflow-x: auto;
   border-radius: 0.9rem;
-  border: 1px solid var(--code-border);
+  border: 1px solid var(--line);
   padding: 0.85rem;
-  background: var(--code-bg);
+  background: var(--chip-bg);
 }
 
 .post-prose code {
@@ -1252,14 +1225,18 @@ html.reading-chrome--hidden .site-header {
 }
 
 .post-prose :not(pre) > code {
+  overflow-wrap: anywhere;
   padding: 0.15em 0.35em;
   border-radius: 0.3em;
   background: var(--chip-bg);
-  border: 1px solid var(--chip-border);
+  border: 1px solid var(--line);
 }
 
 .post-prose table {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
 }
 
@@ -1270,7 +1247,7 @@ html.reading-chrome--hidden .site-header {
 }
 
 .post-prose th {
-  background: var(--th-bg);
+  background: var(--chip-bg);
 }
 
 /* ============================================================
@@ -1291,7 +1268,7 @@ html.reading-chrome--hidden .site-header {
   padding: 0.6rem 0.9rem;
   font-size: 0.93rem;
   border-bottom: 1px solid var(--line);
-  background: var(--blockquote-bg);
+  background: var(--toc-bg);
 }
 
 .callout-icon {
@@ -1358,7 +1335,7 @@ html.reading-chrome--hidden .site-header {
 .code-block-wrapper {
   margin: 0.9em 0;
   border-radius: 0.9rem;
-  border: 1px solid var(--code-border);
+  border: 1px solid var(--line);
   overflow: hidden;
   font-size: 0.9rem;
 }
@@ -1367,7 +1344,7 @@ html.reading-chrome--hidden .site-header {
   margin: 0;
   padding: 0.85rem;
   overflow-x: auto;
-  background: var(--code-bg) !important;
+  background: var(--chip-bg) !important;
 }
 
 .code-block-wrapper code {
@@ -1378,9 +1355,9 @@ html.reading-chrome--hidden .site-header {
 .code-block-fallback {
   overflow-x: auto;
   border-radius: 0.9rem;
-  border: 1px solid var(--code-border);
+  border: 1px solid var(--line);
   padding: 0.85rem;
-  background: var(--code-bg);
+  background: var(--chip-bg);
   font-family: var(--font-mono);
   font-size: 0.93em;
 }
@@ -1418,8 +1395,8 @@ html.reading-chrome--hidden .site-header {
 .mermaid-container {
   margin: 0.9em 0;
   border-radius: 0.9rem;
-  border: 1px solid var(--code-border);
-  background: var(--code-bg);
+  border: 1px solid var(--line);
+  background: var(--chip-bg);
   padding: 0.85rem;
   overflow-x: auto;
 }
@@ -1498,7 +1475,7 @@ html.reading-chrome--hidden .site-header {
   justify-content: space-between;
   align-items: center;
   gap: 0.8rem;
-  border-top: 1px dashed var(--footer-border);
+  border-top: 1px dashed var(--line);
   padding-top: 1rem;
   color: var(--ink-500);
   font-size: 0.9rem;
@@ -1636,6 +1613,8 @@ html.reading-chrome--hidden .site-header {
     display: none;
     order: 4;
     width: 100%;
+    max-height: min(62vh, 26rem);
+    overflow-y: auto;
     padding-top: 0.5rem;
     border-top: 1px solid var(--line);
   }
@@ -1656,11 +1635,11 @@ html.reading-chrome--hidden .site-header {
   }
 
   .card-grid.three,
+  .card-grid.two,
   .principle-grid,
   .about-split,
   .blog-list-grid,
-  .layout-asymmetric,
-  .layout-asymmetric-reverse {
+  .layout-asymmetric {
     grid-template-columns: 1fr;
   }
 
@@ -1691,6 +1670,11 @@ html.reading-chrome--hidden .site-header {
     font-size: 0.86rem;
   }
 
+  /* TOC stays a desktop aid; on phones it only pushed content down */
+  .toc-rail {
+    display: none;
+  }
+
   .site-footer {
     flex-direction: column;
     align-items: flex-start;
@@ -1715,7 +1699,6 @@ html.reading-chrome--hidden .site-header {
     transform: none;
   }
 
-  .reveal-on-scroll .value-card,
   .reveal-on-scroll .project-card,
   .reveal-on-scroll .blog-post-card,
   .reveal-on-scroll .story-panel {
