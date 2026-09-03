@@ -1,8 +1,10 @@
 ---
 /**
- * Hero — the single atmosphere surface kept by the UI Surface Policy.
- * Extracted from isomorphic copies across connect/blog/landing pages.
+ * Hero — thin compatibility shim over Banner (page variant).
+ * Prefer importing Banner directly for new section hubs.
  */
+import Banner from "./Banner.astro";
+
 interface HeroAction {
   label: string;
   href: string;
@@ -15,31 +17,31 @@ interface Props {
   compact?: boolean;
   id?: string;
   actions?: { primary?: HeroAction; secondary?: HeroAction };
-  /** add data-astro-prefetch="hover" to action buttons */
   prefetch?: boolean;
+  image?: string;
+  imageAlt?: string;
 }
 
-const { badge, headline, subtitle, compact, id, actions, prefetch = false } = Astro.props;
+const { badge, headline, subtitle, compact, id, actions, prefetch = false, image, imageAlt } = Astro.props;
+
+const bannerActions = [actions?.primary, actions?.secondary].filter(
+  (a): a is HeroAction => Boolean(a?.label && a?.href),
+);
 ---
 
-<section class:list={["hero", { "hero-compact": compact }]} id={id}>
-  <slot name="before" />
-  {badge && <p class="hero-badge">{badge}</p>}
-  {headline && <h1 class="hero-title">{headline}</h1>}
-  {subtitle && <p class="hero-subtitle">{subtitle}</p>}
-  {(actions?.primary || actions?.secondary) && (
-    <div class="hero-actions">
-      {actions.primary && (
-        <a class="btn-primary" href={actions.primary.href} data-astro-prefetch={prefetch ? "hover" : undefined}>
-          {actions.primary.label}
-        </a>
-      )}
-      {actions.secondary && (
-        <a class="btn-secondary" href={actions.secondary.href} data-astro-prefetch={prefetch ? "hover" : undefined}>
-          {actions.secondary.label}
-        </a>
-      )}
-    </div>
-  )}
+<Banner
+  variant="page"
+  title={headline ?? ""}
+  subtitle={subtitle}
+  kicker={badge}
+  compact={compact}
+  id={id}
+  image={image}
+  imageAlt={imageAlt}
+  actions={bannerActions}
+  actionStyle="button"
+  prefetch={prefetch}
+>
+  <slot name="before" slot="before" />
   <slot />
-</section>
+</Banner>

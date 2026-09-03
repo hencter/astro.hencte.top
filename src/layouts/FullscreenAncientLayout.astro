@@ -1,6 +1,8 @@
 ---
 import Meta from "@components/Meta.astro";
 import JsonLD from "@components/JsonLD.astro";
+import LocaleSelect from "@components/LocaleSelect.astro";
+import { getChromeLanguageLinks } from "../lib/i18n";
 import "heti/umd/heti.min.css";
 import hetiAddonUrl from "heti/umd/heti-addon.min.js?url";
 
@@ -20,6 +22,8 @@ const {
 
 const hetiLayoutClass = layout === "columns2" ? "heti--columns-2" : "heti--vertical";
 const canonical = new URL(canonicalPath, Astro.url).toString();
+// Ancient articles are zh-CN-only; switcher peers fall back to locale blog hubs.
+const languageLinks = getChromeLanguageLinks("zh-CN", { page: "blog" });
 ---
 
 <!doctype html>
@@ -263,6 +267,7 @@ const canonical = new URL(canonicalPath, Astro.url).toString();
     </div>
 
     <div class="fullscreen-controls top-right">
+      <LocaleSelect links={languageLinks} label="切换语言" />
       <button class="fs-btn" id="fs-theme-toggle" type="button" title="切换明暗模式" aria-label="切换明暗模式">
         <svg class="fs-theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>

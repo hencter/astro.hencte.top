@@ -64,6 +64,8 @@ featuredProjects:
     result: "从单页升级为可持续更新的项目 + 博客双栈站点。"
     tags: ["Astro", "Bilingual", "Personal Brand"]
     url: "/"
+    image: "/img/projects/hencte-top.png?v=20260903yi"
+    imageAlt: "亦幸小阁：米白宣纸上朱红「亦」印、青瓷茶盏与毛笔"
   - stage: "迁移工程"
     title: "Hugo 内容迁移到 Astro"
     description: "旧博客批量转换并迁移到新站，统一 YAML front matter，便于长期维护。"

@@ -8,4 +8,4 @@ cover: "/img/novel/ai-counter-taming-cover.png"
 imageAlt: "Tamed by AI cover: adult silhouette and luminous neural lattice mirroring each other—ambiguous who tames whom"
 ---
 
-English translation is in progress. [Read in 简体中文](/novel/ai-counter-taming).
+English translation is in progress. [Read in 简体中文](/shelf/ai-counter-taming).

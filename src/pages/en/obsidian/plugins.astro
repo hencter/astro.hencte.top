@@ -1,7 +1,8 @@
 ---
 import { getEntry, render } from "astro:content";
 import Layout from "../../../layouts/BaseLayout.astro";
-import Hero from "../../../components/Hero.astro";
+import Banner from "../../../components/Banner.astro";
+import { sectionImage } from "../../../lib/section-images";
 
 const entry = await getEntry("connect", "en/obsidian/plugins");
 if (!entry) {
@@ -11,6 +12,10 @@ if (!entry) {
 const page = entry.data;
 const hero = page.hero;
 const { Content } = await render(entry);
+const bannerActions = [hero?.actions?.primary, hero?.actions?.secondary].filter(
+  (a): a is { label: string; href: string } => Boolean(a?.label && a?.href),
+);
+const bannerImage = sectionImage("obsidian");
 ---
 
 <Layout
@@ -25,7 +30,16 @@ const { Content } = await render(entry);
   }}
   keywords={page.keywords ?? []}
 >
-  <Hero compact badge={hero?.badge} headline={hero?.headline} subtitle={hero?.subtitle} actions={hero?.actions} />
+  <Banner
+    variant="page"
+    compact
+    kicker={hero?.badge}
+    title={hero?.headline ?? page.title}
+    subtitle={hero?.subtitle}
+    image={bannerImage}
+    actions={bannerActions}
+    actionStyle="text"
+  />
 
   <section class="section">
     <div class="post-prose">

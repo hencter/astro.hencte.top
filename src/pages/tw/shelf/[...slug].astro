@@ -2,10 +2,11 @@
 import NovelLayout from "../../../layouts/NovelLayout.astro";
 import NovelLandingPage from "../../../layouts/NovelLandingPage.astro";
 import NovelIndexPage from "../../../layouts/NovelIndexPage.astro";
+import { getNovelHref } from "../../../lib/novel-helpers";
 import { buildNovelPageContext, getNovelStaticPaths } from "../../../lib/novel-page";
 
 export async function getStaticPaths() {
-  return getNovelStaticPaths("en-US");
+  return getNovelStaticPaths("zh-TW");
 }
 
 const slugParam = Astro.params.slug as string | undefined;
@@ -19,7 +20,7 @@ const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
     title={ctx.displayData.title as string}
     description={ctx.displayData.description as string | undefined}
     novelTitle={ctx.chapterCtx.novelTitle}
-    novelHref={`/en/novel/${ctx.chapterCtx.novelSlug}`}
+    novelHref={getNovelHref(ctx.locale, ctx.chapterCtx.novelSlug)}
     chapters={ctx.chapterCtx.chapters}
     prevChapter={ctx.chapterCtx.prevChapter}
     nextChapter={ctx.chapterCtx.nextChapter}
@@ -43,8 +44,6 @@ const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
     cover={ctx.displayData.cover as string | undefined}
     imageAlt={ctx.displayData.imageAlt as string | undefined}
     languageLinks={ctx.languageLinks}
-    chapterImage={ctx.displayData.chapterImage as string | undefined}
-    imageAlt={ctx.displayData.imageAlt as string | undefined}
     Content={ctx.Content}
     html={ctx.html}
   />

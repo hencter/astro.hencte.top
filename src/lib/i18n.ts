@@ -106,17 +106,50 @@ export function getNavLinks(locale: SiteLocale) {
   ];
 }
 
+export type LanguageLink = {
+  locale: SiteLocale;
+  href: string;
+  label: string;
+  current: boolean;
+};
+
 export function getLanguageLinks(
   currentLocale: SiteLocale,
   page: ConnectPage
-): { locale: SiteLocale; href: string; label: string; current: boolean }[] {
-  const alternates = getPageAlternates(page);
-  return (Object.keys(LOCALE_CONFIG) as SiteLocale[]).map((locale) => ({
-    locale,
-    href: alternates[locale] ?? LOCALE_CONFIG[locale].path,
-    label: LOCALE_CONFIG[locale].label,
-    current: locale === currentLocale,
-  }));
+): LanguageLink[] {
+  return getChromeLanguageLinks(currentLocale, { page });
+}
+
+/**
+ * Site chrome language switcher targets.
+ * Prefer explicit alternates → connect-page peers → that locale's home.
+ * Always returns one entry per SiteLocale so the header switcher never vanishes.
+ */
+export function getChromeLanguageLinks(
+  currentLocale: SiteLocale,
+  options?: {
+    page?: ConnectPage;
+    alternates?: Record<string, string>;
+  }
+): LanguageLink[] {
+  const pagePaths = options?.page ? PAGE_PATHS[options.page] : null;
+  const alts = options?.alternates;
+
+  return (Object.keys(LOCALE_CONFIG) as SiteLocale[]).map((locale) => {
+    const fromAlt = alts?.[locale];
+    const fromPage = pagePaths?.[locale];
+    const href =
+      (fromAlt && fromAlt.length > 0 ? fromAlt : undefined) ??
+      fromPage ??
+      LOCALE_CONFIG[locale].path;
+
+    return {
+      locale,
+      href,
+      label: LOCALE_CONFIG[locale].label,
+      current: locale === currentLocale,
+    };
+  });
 }
 
 export function getBrandTagline(locale: SiteLocale): string {
@@ -133,10 +166,10 @@ export function getDateLocale(locale: SiteLocale): string {
   return "zh-CN";
 }
 
-/** Novel routes share slug across locales; DRM pages omit hreflang in Meta (noindex). */
+/** Bookshelf routes share slug across locales; DRM fiction pages stay noindex. */
 export function getNovelPathPrefix(locale: SiteLocale): string {
   const base = LOCALE_CONFIG[locale].path.replace(/\/$/, "");
-  return base ? `${base}/novel` : "/novel";
+  return base ? `${base}/shelf` : "/shelf";
 }
 
 export function getNovelHref(locale: SiteLocale, slug?: string): string {

@@ -10,9 +10,12 @@ const INDEX_IDS = new Set(["novel", "zh-CN/novel", "en/novel", "zh-cn/novel"]);
 const ZH_CN_PREFIX = "zh-CN/";
 const EN_PREFIX = "en/";
 
+/** Public bookshelf path — 书架. Content collection remains `novel`. */
+export const SHELF_SEGMENT = "shelf";
+
 export function getNovelLocalePrefix(locale: SiteLocale): string {
   const base = LOCALE_CONFIG[locale].path.replace(/\/$/, "");
-  return base ? `${base}/novel` : "/novel";
+  return base ? `${base}/${SHELF_SEGMENT}` : `/${SHELF_SEGMENT}`;
 }
 
 export function getNovelHref(locale: SiteLocale, slug: string | undefined): string {
@@ -160,13 +163,19 @@ export function sortChapters(a: NovelEntry, b: NovelEntry): number {
 export function getNovelUiStrings(locale: SiteLocale) {
   const zh = {
     home: "首页",
-    novelIndex: "小说目录",
+    novelIndex: "返回书架",
     chapterSelect: "章节目录",
     prevChapter: "上一章",
     nextChapter: "下一章",
     lastRead: "上次读到",
+    libraryBrand: "亦幸小阁",
     libraryTitle: "书架",
-    librarySub: "原创小说 · 持续更新",
+    librarySub: "作品库 · 小说与开源教程",
+    sectionFiction: "原创",
+    sectionTutorial: "教程",
+    sectionTutorialHint: "开源教程即将上架",
+    emptyShelf: "书架上暂时空空如也，敬请期待新作上架。",
+    author: "亦幸",
     backHome: "首页",
     wechatAlt: "微信公众号二维码",
     wechatHint: "扫码关注微信公众号",
@@ -178,13 +187,19 @@ export function getNovelUiStrings(locale: SiteLocale) {
   if (locale === "en-US") {
     return {
       home: "Home",
-      novelIndex: "Fiction",
+      novelIndex: "Back to shelf",
       chapterSelect: "Chapters",
       prevChapter: "Previous",
       nextChapter: "Next",
       lastRead: "Continue reading",
-      libraryTitle: "Bookshelf",
-      librarySub: "Original fiction · ongoing",
+      libraryBrand: "Yi Xing",
+      libraryTitle: "Shelf",
+      librarySub: "A personal library — fiction, and open tutorials to come",
+      sectionFiction: "Fiction",
+      sectionTutorial: "Guides",
+      sectionTutorialHint: "Open-source tutorials coming soon",
+      emptyShelf: "This shelf is empty for now. New works are on the way.",
+      author: "Hencter",
       backHome: "Home",
       wechatAlt: "WeChat QR code",
       wechatHint: "Follow on WeChat",
@@ -195,18 +210,12 @@ export function getNovelUiStrings(locale: SiteLocale) {
     };
   }
   if (locale === "zh-TW") {
-    return {
-      ...mirrorNovelData(zh, "zh-TW"),
-      libraryTitle: "📚 書架",
-    };
+    return mirrorNovelData(zh, "zh-TW");
   }
   if (locale === "zh-HK") {
-    return {
-      ...mirrorNovelData(zh, "zh-HK"),
-      libraryTitle: "📚 書架",
-    };
+    return mirrorNovelData(zh, "zh-HK");
   }
-  return { ...zh, libraryTitle: "📚 书架" };
+  return zh;
 }
 
 export function htmlLangForLocale(locale: SiteLocale): string {

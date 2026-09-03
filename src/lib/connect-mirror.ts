@@ -13,7 +13,21 @@ const REWRITABLE_PATHS = new Set(["/", "/about", "/projects", "/blog", "/links"]
 function rewriteHref(href: string, prefix: string): string {
   if (!href.startsWith("/") || href.startsWith("//")) return href;
   if (href.startsWith("/en") || href.startsWith("/tw") || href.startsWith("/hk")) return href;
-  if (href.startsWith("/novel") || href.startsWith("/tw/novel") || href.startsWith("/hk/novel") || href.startsWith("/en/novel") || href.startsWith("/blog") || href.startsWith("/log") || href.startsWith("/tech") || href.startsWith("/ancient") || href.startsWith("/obsidian")) {
+  if (
+    href.startsWith("/shelf") ||
+    href.startsWith("/novel") ||
+    href.startsWith("/tw/shelf") ||
+    href.startsWith("/hk/shelf") ||
+    href.startsWith("/en/shelf") ||
+    href.startsWith("/tw/novel") ||
+    href.startsWith("/hk/novel") ||
+    href.startsWith("/en/novel") ||
+    href.startsWith("/blog") ||
+    href.startsWith("/log") ||
+    href.startsWith("/tech") ||
+    href.startsWith("/ancient") ||
+    href.startsWith("/obsidian")
+  ) {
     return href;
   }
   if (REWRITABLE_PATHS.has(href)) {

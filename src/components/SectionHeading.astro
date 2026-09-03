@@ -1,7 +1,7 @@
 ---
 /**
- * SectionHeading — editorial rail heading per UI Surface Policy.
- * Extracted from the isomorphic copy repeated across connect sections.
+ * SectionHeading — editorial rail heading (no atmosphere image).
+ * Partition hubs with optional bg use Banner instead.
  */
 interface Props {
   title: string;
@@ -12,6 +12,6 @@ const { title, subtitle } = Astro.props;
 ---
 
 <div class="section-heading">
-  <h2 class="section-title">{title}</h2>
+  <h2 class="section-title text-breathe">{title}</h2>
   {subtitle && <p class="section-subtitle">{subtitle}</p>}
 </div>

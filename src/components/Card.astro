@@ -1,0 +1,42 @@
+---
+/**
+ * Card — interactive object surface (墨纸 object card).
+ *
+ * Rest is editorial-quiet; contour + soft lift reveal on hover /
+ * focus-within. Touch (hover: none) keeps a light resting edge.
+ *
+ * Not for article lists — use EditorialListItem.
+ * See swarm_reports/ui/2026-09-03_card_design_philosophy.md
+ */
+type CardVariant = "work" | "featured" | "link" | "shelf";
+
+interface Props {
+  variant?: CardVariant;
+  /** Extra classes merged onto the root */
+  class?: string;
+  /** Root element; default article */
+  as?: "article" | "div" | "li";
+}
+
+const { variant = "work", class: className = "", as: Tag = "article" } = Astro.props;
+
+const legacyAlias =
+  variant === "featured"
+    ? "card-featured"
+    : variant === "link"
+      ? "friend-card"
+      : variant === "shelf"
+        ? "shelf-card"
+        : "project-card";
+---
+
+<Tag class:list={["ink-card", `ink-card--${variant}`, legacyAlias, className]}>
+  <slot name="media" />
+  <div class:list={["ink-card__body", { "card-featured-body": variant === "featured" }]}>
+    <slot name="kicker" />
+    <slot name="title" />
+    <slot name="meta" />
+    <slot />
+    <slot name="action" />
+  </div>
+</Tag>

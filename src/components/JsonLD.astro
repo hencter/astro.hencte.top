@@ -167,7 +167,7 @@ if (type === "Organization") {
         name: b.title,
         ...(b.alternateName ? { alternateName: b.alternateName } : {}),
         description: b.description,
-        url: `${siteUrl}/novel/${b.slug}`,
+        url: `${siteUrl}/shelf/${b.slug}`,
         author: { "@type": "Person", name: "Hencter Lew" },
         inLanguage,
         ...(b.chapterCount ? { numberOfPages: b.chapterCount } : {}),

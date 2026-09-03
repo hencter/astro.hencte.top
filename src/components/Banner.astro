@@ -1,0 +1,128 @@
+---
+/**
+ * Banner — atmosphere header for partition / section hubs.
+ *
+ * Visual contract:
+ * - Optional background image stays ON the banner (section atmosphere),
+ *   never sprayed across body content.
+ * - Type sits on a brand-safe veil when an image is present.
+ * - CTAs are text links by default (breathing hover), not card grids.
+ * - Body content below remains paper/ink — no decorative panels here.
+ *
+ * Variants:
+ * - page: hub page header (h1)
+ * - section: in-page partition header (h2), optional image
+ * - cta: closing call-to-action frame (at most one per page)
+ */
+interface BannerAction {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  /** Small rail label above the title (was hero badge) */
+  kicker?: string;
+  /** Optional atmosphere image path (e.g. from sectionImage()) */
+  image?: string;
+  imageAlt?: string;
+  variant?: "page" | "section" | "cta";
+  compact?: boolean;
+  id?: string;
+  actions?: BannerAction[];
+  /** text = editorial links (default); button = rare brand CTAs */
+  actionStyle?: "text" | "button";
+  /** CTA split layout for side slot (QR, etc.) */
+  split?: boolean;
+  /** Prefetch hover on action links */
+  prefetch?: boolean;
+}
+
+const {
+  title,
+  subtitle,
+  kicker,
+  image,
+  imageAlt = "",
+  variant = "page",
+  compact = false,
+  id,
+  actions = [],
+  actionStyle = "text",
+  split = false,
+  prefetch = false,
+} = Astro.props;
+
+const Tag = variant === "page" ? "header" : "div";
+const HeadingTag = variant === "page" ? "h1" : "h2";
+const hasImage = Boolean(image);
+const hasActions = actions.length > 0;
+---
+
+<Tag
+  class:list={[
+    "site-banner",
+    `site-banner--${variant}`,
+    {
+      "site-banner--compact": compact,
+      "site-banner--imaged": hasImage,
+      "site-banner--split": split,
+    },
+  ]}
+  id={id}
+>
+  {
+    hasImage && (
+      <div class="site-banner__media" aria-hidden={imageAlt ? undefined : "true"}>
+        <img
+          class="site-banner__img"
+          src={image}
+          alt={imageAlt}
+          width="1600"
+          height="640"
+          loading={variant === "page" ? "eager" : "lazy"}
+          decoding="async"
+        />
+      </div>
+    )
+  }
+  {hasImage && <div class="site-banner__veil" aria-hidden="true" />}
+
+  <div class:list={["site-banner__main", { "site-banner__main--split": split }]}>
+    <div class="site-banner__copy">
+      <slot name="before" />
+      {kicker && <p class="site-banner__kicker text-breathe">{kicker}</p>}
+      <HeadingTag class="site-banner__title text-breathe">{title}</HeadingTag>
+      {subtitle && <p class="site-banner__subtitle">{subtitle}</p>}
+      {
+        hasActions && (
+          <div
+            class:list={[
+              "site-banner__actions",
+              actionStyle === "button" ? "hero-actions" : "site-banner__actions--text",
+            ]}
+          >
+            {actions.map((action, i) => (
+              <a
+                class:list={[
+                  actionStyle === "button"
+                    ? i === 0
+                      ? "btn-primary"
+                      : "btn-secondary"
+                    : "site-banner__link text-breathe",
+                ]}
+                href={action.href}
+                data-astro-prefetch={prefetch ? "hover" : undefined}
+              >
+                {action.label}
+              </a>
+            ))}
+          </div>
+        )
+      }
+      <slot />
+    </div>
+    <slot name="aside" />
+  </div>
+</Tag>

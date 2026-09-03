@@ -192,7 +192,7 @@ function importAiCounterTaming() {
     draft: false,
     locale: "en-US",
     comingSoon: true,
-  }, "English translation is in progress. [Read in 简体中文](/novel/ai-counter-taming).");
+  }, "English translation is in progress. [Read in 简体中文](/shelf/ai-counter-taming).");
 }
 
 function writeLocaleIndexes() {

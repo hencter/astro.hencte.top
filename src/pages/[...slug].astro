@@ -229,6 +229,7 @@ if (isSectionLanding && !isAncient) {
       description={post.data.description}
       canonicalPath={canonicalPath}
       badge={`Blog / ${sectionLabels[sectionKey] || sectionKey}`}
+      sectionKey={sectionKey}
       sections={landingSections}
       posts={landingPosts}
     >
@@ -240,6 +241,7 @@ if (isSectionLanding && !isAncient) {
       description={post.data.description || `${post.data.title} - 博客文章`}
       locale="zh-CN"
       canonicalPath={canonicalPath}
+      connectPage="blog"
       keywords={seoKeywords}
       ogType="article"
       image={post.data.images?.[0]}

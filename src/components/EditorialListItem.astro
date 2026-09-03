@@ -36,7 +36,7 @@ const {
   <h3>
     <a
       href={href}
-      class={stretched ? "card-link" : undefined}
+      class:list={["text-breathe", { "card-link": stretched }]}
       data-astro-prefetch={prefetch ? "hover" : undefined}
     >{title}</a>
   </h3>

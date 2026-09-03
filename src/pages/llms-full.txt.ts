@@ -18,7 +18,7 @@ export async function GET() {
   const parts: string[] = [
     "# 亦幸小阁 — 全站内容",
     "",
-    "> 本文件包含 亦幸小阁（https://hencte.top）博客文章的完整正文，供 AI 引擎理解与引用。作者：亦幸（Hencter Lew）。原创小说（/novel/）因版权保护未包含章节正文；仅提供书目元数据。",
+    "> 本文件包含 亦幸小阁（https://hencte.top）博客文章的完整正文，供 AI 引擎理解与引用。作者：亦幸（Hencter Lew）。原创小说（/shelf/，旧 /novel/ 重定向至此）因版权保护未包含章节正文；仅提供书目元数据。",
     "",
     novelSection,
     "---",

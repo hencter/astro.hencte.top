@@ -82,6 +82,8 @@ featuredProjects:
     outcome: "可持续更新的公开站点。"
     tags: ["Astro", "Bilingual", "Brand Site"]
     url: "/projects"
+    image: "/img/projects/hencte-top.png?v=20260903yi"
+    imageAlt: "亦幸小阁：米白宣纸上朱红「亦」印、青瓷茶盏与毛笔"
   - stage: "迁移工程"
     title: "Hugo → Astro 内容迁移"
     description: "旧博客迁移到新栈，统一 YAML front matter 与发布流程。"

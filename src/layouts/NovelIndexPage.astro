@@ -1,13 +1,23 @@
 ---
 import type { SiteLocale } from "../lib/i18n";
-import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
+import { htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
 import LocaleSelect from "../components/LocaleSelect.astro";
 import JsonLD from "../components/JsonLD.astro";
 import ThemeBoot from "../components/ThemeBoot.astro";
 
+export type ShelfWork = {
+  title: string;
+  description?: string;
+  href: string;
+  slug: string;
+  cover?: string;
+  imageAlt?: string;
+  kind: "fiction" | "tutorial" | "guide";
+};
+
 interface Props {
   locale: SiteLocale;
-  novels: { title: string; description?: string; href: string; slug: string }[];
+  novels: ShelfWork[];
   languageLinks: { locale: SiteLocale; href: string; label: string; current: boolean }[];
 }
 
@@ -18,27 +28,14 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 const canonicalPath = Astro.url.pathname;
 const htmlLang = htmlLangForLocale(locale);
 
-const spinePalette = [
-  { bg: "#c0392b", text: "#f5e6d3", accent: "#e74c3c" },
-  { bg: "#1a5276", text: "#d4e6f1", accent: "#2980b9" },
-  { bg: "#1e8449", text: "#d5f5e3", accent: "#27ae60" },
-  { bg: "#6c3483", text: "#e8daef", accent: "#8e44ad" },
-  { bg: "#b9770e", text: "#fdebd0", accent: "#f39c12" },
-  { bg: "#283747", text: "#d5dbdb", accent: "#5d6d7e" },
-  { bg: "#922b21", text: "#fadbd8", accent: "#c0392b" },
-  { bg: "#0e6251", text: "#d1f2eb", accent: "#1abc9c" },
-  { bg: "#4a235a", text: "#e8daef", accent: "#7d3c98" },
-  { bg: "#7e5109", text: "#fdebd0", accent: "#d4ac0d" },
-  { bg: "#1b4f72", text: "#d6eaf8", accent: "#2e86c1" },
-  { bg: "#641e16", text: "#f5b7b1", accent: "#cb4335" },
-];
+const fiction = novels.filter((w) => w.kind === "fiction");
+const tutorials = novels.filter((w) => w.kind === "tutorial" || w.kind === "guide");
 
-function pickSpine(index: number) {
-  return spinePalette[index % spinePalette.length];
-}
+const fontHref =
+  "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap";
 ---
 
-<html lang={htmlLangForLocale(locale)}>
+<html lang={htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -48,6 +45,9 @@ function pickSpine(index: number) {
     <meta name="description" content={ui.librarySub} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex, noai, noimageai, noarchive, nocache" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href={fontHref} />
     <JsonLD
       type="BookCollection"
       pageTitle={`${ui.libraryTitle} | 亦幸小阁`}
@@ -62,272 +62,464 @@ function pickSpine(index: number) {
     />
     <style is:global>
       :root {
-        --wood-light: #c99a6b;
-        --wood-mid: #8b5e3c;
-        --wood-dark: #5c3a28;
-        --wood-surface: #b8895a;
-        --shelf-shadow: rgba(26, 24, 20, 0.25);
-        --wall-bg: #f5f1e8;
-        --wall-text: #1a1814;
-        --wall-muted: #6b6358;
-        --shelf-edge: #8b5e3c;
+        --bg: #f5f0e6;
+        --surface: #fffcf5;
+        --line: #d8cdba;
+        --ink-900: #19150f;
+        --ink-700: #3b3124;
+        --ink-500: #5f5548;
+        --ink-400: #9a9288;
+        --brand: #b8792c;
+        --brand-deep: #845414;
+        --accent: #a14932;
+        --highlight: #3c5b73;
+        --shadow-soft: 0 8px 24px rgba(25, 21, 15, 0.08);
+        --font-display: "ZCOOL XiaoWei", "Noto Serif SC", serif;
+        --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
       }
       :root.dark {
-        --wood-light: #5c3a28;
-        --wood-mid: #3a2214;
-        --wood-dark: #1a0e06;
-        --wood-surface: #4a2c1a;
-        --shelf-shadow: rgba(0,0,0,0.55);
-        --wall-bg: #121110;
-        --wall-text: #ebe6dc;
-        --wall-muted: #8a8278;
-        --shelf-edge: #5c3a28;
+        --bg: #0b0907;
+        --surface: #15110d;
+        --line: #3b3021;
+        --ink-900: #f2e8d9;
+        --ink-700: #baac97;
+        --ink-500: #baac97;
+        --ink-400: #7a6f5e;
+        --brand: #d9aa4e;
+        --brand-deep: #e8bd68;
+        --accent: #c46a52;
+        --highlight: #5a8aad;
+        --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
       }
 
-      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
       body {
-        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+        font-family: var(--font-serif);
         background:
-          repeating-linear-gradient(90deg, color-mix(in srgb,var(--wall-bg) 97%,var(--wood-mid) 3%) 0px, color-mix(in srgb,var(--wall-bg) 97%,var(--wood-mid) 3%) 2px, var(--wall-bg) 2px, var(--wall-bg) 6px),
-          var(--wall-bg);
-        color: var(--wall-text);
+          radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in srgb, var(--brand) 10%, transparent), transparent 70%),
+          radial-gradient(ellipse 60% 40% at 90% 20%, color-mix(in srgb, var(--highlight) 6%, transparent), transparent 60%),
+          var(--bg);
+        color: var(--ink-900);
         min-height: 100vh;
-        padding: 2rem;
+        padding: clamp(1.25rem, 4vw, 2.5rem);
         -webkit-font-smoothing: antialiased;
+      }
+
+      .shelf-page {
+        max-width: 920px;
+        margin: 0 auto;
       }
 
       .back {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        color: var(--wall-muted);
+        gap: 0.35rem;
+        color: var(--ink-500);
         text-decoration: none;
         font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-        transition: color 0.2s;
+        margin-bottom: 2rem;
+        transition: color 0.2s ease;
       }
-      .back:hover { color: var(--wall-text); }
+      .back:hover {
+        color: var(--brand-deep);
+      }
 
-      .library-header {
+      .library-hero {
         text-align: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: clamp(2.5rem, 6vw, 3.5rem);
+        animation: shelf-rise 0.55s ease both;
       }
-      .library-header h1 {
-        font-size: 2.4rem;
-        letter-spacing: 0.15em;
-        font-family: "ZCOOL XiaoWei", "Noto Serif SC", serif;
-        margin-bottom: 0.3rem;
+
+      .library-seal {
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 1.1rem;
+        display: block;
       }
-      .library-header .sub {
-        color: var(--wall-muted);
-        font-size: 0.85rem;
-        letter-spacing: 0.08em;
+
+      .library-brand {
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        letter-spacing: 0.28em;
+        color: var(--brand-deep);
+        margin-bottom: 0.55rem;
       }
-      .library-header .lang-row {
+
+      .library-hero h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.4rem, 6vw, 3.2rem);
+        letter-spacing: 0.2em;
+        font-weight: 400;
+        line-height: 1.15;
+        margin-bottom: 0.65rem;
+      }
+
+      .library-hero .sub {
+        color: var(--ink-500);
+        font-size: 0.95rem;
+        letter-spacing: 0.06em;
+        max-width: 28em;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .library-hero .lang-row {
         display: flex;
         justify-content: center;
-        margin-top: 1rem;
+        margin-top: 1.25rem;
       }
 
-      .bookshelf {
-        max-width: 960px;
-        margin: 0 auto;
+      .shelf-bay {
+        margin-bottom: clamp(2.75rem, 6vw, 3.75rem);
+        animation: shelf-rise 0.65s ease 0.08s both;
+      }
+
+      .bay-label {
         display: flex;
-        flex-direction: column;
-        gap: 2.5rem;
+        align-items: baseline;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+        padding-left: 0.15rem;
       }
 
-      .shelf {
+      .bay-label h2 {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        letter-spacing: 0.18em;
+        font-weight: 400;
+        border-left: 3px solid var(--brand);
+        padding-left: 0.7rem;
+        line-height: 1.3;
+      }
+
+      .bay-label .hint {
+        color: var(--ink-400);
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+      }
+
+      .shelf-rail {
         position: relative;
-        padding: 0 0.5rem 1.2rem;
-        border-bottom: 10px solid var(--shelf-edge);
         display: flex;
         align-items: flex-end;
-        gap: 0.5rem;
+        justify-content: flex-start;
+        gap: clamp(0.85rem, 2.5vw, 1.4rem);
         flex-wrap: wrap;
+        padding: 0 0.25rem 1.35rem;
+        min-height: 220px;
       }
 
-      .shelf::before {
+      .shelf-rail::after {
         content: "";
         position: absolute;
-        inset: auto 0.5rem 0;
-        height: 10px;
-        background: linear-gradient(180deg,
-          color-mix(in srgb,var(--wood-light) 60%,white 40%) 0%,
-          var(--wood-mid) 40%,
-          var(--wood-dark) 100%);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 8px;
         border-radius: 2px;
-        box-shadow: 0 2px 8px var(--shelf-shadow), 0 0 0 1px rgba(0,0,0,0.08);
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--brand) 35%, var(--line)) 0%,
+          color-mix(in srgb, var(--brand-deep) 50%, var(--line)) 55%,
+          color-mix(in srgb, var(--ink-900) 18%, var(--line)) 100%
+        );
+        box-shadow:
+          0 6px 18px color-mix(in srgb, var(--ink-900) 12%, transparent),
+          inset 0 1px 0 color-mix(in srgb, var(--surface) 50%, transparent);
+      }
+
+      .work {
+        position: relative;
+        z-index: 1;
+        width: clamp(118px, 22vw, 148px);
+        text-decoration: none;
+        color: inherit;
+        flex-shrink: 0;
+        transition:
+          transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+          filter 0.28s ease;
+        animation: shelf-rise 0.55s ease both;
+      }
+
+      .work:nth-child(1) {
+        animation-delay: 0.12s;
+      }
+      .work:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .work:nth-child(3) {
+        animation-delay: 0.28s;
+      }
+      .work:nth-child(4) {
+        animation-delay: 0.36s;
+      }
+
+      .work:hover,
+      .work:focus-visible {
+        transform: translateY(-10px);
+        filter: drop-shadow(0 14px 20px color-mix(in srgb, var(--ink-900) 22%, transparent));
+        outline: none;
         z-index: 2;
       }
 
-      .shelf::after {
-        content: "";
-        position: absolute;
-        inset: auto 0 0 0;
-        height: 40px;
-        background: linear-gradient(180deg,
-          rgba(0,0,0,0.15) 0%,
-          transparent 100%);
-        pointer-events: none;
-        z-index: 3;
+      .work-cover {
+        display: block;
+        aspect-ratio: 2 / 3;
+        width: 100%;
+        border-radius: 2px 6px 6px 2px;
+        overflow: hidden;
+        background: var(--surface);
+        border: 1px solid color-mix(in srgb, var(--line) 80%, var(--ink-900) 20%);
+        box-shadow:
+          inset -4px 0 8px color-mix(in srgb, var(--ink-900) 12%, transparent),
+          3px 4px 0 color-mix(in srgb, var(--ink-900) 8%, transparent);
+        position: relative;
       }
 
-      .book {
-        position: relative;
-        z-index: 1;
+      .work-cover img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .work-cover-fallback {
         display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        text-decoration: none;
-        border-radius: 3px 8px 8px 3px;
-        padding: 0.7rem 0.55rem;
+        align-items: flex-end;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 1rem 0.65rem;
         writing-mode: vertical-rl;
         text-orientation: mixed;
-        cursor: pointer;
-        transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
-                    box-shadow 0.3s ease,
-                    z-index 0s;
-        box-shadow:
-          inset -3px 0 6px rgba(0,0,0,0.15),
-          2px 3px 6px rgba(0,0,0,0.2),
-          -1px 0 0 rgba(0,0,0,0.1);
-        flex-shrink: 0;
+        font-family: var(--font-display);
+        font-size: 1rem;
+        letter-spacing: 0.14em;
+        background: linear-gradient(
+          165deg,
+          color-mix(in srgb, var(--brand) 18%, var(--surface)),
+          color-mix(in srgb, var(--highlight) 12%, var(--surface))
+        );
+        color: var(--ink-900);
       }
 
-      .book:hover {
-        transform: translateY(-12px) scale(1.03);
-        box-shadow:
-          inset -3px 0 6px rgba(0,0,0,0.15),
-          4px 8px 16px rgba(0,0,0,0.3),
-          -1px 0 0 rgba(0,0,0,0.1);
-        z-index: 10;
+      .work-meta {
+        margin-top: 0.7rem;
+        text-align: center;
       }
 
-      .book-title {
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        line-height: 1.4;
-        white-space: nowrap;
-      }
-
-      .book-author {
-        font-size: 0.62rem;
-        margin-top: 0.5rem;
+      .work-title {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 0.95rem;
         letter-spacing: 0.06em;
-        opacity: 0.7;
+        line-height: 1.35;
+        color: var(--ink-900);
       }
 
-      .book-decoration {
-        margin-top: auto;
-        width: 80%;
-        height: 3px;
-        border-radius: 0;
-        opacity: 0.4;
-        align-self: center;
-        margin-bottom: 0.3rem;
+      .work-desc {
+        margin-top: 0.25rem;
+        font-size: 0.72rem;
+        line-height: 1.45;
+        color: var(--ink-400);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
-      .book-tall    { height: 240px; }
-      .book-medium  { height: 200px; }
-      .book-short   { height: 170px; }
-
-      .book.tilt-left  { transform: rotate(-2deg); }
-      .book.tilt-right { transform: rotate(2.5deg); }
-      .book.tilt-left:hover  { transform: rotate(-2deg) translateY(-12px) scale(1.03); }
-      .book.tilt-right:hover { transform: rotate(2.5deg) translateY(-12px) scale(1.03); }
-
-      .shelf-label {
-        position: absolute;
-        right: 1.5rem;
-        bottom: -1.8rem;
-        font-size: 0.7rem;
-        color: var(--wall-muted);
-        letter-spacing: 0.1em;
-        z-index: 5;
-      }
-
-      .empty-shelf {
-        color: var(--wall-muted);
+      .bay-empty {
+        color: var(--ink-400);
         font-size: 0.9rem;
-        padding: 1rem 0.5rem;
-        z-index: 1;
+        letter-spacing: 0.04em;
+        padding: 1.5rem 0.5rem 0.5rem;
         font-style: italic;
       }
 
-      .bookend {
-        align-self: stretch;
-        width: 20px;
-        background: linear-gradient(90deg, var(--wood-dark), var(--wood-mid));
+      .bay-soon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 160px;
+        width: 100%;
+        border: 1px dashed color-mix(in srgb, var(--line) 70%, var(--brand) 30%);
         border-radius: 4px;
-        z-index: 1;
-        flex-shrink: 0;
-        box-shadow: 2px 0 4px rgba(0,0,0,0.2);
+        color: var(--ink-400);
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 1.35rem;
+        background: color-mix(in srgb, var(--surface) 55%, transparent);
+      }
+
+      @keyframes shelf-rise {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .library-hero,
+        .shelf-bay,
+        .work {
+          animation: none;
+        }
+        .work:hover,
+        .work:focus-visible {
+          transform: none;
+          filter: none;
+        }
       }
 
       @media (max-width: 640px) {
-        body { padding: 1rem; }
-        .bookshelf { gap: 2rem; }
-        .book-tall   { height: 200px; }
-        .book-medium { height: 170px; }
-        .book-short  { height: 150px; }
-        .book-title { font-size: 0.78rem; }
-        .book { padding: 0.5rem 0.4rem; }
+        .work {
+          width: calc(50% - 0.6rem);
+          max-width: 150px;
+        }
+        .shelf-rail {
+          gap: 0.85rem;
+          justify-content: center;
+        }
+        .bay-label {
+          justify-content: center;
+        }
+        .bay-label h2 {
+          border-left: none;
+          padding-left: 0;
+          border-bottom: 2px solid var(--brand);
+          padding-bottom: 0.15rem;
+        }
       }
     </style>
     <ThemeBoot />
   </head>
   <body>
-    <a href={homeHref} class="back">&larr; {ui.backHome}</a>
+    <div class="shelf-page">
+      <a href={homeHref} class="back">&larr; {ui.backHome}</a>
 
-    <div class="library-header">
-      <h1>{ui.libraryTitle}</h1>
-      <p class="sub">{ui.librarySub}</p>
-      <div class="lang-row">
-        <LocaleSelect links={languageLinks} label={ui.language} />
-      </div>
-    </div>
+      <header class="library-hero">
+        <svg
+          class="library-seal"
+          viewBox="0 0 48 48"
+          role="img"
+          aria-label="亦"
+          focusable="false"
+        >
+          <rect x="1.5" y="1.5" width="45" height="45" rx="10" fill="var(--brand)"></rect>
+          <rect
+            x="5.5"
+            y="5.5"
+            width="37"
+            height="37"
+            rx="6.5"
+            fill="none"
+            stroke="var(--bg)"
+            stroke-opacity="0.55"
+            stroke-width="1.2"></rect>
+          <text
+            x="24"
+            y="25"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-size="26"
+            fill="var(--bg)"
+            style='font-family: var(--font-display), "Noto Serif SC", serif'>亦</text>
+        </svg>
+        <p class="library-brand">{ui.libraryBrand}</p>
+        <h1>{ui.libraryTitle}</h1>
+        <p class="sub">{ui.librarySub}</p>
+        <div class="lang-row">
+          <LocaleSelect links={languageLinks} label={ui.language} />
+        </div>
+      </header>
 
-    <div class="bookshelf">
-      {
-        novels.length === 0 ? (
-          <div class="shelf">
-            <span class="empty-shelf">书架上暂时空空如也，敬请期待新作上架。</span>
-          </div>
-        ) : (
-          (() => {
-            const shelves = [];
-            const perShelf = 4;
-            for (let i = 0; i < novels.length; i += perShelf) {
-              shelves.push(novels.slice(i, i + perShelf));
-            }
-            return shelves.map((shelfNovels, shelfIdx) => {
-              const heights = ["book-tall", "book-medium", "book-short", "book-tall"];
-              const tilts = ["tilt-left", "", "tilt-right", ""];
-              return (
-                <div class="shelf">
-                  {shelfNovels.map((n, bi) => {
-                    const palette = pickSpine(shelfIdx * perShelf + bi);
-                    const h = heights[bi % heights.length];
-                    const t = tilts[bi % tilts.length];
-                    return (
-                      <a href={n.href} class={`book ${h} ${t}`} style={`background:linear-gradient(180deg,${palette.bg} 0%,color-mix(in srgb,${palette.bg} 80%,black 20%) 100%);color:${palette.text}`}>
-                        <span class="book-title">{n.title}</span>
-                        <span class="book-author">亦幸</span>
-                        <span class="book-decoration" style={`background:${palette.accent}`}></span>
-                      </a>
-                    );
-                  })}
-                  <span class="bookend"></span>
-                  <span class="shelf-label">第 {shelfIdx + 1} 排</span>
-                </div>
-              );
-            });
-          })()
-        )
-      }
+      <section class="shelf-bay" aria-labelledby="bay-fiction">
+        <div class="bay-label">
+          <h2 id="bay-fiction">{ui.sectionFiction}</h2>
+        </div>
+        {
+          fiction.length === 0 ? (
+            <div class="shelf-rail">
+              <p class="bay-empty">{ui.emptyShelf}</p>
+            </div>
+          ) : (
+            <div class="shelf-rail">
+              {fiction.map((w) => (
+                <a href={w.href} class="work" data-astro-prefetch="hover">
+                  <span class="work-cover">
+                    {w.cover ? (
+                      <img
+                        src={w.cover}
+                        alt={w.imageAlt || w.title}
+                        width="148"
+                        height="222"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <span class="work-cover-fallback">{w.title}</span>
+                    )}
+                  </span>
+                  <span class="work-meta">
+                    <span class="work-title">{w.title}</span>
+                    {w.description && <span class="work-desc">{w.description}</span>}
+                  </span>
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </section>
+
+      <section class="shelf-bay" aria-labelledby="bay-tutorial">
+        <div class="bay-label">
+          <h2 id="bay-tutorial">{ui.sectionTutorial}</h2>
+        </div>
+        {
+          tutorials.length === 0 ? (
+            <>
+              <p class="bay-soon">{ui.sectionTutorialHint}</p>
+              <div class="shelf-rail" aria-hidden="true"></div>
+            </>
+          ) : (
+            <div class="shelf-rail">
+              {tutorials.map((w) => (
+                <a href={w.href} class="work" data-astro-prefetch="hover">
+                  <span class="work-cover">
+                    {w.cover ? (
+                      <img
+                        src={w.cover}
+                        alt={w.imageAlt || w.title}
+                        width="148"
+                        height="222"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <span class="work-cover-fallback">{w.title}</span>
+                    )}
+                  </span>
+                  <span class="work-meta">
+                    <span class="work-title">{w.title}</span>
+                    {w.description && <span class="work-desc">{w.description}</span>}
+                  </span>
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </section>
     </div>
   </body>
 </html>

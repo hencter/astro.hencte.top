@@ -2,7 +2,8 @@
 import BaseLayout from "./BaseLayout.astro";
 import JsonLD from "../components/JsonLD.astro";
 import EditorialListItem from "../components/EditorialListItem.astro";
-import Hero from "../components/Hero.astro";
+import Banner from "../components/Banner.astro";
+import { sectionImage } from "../lib/section-images";
 
 interface PostItem {
   title: string;
@@ -27,6 +28,8 @@ interface Props {
   posts: PostItem[];
   sections?: SectionItem[];
   locale?: "zh-CN" | "en-US";
+  /** Key under public/img/sections/ for optional Banner atmosphere */
+  sectionKey?: string;
 }
 
 const {
@@ -37,9 +40,11 @@ const {
   posts,
   sections = [],
   locale = "zh-CN",
+  sectionKey,
 } = Astro.props;
 
 const isEnglish = locale === "en-US";
+const bannerImage = sectionImage(sectionKey || "blog");
 
 function formatDate(date?: Date): string {
   if (!date) {
@@ -55,17 +60,16 @@ function formatDate(date?: Date): string {
 
 const blogNav = isEnglish
   ? [
+      // Honest peers only: section hubs (/log,/tech,…) are zh corpus today.
+      // EN switcher goes to /en/blog; do not pretend /en/log exists.
       { href: "/en/blog", label: "All" },
-      { href: "/log", label: "Log" },
-      { href: "/tech", label: "Tech" },
-      { href: "/novel", label: "Novel" },
-      { href: "/ancient", label: "Ancient" },
+      { href: "/en/shelf", label: "Shelf" },
     ]
   : [
       { href: "/blog", label: "全部" },
       { href: "/log", label: "日志" },
       { href: "/tech", label: "技术" },
-      { href: "/novel", label: "小说" },
+      { href: "/shelf", label: "书架" },
       { href: "/ancient", label: "古文" },
     ];
 
@@ -86,6 +90,7 @@ const navActive = canonicalPath.replace(/\/+$/, "");
   description={description || `${title} - ${isEnglish ? "blog section" : "博客栏目"}`}
   locale={locale}
   canonicalPath={canonicalPath}
+  connectPage="blog"
   keywords={isEnglish ? ["blog", "section", title] : ["博客", "栏目", "亦幸小阁", title]}
 >
   <JsonLD
@@ -96,7 +101,14 @@ const navActive = canonicalPath.replace(/\/+$/, "");
       { name: title, url: canonicalPath },
     ]}
   />
-  <Hero compact badge={badge} headline={title} subtitle={description}>
+  <Banner
+    variant="page"
+    compact
+    kicker={badge}
+    title={title}
+    subtitle={description}
+    image={bannerImage}
+  >
     <nav slot="before" class="breadcrumb" aria-label="Breadcrumb">
       <ol>
         <li><a href={isEnglish ? "/en" : "/"}>{labels.home}</a></li>
@@ -115,7 +127,7 @@ const navActive = canonicalPath.replace(/\/+$/, "");
         ))
       }
     </nav>
-  </Hero>
+  </Banner>
 
   <section class="section reveal-on-scroll">
     <div class="post-prose read-container read-container--intro">
@@ -125,16 +137,17 @@ const navActive = canonicalPath.replace(/\/+$/, "");
     {sections.length > 0 && (
       <div class="section-block">
         <h2 class="section-title">{labels.subSections}</h2>
-        <div class="card-grid three">
+        <div class="post-list">
           {
             sections.map((section) => (
-              <article class="project-card">
-                <h3>
-                  <a href={section.href} class="card-link">{section.title}</a>
-                </h3>
-                {section.description && <p>{section.description}</p>}
-                <p class="result-line">{section.count} {labels.countSuffix}</p>
-              </article>
+              <EditorialListItem
+                title={section.title}
+                href={section.href}
+                description={section.description}
+                date={`${section.count} ${labels.countSuffix}`}
+                prefetch
+                stretched
+              />
             ))
           }
         </div>

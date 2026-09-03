@@ -1,7 +1,8 @@
 ---
 import type { SiteLocale } from "../../lib/i18n";
-import Hero from "../Hero.astro";
+import Banner from "../Banner.astro";
 import SectionHeading from "../SectionHeading.astro";
+import { sectionImage } from "../../lib/section-images";
 
 interface ProjectsData {
   hero?: {
@@ -39,13 +40,26 @@ interface Props {
   };
 }
 
-const { page, locale, strings } = Astro.props;
+const { page, strings } = Astro.props;
 const hero = page.hero;
 const projects = page.featuredProjects ?? [];
 const timeline = page.timeline ?? [];
+const projectsImage = sectionImage("projects");
+const heroActions = [hero?.actions?.primary, hero?.actions?.secondary].filter(
+  (a): a is { label: string; href: string } => Boolean(a?.label && a?.href),
+);
 ---
 
-<Hero id="top" badge={hero?.badge} headline={hero?.headline} subtitle={hero?.subtitle} actions={hero?.actions} />
+<Banner
+  id="top"
+  variant="page"
+  kicker={hero?.badge}
+  title={hero?.headline ?? ""}
+  subtitle={hero?.subtitle}
+  image={projectsImage}
+  actions={heroActions}
+  actionStyle="text"
+/>
 
 <section class="section reveal-on-scroll" id="featured">
   <SectionHeading title={strings.featuredTitle} subtitle={strings.featuredSubtitle} />
@@ -70,7 +84,7 @@ const timeline = page.timeline ?? [];
         </div>
         <div class="card-featured-body">
           <p class="card-kicker">{projects[0].stage}</p>
-          <h3>{projects[0].title}</h3>
+          <h3 class="text-breathe">{projects[0].title}</h3>
           <p>{projects[0].description}</p>
           {projects[0].result && <p class="result-line">{projects[0].result}</p>}
           <ul class="chip-list">
@@ -78,7 +92,7 @@ const timeline = page.timeline ?? [];
           </ul>
           {projects[0].url && (
             <p>
-              <a class="btn-secondary" style="display:inline-flex;margin-top:0.5rem"
+              <a class="site-banner__link text-breathe" style="display:inline-flex;margin-top:0.5rem"
                 href={projects[0].url}
                 target={projects[0].url.startsWith("http") ? "_blank" : undefined}
                 rel={projects[0].url.startsWith("http") ? "noreferrer" : undefined}
@@ -110,7 +124,7 @@ const timeline = page.timeline ?? [];
                 </figure>
               )}
               <p class="card-kicker">{project.stage}</p>
-              <h3>{project.title}</h3>
+              <h3 class="text-breathe">{project.title}</h3>
               <p>{project.description}</p>
               {project.result && <p class="result-line">{project.result}</p>}
               <ul class="chip-list">
@@ -119,6 +133,7 @@ const timeline = page.timeline ?? [];
               {project.url && (
                 <p>
                   <a
+                    class="text-breathe"
                     href={project.url}
                     target={project.url.startsWith("http") ? "_blank" : undefined}
                     rel={project.url.startsWith("http") ? "noreferrer" : undefined}

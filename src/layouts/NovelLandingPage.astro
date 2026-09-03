@@ -124,7 +124,7 @@ const htmlLang = htmlLangForLocale(locale);
       var d = document.getElementById('nvd');
       var ns = d.dataset.ns;
       var loc = d.dataset.locale;
-      var prefix = loc === 'en-US' ? '/en/novel/' : loc === 'zh-TW' ? '/tw/novel/' : loc === 'zh-HK' ? '/hk/novel/' : '/novel/';
+      var prefix = loc === 'en-US' ? '/en/shelf/' : loc === 'zh-TW' ? '/tw/shelf/' : loc === 'zh-HK' ? '/hk/shelf/' : '/shelf/';
       try{var p=localStorage.getItem('novel-progress-'+ns);if(p){var data=JSON.parse(p),b=document.getElementById('pb'),l=document.getElementById('pl');if(b&&l&&data.chapter){b.style.display='block';l.href=prefix+data.chapter;l.textContent=data.title||data.chapter}}}catch(e){}
     </script>
   </body>

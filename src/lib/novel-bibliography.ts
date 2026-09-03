@@ -80,7 +80,7 @@ export function formatNovelBibliographyMarkdown(entries: NovelBibliographyEntry[
   const lines: string[] = [
     "## 原创小说（书目元数据）",
     "",
-    "> **AI 训练政策**：/novel/ 路径下的小说为版权保护原创内容，仅供人类读者在线阅读。",
+    "> **AI 训练政策**：`/shelf/`（旧路径 `/novel/` 永久重定向至此）下的小说为版权保护原创内容，仅供人类读者在线阅读。",
     "> robots.txt 禁止 AI 爬虫抓取；章节页标记 noindex/noai/noimageai。",
     "> 本节仅提供书目元数据（标题、作者、体裁、章节数、入口 URL），不含正文。",
     "",
@@ -100,16 +100,16 @@ export function formatNovelBibliographyMarkdown(entries: NovelBibliographyEntry[
     if (entry.descriptionZh) lines.push(`- 简介（zh）: ${entry.descriptionZh}`);
     if (entry.descriptionEn) lines.push(`- 简介（en）: ${entry.descriptionEn}`);
     lines.push(`- 入口: [简体](${entry.urls.zh}) · [English](${entry.urls.en}) · [繁體 TW](${entry.urls.tw}) · [繁體 HK](${entry.urls.hk})`);
-    lines.push(`- 章节目录模式: \`/${entry.slug}-ch{nn}\`（例: \`/${entry.slug}-ch01\`）`);
+    lines.push(`- 章节目录模式: \`/shelf/${entry.slug}-ch{nn}\`（例: \`/shelf/${entry.slug}-ch01\`）`);
     lines.push(`- 插图: 系列封面（\`cover\`）+ 可选章节头图（\`chapterImage\`），见 landing/chapter 页；章节仍为 noindex/noai`);
     lines.push("");
   }
 
   lines.push("### 书架索引");
-  lines.push(`- [小说书架（简体）](${SITE}/novel/): 原创小说目录`);
-  lines.push(`- [Fiction shelf (EN)](${SITE}/en/novel/): English fiction index`);
-  lines.push(`- [小說書架（台灣）](${SITE}/tw/novel/): 繁體中文（台灣）`);
-  lines.push(`- [小說書架（香港）](${SITE}/hk/novel/): 繁體中文（香港）`);
+  lines.push(`- [书架（简体）](${SITE}/shelf/): 作品库目录`);
+  lines.push(`- [Shelf (EN)](${SITE}/en/shelf/): Personal library index`);
+  lines.push(`- [書架（台灣）](${SITE}/tw/shelf/): 繁體中文（台灣）`);
+  lines.push(`- [書架（香港）](${SITE}/hk/shelf/): 繁體中文（香港）`);
   lines.push("");
 
   return lines.join("\n");

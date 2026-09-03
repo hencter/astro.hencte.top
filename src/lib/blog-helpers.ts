@@ -9,12 +9,28 @@ const allowedSections = new Set(["log", "tech", "ancient", "novel"]);
 const isIndexPage = (entry: { data: { legacyPath?: string } }) =>
   Boolean(entry.data.legacyPath?.endsWith("_index.md"));
 
-export async function getLatestPosts(limit = 6) {
+/**
+ * Temporary English detector until blog schema gains `lang`.
+ * Convention: leaf slug ends with `-en` (e.g. `tech/geo-two-years-en`).
+ */
+export function isEnglishBlogId(id: string): boolean {
+  const leaf = id.split("/").pop() ?? id;
+  return leaf.endsWith("-en");
+}
+
+/** Route↔content: zh* shells see Chinese corpus; `/en` sees English-only. */
+export function blogIdMatchesLocale(id: string, locale: SiteLocale): boolean {
+  const isEn = isEnglishBlogId(id);
+  return locale === "en-US" ? isEn : !isEn;
+}
+
+export async function getLatestPosts(limit = 6, locale: SiteLocale = "zh-CN") {
   const allEntries = await getCollection("blog");
   return allEntries
     .filter((entry) => !entry.data.draft)
     .filter((entry) => allowedSections.has(entry.data.section || entry.id.split("/")[0]))
     .filter((entry) => !isIndexPage(entry))
+    .filter((entry) => blogIdMatchesLocale(entry.id, locale))
     .sort((a, b) => {
       const aTime = a.data.date ? a.data.date.getTime() : 0;
       const bTime = b.data.date ? b.data.date.getTime() : 0;
@@ -96,7 +112,8 @@ export async function getBlogIndexData(
   const allEntries = await getCollection("blog");
   const publicEntries = allEntries
     .filter((entry) => !entry.data.draft)
-    .filter((entry) => allowed.has(entry.data.section || entry.id.split("/")[0]));
+    .filter((entry) => allowed.has(entry.data.section || entry.id.split("/")[0]))
+    .filter((entry) => blogIdMatchesLocale(entry.id, locale));
 
   const novelEntries = await getCollection("novel");
   const novelCount = novelEntries.filter(

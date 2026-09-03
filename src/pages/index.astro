@@ -12,9 +12,9 @@ if (!homeEntry) {
 }
 
 const home = homeEntry.data;
-const latestPosts = await getLatestPosts();
-const homeNovels = await getHomeNovels("zh-CN");
 const locale = "zh-CN";
+const latestPosts = await getLatestPosts(6, locale);
+const homeNovels = await getHomeNovels(locale);
 ---
 
 <Layout

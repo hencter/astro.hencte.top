@@ -35,7 +35,8 @@
 | 术语 | 英文 | 定义 |
 |------|------|------|
 | 博客 | Blog | `src/content/blog/` 下的技术文章，分 4 个 section |
-| 小说 | Novel | `src/content/novel/` 下的原创小说章节 |
+| 小说 | Novel | `src/content/novel/` 下的原创小说章节；公开路由主路径为 `/shelf/`（旧 `/novel/` 永久重定向） |
+| 书架 | Shelf | `/shelf` 作品库索引页：封面朝前，分区含原创与教程钩子 |
 | 连接页 | Connect Page | `src/content/connect/` 下的 i18n 静态页面内容 |
 | 布局 | Layout | `src/layouts/` 下的 Astro 布局组件 |
 | 设计系统 | Design System | `src/styles/global.css` 中定义的 CSS 自定义属性体系 |

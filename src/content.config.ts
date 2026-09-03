@@ -235,7 +235,7 @@ const connect = defineCollection({
 
 const novel = defineCollection({
   // Per-series layout: src/content/novel/{zh-CN,en}/{series}/index.md + ch{nn}.md
-  // Public slugs unchanged: /novel/{series}, /novel/{series}-ch{nn}
+  // Public slugs: /shelf/{series}, /shelf/{series}-ch{nn} (legacy /novel/* redirects)
   loader: glob({
     pattern: ["zh-CN/**/*.md", "en/**/*.md"],
     base: "./src/content/novel",

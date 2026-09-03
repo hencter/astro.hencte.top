@@ -6,8 +6,9 @@ import {
   extractSummary,
   formatBlogDate,
 } from "../../lib/blog-helpers";
-import Hero from "../Hero.astro";
+import Banner from "../Banner.astro";
 import EditorialListItem from "../EditorialListItem.astro";
+import { sectionImage } from "../../lib/section-images";
 
 interface Props {
   locale: SiteLocale;
@@ -42,9 +43,24 @@ const summaryFallback =
       : locale === "zh-HK"
         ? "暫無摘要，點擊進入查看全文。"
         : "暂无摘要，点击进入查看全文。";
+
+const heroActions = [page.hero?.actions?.primary, page.hero?.actions?.secondary].filter(
+  (a): a is { label: string; href: string } => Boolean(a?.label && a?.href),
+);
+const bannerImage = sectionImage("blog");
 ---
 
-<Hero compact badge={page.hero?.badge} headline={page.hero?.headline} subtitle={page.hero?.subtitle} actions={page.hero?.actions} prefetch />
+<Banner
+  variant="page"
+  compact
+  kicker={page.hero?.badge}
+  title={page.hero?.headline ?? (locale === "en-US" ? "Blog" : "博客")}
+  subtitle={page.hero?.subtitle}
+  image={bannerImage}
+  actions={heroActions}
+  actionStyle="text"
+  prefetch
+/>
 
 <section class="section reveal-on-scroll">
   <div class="blog-stats">
@@ -62,37 +78,19 @@ const summaryFallback =
 
   <div class="section-block">
     <h2 class="section-title">{sectionsTitle}</h2>
-    <div class="layout-asymmetric">
-      <div class="card-grid" style="grid-template-columns:1fr;gap:0.95rem">
-        {
-          sectionMeta.slice(0, 2).map((item) => (
-            <article class="project-card">
-              <h3>
-                <a href={item.href} data-astro-prefetch="hover">{item.label}</a>
-              </h3>
-              <p>{item.description}</p>
-              <p class="result-line">
-                {countsBySection[item.key]} {postsUnit}
-              </p>
-            </article>
-          ))
-        }
-      </div>
-      <div class="card-grid" style="grid-template-columns:1fr;gap:0.95rem">
-        {
-          sectionMeta.slice(2).map((item) => (
-            <article class="project-card">
-              <h3>
-                <a href={item.href} data-astro-prefetch="hover">{item.label}</a>
-              </h3>
-              <p>{item.description}</p>
-              <p class="result-line">
-                {countsBySection[item.key]} {postsUnit}
-              </p>
-            </article>
-          ))
-        }
-      </div>
+    <div class="post-list">
+      {
+        sectionMeta.map((item) => (
+          <EditorialListItem
+            title={item.label}
+            href={item.href}
+            description={item.description}
+            date={`${countsBySection[item.key]} ${postsUnit}`}
+            prefetch
+            stretched
+          />
+        ))
+      }
     </div>
   </div>
 

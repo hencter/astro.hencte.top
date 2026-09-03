@@ -1,20 +1,16 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import type { SiteLocale } from "../../lib/i18n";
-import NovelLayout from "../../layouts/NovelLayout.astro";
-import NovelLandingPage from "../../layouts/NovelLandingPage.astro";
-import NovelIndexPage from "../../layouts/NovelIndexPage.astro";
-import { buildNovelPageContext, getNovelStaticPaths } from "../../lib/novel-page";
+import NovelLayout from "../../../layouts/NovelLayout.astro";
+import NovelLandingPage from "../../../layouts/NovelLandingPage.astro";
+import NovelIndexPage from "../../../layouts/NovelIndexPage.astro";
+import { getNovelHref } from "../../../lib/novel-helpers";
+import { buildNovelPageContext, getNovelStaticPaths } from "../../../lib/novel-page";
 
 export async function getStaticPaths() {
-  return getNovelStaticPaths("zh-CN");
+  return getNovelStaticPaths("en-US");
 }
 
 const slugParam = Astro.params.slug as string | undefined;
-const { entry, novelLocale } = Astro.props as {
-  entry: CollectionEntry<"novel">;
-  novelLocale: SiteLocale;
-};
+const { entry, novelLocale } = Astro.props;
 const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
 ---
 
@@ -24,7 +20,7 @@ const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
     title={ctx.displayData.title as string}
     description={ctx.displayData.description as string | undefined}
     novelTitle={ctx.chapterCtx.novelTitle}
-    novelHref={ctx.chapterCtx.novelSlug ? `/novel/${ctx.chapterCtx.novelSlug}` : "/novel/"}
+    novelHref={getNovelHref(ctx.locale, ctx.chapterCtx.novelSlug)}
     chapters={ctx.chapterCtx.chapters}
     prevChapter={ctx.chapterCtx.prevChapter}
     nextChapter={ctx.chapterCtx.nextChapter}
@@ -48,8 +44,6 @@ const ctx = await buildNovelPageContext(novelLocale, entry, slugParam);
     cover={ctx.displayData.cover as string | undefined}
     imageAlt={ctx.displayData.imageAlt as string | undefined}
     languageLinks={ctx.languageLinks}
-    chapterImage={ctx.displayData.chapterImage as string | undefined}
-    imageAlt={ctx.displayData.imageAlt as string | undefined}
     Content={ctx.Content}
     html={ctx.html}
   />

@@ -9,7 +9,7 @@ import {
   type SiteLocale,
   LOCALE_CONFIG,
   getNavLinks,
-  getLanguageLinks,
+  getChromeLanguageLinks,
   getBrandTagline,
   type ConnectPage,
 } from "../lib/i18n";
@@ -50,7 +50,12 @@ const signatureName = "亦幸小阁";
 const authorName = "Hencter Lew";
 const brandTagline = getBrandTagline(locale);
 const navLinks = getNavLinks(locale);
-const languageLinks = connectPage ? getLanguageLinks(locale, connectPage) : [];
+// Always expose the locale switcher in site chrome. Pages without
+// connectPage / partial alternates fall back to each locale's home.
+const languageLinks = getChromeLanguageLinks(locale, {
+  page: connectPage,
+  alternates,
+});
 
 const canonical = new URL(canonicalPath, Astro.url).toString();
 const hreflang = alternates;
@@ -173,12 +178,10 @@ function isNavActive(href: string): boolean {
             <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
             <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
-          {languageLinks.length > 0 && (
-            <LocaleSelect
-              links={languageLinks}
-              label={locale === "en-US" ? "Switch language" : "切换语言"}
-            />
-          )}
+          <LocaleSelect
+            links={languageLinks}
+            label={locale === "en-US" ? "Switch language" : "切换语言"}
+          />
         </div>
 
         <div class="nav-toggle">
@@ -366,10 +369,29 @@ function isNavActive(href: string): boolean {
         armIdle();
       }
 
+      // Hash landing after ClientRouter swaps — native fragment scroll can
+      // miss when layout is mid-transition; scroll-margin still applies.
+      // Same-page #clicks stay CSS-only (html { scroll-behavior: smooth }).
+      function scrollToHashInstant() {
+        const raw = location.hash.slice(1);
+        if (!raw) return;
+        let id = raw;
+        try { id = decodeURIComponent(raw); } catch (_) { /* keep raw */ }
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
+
       initThemeToggle();
       initScrollReveal();
       initMobileNav();
       initReadingChrome();
+
+      // History back/forward: jump instantly (don't animate scroll restore).
+      document.addEventListener('astro:before-swap', (event) => {
+        if (event.navigationType === 'traverse') {
+          event.newDocument.documentElement.style.scrollBehavior = 'auto';
+        }
+      });
 
       document.addEventListener('astro:after-swap', () => {
         const saved = localStorage.getItem('theme');
@@ -383,6 +405,10 @@ function isNavActive(href: string): boolean {
         initScrollReveal();
         initMobileNav();
         initReadingChrome();
+        // Instant land after swap so VT doesn't fight CSS smooth mid-flight.
+        if (location.hash) {
+          requestAnimationFrame(scrollToHashInstant);
+        }
       });
     </script>
   </body>

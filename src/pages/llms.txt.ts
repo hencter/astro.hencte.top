@@ -68,7 +68,7 @@ ${novelSection}
 
 ## Optional
 
-- [llms-full.txt](https://hencte.top/llms-full.txt): 博客文章全文索引（不含 /novel/ 版权内容）
+- [llms-full.txt](https://hencte.top/llms-full.txt): 博客文章全文索引（不含 /shelf/ 版权小说正文）
 - [llm.txt](https://hencte.top/llm.txt): 站点实体与 FAQ 摘要（KEY:VALUE 格式）
 
 Last updated: ${lastUpdated}

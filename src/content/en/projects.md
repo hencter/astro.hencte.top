@@ -63,6 +63,8 @@ featuredProjects:
     result: "Continuously updated projects + blog platform."
     tags: ["Astro", "Bilingual", "Personal Brand"]
     url: "/"
+    image: "/img/projects/hencte-top.png?v=20260903yi"
+    imageAlt: "Yi Xing pavilion: vermilion 亦 seal on cream paper with celadon tea and brush"
   - stage: "Migration Workflow"
     title: "Hugo to Astro Content Migration"
     description: "Legacy blog migrated with unified YAML front matter for long-term maintainability."

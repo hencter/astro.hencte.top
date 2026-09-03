@@ -32,6 +32,13 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | ops | hencte-top.png 朱印「赤」→「亦」修复 | seal-fixer | [./ops/2026-09-03_hencte_top_seal_chi_fix.md](./ops/2026-09-03_hencte_top_seal_chi_fix.md) |
+| 2026-09-03 | content | Section Banner 大气图补齐（home + obsidian） | section-imagery | [./content/2026-09-03_section_imagery.md](./content/2026-09-03_section_imagery.md) |
+| 2026-09-03 | ui | Banner 重定义（分区大气头 + 文字呼吸 + Card 克制） | banner-system | [./ui/2026-09-03_banner_redefinition.md](./ui/2026-09-03_banner_redefinition.md) |
+| 2026-09-03 | content | 首页 i18n 中英混排根因审计 + 语言切换建议 | i18n-auditor | [./content/2026-09-03_i18n_home_locale_mismatch.md](./content/2026-09-03_i18n_home_locale_mismatch.md) |
+| 2026-09-03 | ui | 全站锚点平滑滚动 + sticky header scroll-margin | smooth-scroll | [./ui/2026-09-03_smooth_anchor_scroll.md](./ui/2026-09-03_smooth_anchor_scroll.md) |
+| 2026-09-03 | ui | Card 设计哲学 + 轮廓揭示实现（ink-card） | card-system | [./ui/2026-09-03_card_design_philosophy.md](./ui/2026-09-03_card_design_philosophy.md) |
+| 2026-09-03 | content | 书架 UI + `/shelf` 路由更名（/novel 永久重定向） | worker | [./content/2026-09-03_novel_bookshelf_ui.md](./content/2026-09-03_novel_bookshelf_ui.md) |
 | 2026-09-03 | ui | 极简阅读体验 Sprint 终报（20/20 通过） | main | [./ui/2026-09-03_minimal_reading_sprint_final.md](./ui/2026-09-03_minimal_reading_sprint_final.md) |
 | 2026-09-03 | ui | 极简阅读体验 Sprint 任务拆解 | main | [./2026-09-03_plan_minimal_reading_sprint.md](./2026-09-03_plan_minimal_reading_sprint.md) |
 | 2026-09-03 | ui | 阅读/首页合并审计（正文离轴144px + TOC唤回） | reading-auditor | [./ui/2026-09-03_reading_homepage_audit.md](./ui/2026-09-03_reading_homepage_audit.md) |

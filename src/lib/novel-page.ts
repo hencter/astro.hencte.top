@@ -45,7 +45,16 @@ export interface NovelPageContext {
     novelSlug: string;
     comingSoon: boolean;
   } | null;
-  indexNovels: { title: string; description?: string; href: string; slug: string }[];
+  indexNovels: {
+    title: string;
+    description?: string;
+    href: string;
+    slug: string;
+    cover?: string;
+    imageAlt?: string;
+    /** Shelf category — fiction now; tutorials/guides plug in later */
+    kind: "fiction" | "tutorial" | "guide";
+  }[];
 }
 
 const INDEX_IDS = new Set(["novel", "zh-cn/novel", "en/novel"]);
@@ -226,15 +235,19 @@ export async function buildNovelPageContext(
       .filter((e) => !e.data.draft)
       .filter((e) => hasPrefix(e.id, prefix))
       .filter((e) => isSeriesLanding(e))
-      .map((n) => ({
-        title: locale === "zh-TW" || locale === "zh-HK" ? mirrorNovelData(n.data, locale).title : n.data.title,
-        description:
-          locale === "zh-TW" || locale === "zh-HK"
-            ? (mirrorNovelData(n.data, locale).description as string | undefined)
-            : n.data.description,
-        href: getNovelHref(locale, entrySlug(n)!),
-        slug: entrySlug(n)!,
-      }));
+      .map((n) => {
+        const data =
+          locale === "zh-TW" || locale === "zh-HK" ? mirrorNovelData(n.data, locale) : n.data;
+        return {
+          title: data.title as string,
+          description: data.description as string | undefined,
+          href: getNovelHref(locale, entrySlug(n)!),
+          slug: entrySlug(n)!,
+          cover: (data.cover as string | undefined) ?? undefined,
+          imageAlt: (data.imageAlt as string | undefined) ?? undefined,
+          kind: "fiction" as const,
+        };
+      });
   }
 
   return {

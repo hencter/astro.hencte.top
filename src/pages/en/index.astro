@@ -12,8 +12,8 @@ if (!homeEntry) {
 }
 
 const home = homeEntry.data;
-const latestPosts = await getLatestPosts();
 const locale = "en-US";
+const latestPosts = await getLatestPosts(6, locale);
 ---
 
 <Layout

@@ -30,10 +30,11 @@ export default defineConfig({
           "zh-HK": "zh-HK",
         },
       },
-      // Keep /novel/ out of the sitemap: robots.txt disallows it (DRM fiction),
-      // so listing it here would contradict the crawl directives.
+      // Keep /shelf/ (and legacy /novel/) out of sitemap: robots disallows DRM fiction.
+      // When public tutorials land on the shelf, carve them into sitemap selectively.
       serialize(item) {
-        if (item.url.includes("/novel")) return undefined;
+        const url = item.url;
+        if (url.includes("/shelf") || url.includes("/novel")) return undefined;
         return item;
       },
     }),
@@ -73,5 +74,14 @@ export default defineConfig({
     "/ai-guardrail": "/tech/ai-guardrail",
     "/ai-memory-bottleneck": "/tech/ai-memory-bottleneck",
     "/chatgpt-health-data": "/tech/chatgpt-health-data",
+    // Legacy /novel → /shelf (书架 primary path)
+    "/novel": "/shelf",
+    "/novel/[...slug]": "/shelf/[...slug]",
+    "/en/novel": "/en/shelf",
+    "/en/novel/[...slug]": "/en/shelf/[...slug]",
+    "/tw/novel": "/tw/shelf",
+    "/tw/novel/[...slug]": "/tw/shelf/[...slug]",
+    "/hk/novel": "/hk/shelf",
+    "/hk/novel/[...slug]": "/hk/shelf/[...slug]",
   },
 });

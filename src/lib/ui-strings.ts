@@ -19,7 +19,7 @@ const HOME_STRINGS_ZH: UiStrings = {
   aboutBody:
     "写代码、也写小说与技术笔记——把长期主义落到可持续增长的个人品牌上。",
   aboutCta: "深入了解 →",
-  viewNovels: "浏览原创小说 →",
+  viewNovels: "进入书架 →",
   viewAllProjects: "查看全部项目 →",
 };
 
@@ -58,7 +58,7 @@ const HOME_STRINGS_EN: UiStrings = {
   aboutBody:
     "Code, fiction, and engineering notes — a personal brand built with long-term patience.",
   aboutCta: "Learn more →",
-  viewNovels: "Browse original fiction →",
+  viewNovels: "Open the shelf →",
   viewAllProjects: "View all projects →",
 };
 

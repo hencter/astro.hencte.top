@@ -2,9 +2,11 @@
 
 > 亦幸与主代理的设计拷问轮：每条含判断、证据与状态。防止后续轮次重复评估。
 
-## 1. Card/卡片语法（P0 已实施）
+## 1. Card/卡片语法（P0 已实施；P1 轮廓揭示 2026-09-03）
 - 判断：无脑"卡片化"是层级失语；正文/列表裸排，只有 object/hero/CTA 保留 surface。
-- 状态：✅ P0 已落地；P1 静态条目降噪待排期。
+- **轮廓揭示（用户偏好）**：Rest = 编辑式安静（无硬框）；hover / `:focus-visible`·`:focus-within` = 显现边线 + 短软抬升；`(hover: none)` 触屏保留轻描边。禁止厚 Material 阴影与弹跳 easing。
+- 状态：✅ 哲学文档 + `Card.astro` + `.ink-card` token 已落地；首页项目 / 博客栏目入口已迁移；书架由其他代理持有。
+- 详见：[[2026-09-03_card_design_philosophy]]
 
 ## 2. shadcn Select（LocaleSelect）
 - 判断：真 shadcn = React/Radix hydration，本站不引入；原生 select 仿视觉零依赖。
