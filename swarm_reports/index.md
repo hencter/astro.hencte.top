@@ -32,6 +32,7 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-03 | seo | Sitemap i18n 路径键修正 + 404/shelf 过滤验证 | seo-sitemap | [./seo/2026-09-03_sitemap.md](./seo/2026-09-03_sitemap.md) |
 | 2026-09-03 | ops | hencte-top.png 朱印「赤」→「亦」修复 | seal-fixer | [./ops/2026-09-03_hencte_top_seal_chi_fix.md](./ops/2026-09-03_hencte_top_seal_chi_fix.md) |
 | 2026-09-03 | content | Section Banner 大气图补齐（home + obsidian） | section-imagery | [./content/2026-09-03_section_imagery.md](./content/2026-09-03_section_imagery.md) |
 | 2026-09-03 | ui | Banner 重定义（分区大气头 + 文字呼吸 + Card 克制） | banner-system | [./ui/2026-09-03_banner_redefinition.md](./ui/2026-09-03_banner_redefinition.md) |

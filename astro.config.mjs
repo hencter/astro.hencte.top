@@ -21,20 +21,29 @@ export default defineConfig({
   integrations: [
     markdoc(),
     sitemap({
+      // Keys = URL path segments after origin; values = hreflang language codes.
+      // Default zh-CN has no prefix (/); en→/en, tw→/tw, hk→/hk.
       i18n: {
         defaultLocale: "zh-CN",
         locales: {
           "zh-CN": "zh-CN",
-          "en-US": "en-US",
-          "zh-TW": "zh-TW",
-          "zh-HK": "zh-HK",
+          en: "en-US",
+          tw: "zh-TW",
+          hk: "zh-HK",
         },
       },
-      // Keep /shelf/ (and legacy /novel/) out of sitemap: robots disallows DRM fiction.
-      // When public tutorials land on the shelf, carve them into sitemap selectively.
+      filter(page) {
+        // 404 pages are not indexable; drafts never reach dist (filtered in getStaticPaths).
+        if (/\/404\/?$/.test(new URL(page).pathname)) return false;
+        // Exclude legacy /novel redirect aliases only; /shelf is primary indexable content.
+        if (page.includes("/novel")) return false;
+        return true;
+      },
+      // Belt-and-suspenders with filter; return undefined to drop an entry.
       serialize(item) {
         const url = item.url;
-        if (url.includes("/shelf") || url.includes("/novel")) return undefined;
+        if (/\/404\/?$/.test(new URL(url).pathname)) return undefined;
+        if (url.includes("/novel")) return undefined;
         return item;
       },
     }),
