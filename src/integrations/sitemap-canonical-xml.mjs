@@ -4,6 +4,7 @@ import {
   readdir,
   rename,
   unlink,
+  writeFile,
 } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,11 +33,34 @@ const XML_HEADERS = {
   "X-Content-Type-Options": "nosniff",
 };
 
+/** Strip leftover browser XSL PIs (raw sitemap only; no /sitemap.xsl). */
+function stripStylesheetPi(xml) {
+  return xml.replace(/<\?xml-stylesheet\b[^?]*\?>\s*/gi, "");
+}
+
+/**
+ * Drop hreflang extension nodes / unused xhtml xmlns so the file stays
+ * closer to the core sitemaps.org 0.9 urlset (url + loc only).
+ * @param {string} xml
+ */
+function stripXhtmlLinks(xml) {
+  return xml
+    .replace(/<xhtml:link\b[^>]*\/?>/gi, "")
+    .replace(/\s+xmlns:xhtml="[^"]*"/gi, "");
+}
+
+/** @param {string} filePath */
+async function scrubSitemapFile(filePath) {
+  const raw = await readFile(filePath, "utf8");
+  const cleaned = stripXhtmlLinks(stripStylesheetPi(raw));
+  if (cleaned !== raw) await writeFile(filePath, cleaned, "utf8");
+}
+
 /** @param {string} site */
 function minimalDevSitemap(site) {
   const origin = site.replace(/\/$/, "");
   return `<?xml version="1.0" encoding="UTF-8"?>
-<!-- Dev fallback: run \`pnpm build\` for the full production sitemap (hreflang + all pages). -->
+<!-- Dev fallback: run \`pnpm build\` for the full production sitemap. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>${origin}/</loc></url>
 </urlset>
@@ -51,6 +75,15 @@ function minimalDevSitemap(site) {
  */
 async function serveDevSitemap(req, res, next, ctx) {
   const pathname = (req.url ?? "").split("?")[0];
+
+  // Stale browsers/bookmarks may still ask for the removed XSL — short-circuit
+  // so [...slug] never runs getCollection for this phantom path.
+  if (pathname === "/sitemap.xsl" || pathname === "/sitemap.xsl/") {
+    res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+    res.end("Not Found");
+    return;
+  }
+
   if (pathname !== "/sitemap.xml" && pathname !== "/sitemap.xml/") {
     next();
     return;
@@ -59,7 +92,9 @@ async function serveDevSitemap(req, res, next, ctx) {
   const distPath = join(ctx.root, "dist", "sitemap.xml");
   try {
     await access(distPath, fsConstants.R_OK);
-    const body = await readFile(distPath, "utf8");
+    const body = stripXhtmlLinks(
+      stripStylesheetPi(await readFile(distPath, "utf8")),
+    );
     res.writeHead(200, {
       ...XML_HEADERS,
       "X-Sitemap-Source": "dist",
@@ -135,12 +170,14 @@ export function sitemapCanonicalXml() {
         if (chunks.length === 1) {
           await rename(join(outDir, chunks[0]), target);
           if (hasIndex) await unlink(join(outDir, indexName));
+          await scrubSitemapFile(target);
           logger.info("Sitemap canonicalized → /sitemap.xml (single urlset)");
           return;
         }
 
         if (chunks.length > 1 && hasIndex) {
           await rename(join(outDir, indexName), target);
+          await scrubSitemapFile(target);
           logger.info(
             `Sitemap canonicalized → /sitemap.xml (index over ${chunks.length} chunks)`,
           );

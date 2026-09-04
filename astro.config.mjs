@@ -22,17 +22,8 @@ export default defineConfig({
   integrations: [
     markdoc(),
     sitemap({
-      // Keys = URL path segments after origin; values = hreflang language codes.
-      // Default zh-CN has no prefix (/); en→/en, tw→/tw, hk→/hk.
-      i18n: {
-        defaultLocale: "zh-CN",
-        locales: {
-          "zh-CN": "zh-CN",
-          en: "en-US",
-          tw: "zh-TW",
-          hk: "zh-HK",
-        },
-      },
+      // Plain sitemaps.org urlset only — no xmlns:xhtml / <xhtml:link> hreflang.
+      // Locale pages (/en, /tw, /hk) are still listed as their own <url><loc> entries.
       filter(page) {
         // 404 pages are not indexable; drafts never reach dist (filtered in getStaticPaths).
         if (/\/404\/?$/.test(new URL(page).pathname)) return false;
