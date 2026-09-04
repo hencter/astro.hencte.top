@@ -23,6 +23,15 @@ friendLinks:
     avatar: "/img/friends/eogee.png"
     description: "Chinese AI knowledge-sharing platform: Agent, MCP, Claude Code & Codex tutorials, RAG, LLM deployment and more."
     tags: ["AI Tutorials", "Agent", "RAG"]
+  - name: "HU4NG's Digital Garden"
+    url: "https://huanggaoxiang.com/"
+    avatar: "/img/friends/huanggaoxiang.png"
+    description: "Write against oblivion."
+    tags: ["Digital Garden", "Blog"]
+  - name: "SeaWave"
+    url: "https://seawave.top/"
+    description: "Personal tech blog with notes on Java, Spring, Docker, Git, and more."
+    tags: ["Tech Blog", "Java"]
 ownSite:
   name: "亦幸小阁 (Hencter Lew)"
   url: "https://hencte.top/"
@@ -32,7 +41,7 @@ applyRules:
   title: "How to exchange"
   subtitle: "Please add my site to your links first, then email me the details below."
   rules:
-    - "Your site name and URL (including an icon URL)"
+    - "Your site name and URL"
     - "A one-line site description"
     - "Original, actively updated content — no scraped or low-quality sites"
 cta:

@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 import markdoc from "@astrojs/markdoc";
 import sitemap from "@astrojs/sitemap";
+import { sitemapCanonicalXml } from "./src/integrations/sitemap-canonical-xml.mjs";
 import { remarkObsidian } from "./src/lib/remark-obsidian";
 
 // https://astro.build/config
@@ -47,6 +48,8 @@ export default defineConfig({
         return item;
       },
     }),
+    // After @astrojs/sitemap: emit /sitemap.xml instead of sitemap-0.xml.
+    sitemapCanonicalXml(),
   ],
   markdown: {
     remarkPlugins: [remarkObsidian],

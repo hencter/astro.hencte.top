@@ -60,6 +60,9 @@
   --banner-pad-y-compact: clamp(1.35rem, 2vw, 2.1rem);
   --banner-pad-y-section: clamp(1.35rem, 2.2vw, 2.2rem);
   --banner-pad-y-cta: clamp(1.2rem, 2.4vw, 1.85rem);
+  /* Pull imaged page heroes behind sticky nav:
+     page-shell pad-top + header block (0.6+2+0.6) + site-main margin. */
+  --banner-under-nav: calc(1.25rem + 3.2rem + 2rem);
 
   /* Reading — long-form measure & palette (warm paper) */
   --read-max-width: 70ch;
@@ -207,6 +210,41 @@ a {
   box-shadow: 0 1px 0 var(--line);
 }
 
+/* Imaged page hero under sticky nav: soft paper frost on chrome only
+   (not a solid cream bar) so brand + links stay sharp on photo texture.
+   Atmosphere still reads through; .is-scrolled glass above takes over. */
+.page-shell:has(> .site-main > .site-banner--page.site-banner--imaged:first-child)
+  .site-header:not(.is-scrolled) {
+  background: color-mix(in srgb, var(--surface) 52%, transparent);
+  backdrop-filter: blur(7px) saturate(1.12);
+  -webkit-backdrop-filter: blur(7px) saturate(1.12);
+}
+
+.page-shell:has(> .site-main > .site-banner--page.site-banner--imaged:first-child)
+  .site-header:not(.is-scrolled)
+  .nav-list
+  a {
+  color: var(--ink-700);
+}
+
+.page-shell:has(> .site-main > .site-banner--page.site-banner--imaged:first-child)
+  .site-header:not(.is-scrolled)
+  .nav-list
+  a:hover,
+.page-shell:has(> .site-main > .site-banner--page.site-banner--imaged:first-child)
+  .site-header:not(.is-scrolled)
+  .nav-list
+  a:focus-visible {
+  color: var(--ink-900);
+}
+
+.page-shell:has(> .site-main > .site-banner--page.site-banner--imaged:first-child)
+  .site-header:not(.is-scrolled)
+  .brand-copy
+  strong {
+  color: var(--ink-900);
+}
+
 /* Reading focus — hide chrome while scrolling down or idle; the
    transform is visual only, so the layout (and centered reading
    column) never shifts. Reveal on scroll-up, pointer near top,
@@ -349,14 +387,9 @@ html.reading-chrome--hidden .site-header {
   padding-inline: var(--shell-inline);
 }
 
-/* Nested banners already sit in the content column — no second gutter.
-   CTA keeps its own card inset so type clears the bordered frame. */
-.site-main > .section > .site-banner:not(.site-banner--cta) {
+/* Nested banners already sit in the content column — no second gutter. */
+.site-main > .section > .site-banner {
   padding-inline: 0;
-}
-
-.site-main > .section > .site-banner--cta {
-  padding-inline: var(--banner-pad-y-cta);
 }
 
 /* ============================================================
@@ -448,9 +481,13 @@ html.reading-chrome--hidden .site-header {
   background: transparent;
 }
 
+/* CTA sits on page ground — no card shell (bg / border / radius). */
 .site-banner--cta {
   padding: var(--banner-pad-y-cta) var(--shell-inline);
-  background: color-mix(in srgb, var(--surface) 96%, var(--brand) 4%);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 /* Page hero with atmosphere: full-bleed photo, gutter-aligned copy */
@@ -465,6 +502,14 @@ html.reading-chrome--hidden .site-header {
   padding-inline: 0;
   padding-block: clamp(2.1rem, 5vw, 4rem) clamp(2.4rem, 6vw, 4.5rem);
   overflow: hidden;
+}
+
+/* Top hero only: extend atmosphere behind sticky .site-header so nav
+   and hero read as one composition (no paper strip / hairline seam). */
+.site-main > .site-banner--page.site-banner--imaged:first-child {
+  margin-top: calc(-1 * var(--banner-under-nav));
+  /* Keep title/CTA below nav; media (inset:0) paints into the overlap. */
+  padding-top: calc(var(--banner-under-nav) + clamp(2.1rem, 5vw, 4rem));
 }
 
 .site-banner--page.site-banner--imaged .site-banner__main {
@@ -520,10 +565,11 @@ html.reading-chrome--hidden .site-header {
     ),
     linear-gradient(
       to bottom,
+      /* Top stays fully opaque — under-nav band must stay crisp atmosphere */
       #000 0%,
-      #000 38%,
-      rgba(0, 0, 0, 0.7) 62%,
-      rgba(0, 0, 0, 0.25) 82%,
+      #000 42%,
+      rgba(0, 0, 0, 0.7) 64%,
+      rgba(0, 0, 0, 0.25) 84%,
       transparent 100%
     );
   mask-image:
@@ -537,9 +583,9 @@ html.reading-chrome--hidden .site-header {
     linear-gradient(
       to bottom,
       #000 0%,
-      #000 38%,
-      rgba(0, 0, 0, 0.7) 62%,
-      rgba(0, 0, 0, 0.25) 82%,
+      #000 42%,
+      rgba(0, 0, 0, 0.7) 64%,
+      rgba(0, 0, 0, 0.25) 84%,
       transparent 100%
     );
   -webkit-mask-composite: source-in;
@@ -599,6 +645,25 @@ html.reading-chrome--hidden .site-header {
       color-mix(in srgb, var(--surface) 62%, transparent) 38%,
       color-mix(in srgb, var(--surface) 18%, transparent) 100%
     );
+}
+
+/* Under-nav strip: no veil fog — photo/cream stays sharp behind chrome.
+   Fade veil in only once past the overlap so copy wash starts below nav. */
+.site-main > .site-banner--page.site-banner--imaged:first-child .site-banner__veil {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent calc(var(--banner-under-nav) * 0.72),
+    #000 calc(var(--banner-under-nav) + 0.35rem),
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent calc(var(--banner-under-nav) * 0.72),
+    #000 calc(var(--banner-under-nav) + 0.35rem),
+    #000 100%
+  );
 }
 
 .site-banner__main {
@@ -914,7 +979,7 @@ html.reading-chrome--hidden .site-header {
 .ink-card--link,
 .friend-card {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   gap: 1rem;
   align-items: center;
 }
@@ -2263,6 +2328,11 @@ html.reading-chrome--hidden .site-header {
     width: min(var(--shell-max), calc(100% - 1.4rem));
     padding-top: 0.7rem;
     --shell-gutter: 0.7rem;
+  }
+
+  /* Match tighter shell pad + taller header pad on small screens */
+  :root {
+    --banner-under-nav: calc(0.7rem + 3.5rem + 2rem);
   }
 
   .site-header {

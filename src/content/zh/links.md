@@ -24,6 +24,15 @@ friendLinks:
     avatar: "/img/friends/eogee.png"
     description: "AI 知识技术共享平台：Agent 智能体、MCP 协议、Claude Code 与 Codex 实战、RAG 与大模型部署等中文教程。"
     tags: ["AI 教程", "Agent", "RAG"]
+  - name: "HU4NG's Digital Garden"
+    url: "https://huanggaoxiang.com/"
+    avatar: "/img/friends/huanggaoxiang.png"
+    description: "记录对抗遗忘。"
+    tags: ["数字花园", "博客"]
+  - name: "SeaWave"
+    url: "https://seawave.top/"
+    description: "个人技术博客，记录 Java、Spring、Docker、Git 等实践。"
+    tags: ["技术博客", "Java"]
 ownSite:
   name: "亦幸小阁"
   url: "https://hencte.top/"
@@ -33,7 +42,7 @@ applyRules:
   title: "交换方式"
   subtitle: "想交换友链的朋友请先在本站添加我，然后邮件告知以下信息即可。"
   rules:
-    - "你的站点名称与地址（含图标 URL）"
+    - "你的站点名称与地址"
     - "一句站点简介"
     - "请保证站点内容原创、长期更新，非采集与低质站"
 cta:

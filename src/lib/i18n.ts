@@ -76,8 +76,8 @@ export function getNavLinks(locale: SiteLocale) {
   const prefix = base === "" ? "" : base;
 
   if (locale === "en-US") {
+    // Home is the brand logo only — no redundant nav-list entry.
     return [
-      { href: "/en", label: "Home" },
       { href: "/en/projects", label: "Projects" },
       { href: "/en/blog", label: "Blog" },
       { href: "/en/links", label: "Friends" },
@@ -88,16 +88,16 @@ export function getNavLinks(locale: SiteLocale) {
 
   const labels =
     locale === "zh-TW"
-      ? { home: "首頁", projects: "項目", blog: "博客", links: "友鏈", about: "關於", contact: "聯繫" }
+      ? { projects: "項目", blog: "博客", links: "友鏈", about: "關於", contact: "聯繫" }
       : locale === "zh-HK"
-        ? { home: "首頁", projects: "項目", blog: "博客", links: "友鏈", about: "關於", contact: "聯絡" }
-        : { home: "首页", projects: "项目", blog: "博客", links: "友链", about: "关于", contact: "联系" };
+        ? { projects: "項目", blog: "博客", links: "友鏈", about: "關於", contact: "聯絡" }
+        : { projects: "项目", blog: "博客", links: "友链", about: "关于", contact: "联系" };
 
   const blogHref = locale === "zh-TW" ? "/tw/blog" : locale === "zh-HK" ? "/hk/blog" : "/blog";
   const linksHref = locale === "zh-TW" ? "/tw/links" : locale === "zh-HK" ? "/hk/links" : "/links";
 
+  // Home is the brand logo only — no redundant nav-list entry.
   return [
-    { href: prefix || "/", label: labels.home },
     { href: `${prefix}/projects`, label: labels.projects },
     { href: blogHref, label: labels.blog },
     { href: linksHref, label: labels.links },

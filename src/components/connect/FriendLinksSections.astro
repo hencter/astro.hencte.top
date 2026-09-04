@@ -8,6 +8,7 @@ import { sectionImage } from "../../lib/section-images";
 interface FriendLinkData {
   name: string;
   url: string;
+  /** Unused in UI — kept optional so existing content entries remain valid. */
   avatar?: string;
   description?: string;
   tags?: string[];
@@ -28,6 +29,7 @@ interface LinksData {
   ownSite?: {
     name: string;
     url: string;
+    /** Unused in UI — kept optional so existing content entries remain valid. */
     avatar?: string;
     description?: string;
   };
@@ -71,7 +73,6 @@ const applyRules = page.applyRules;
 const cta = page.cta;
 const linksImage = sectionImage("links");
 
-const fallbackLetter = (name: string) => (name.trim()[0] ?? "✦").toUpperCase();
 const isExternal = (url: string) => url.startsWith("http");
 ---
 
@@ -92,11 +93,6 @@ const isExternal = (url: string) => url.startsWith("http");
       <div class="friend-grid">
         {friendLinks.map((link) => (
           <article class="friend-card">
-            {link.avatar ? (
-              <img class="friend-avatar" src={link.avatar} alt="" width="56" height="56" loading="lazy" />
-            ) : (
-              <span class="friend-avatar friend-avatar-fallback" aria-hidden="true">{fallbackLetter(link.name)}</span>
-            )}
             <div class="friend-body">
               <h3>
                 <a class="text-breathe" href={link.url} target={isExternal(link.url) ? "_blank" : undefined} rel={isExternal(link.url) ? "noopener noreferrer" : undefined}>
@@ -146,18 +142,11 @@ const isExternal = (url: string) => url.startsWith("http");
             <h3>{strings.ownSiteTitle}</h3>
             <p>{strings.ownSiteDesc}</p>
             <div class="own-site-row">
-              {ownSite.avatar ? (
-                <img class="friend-avatar" src={ownSite.avatar} alt="" width="56" height="56" loading="lazy" />
-              ) : (
-                <span class="friend-avatar friend-avatar-fallback" aria-hidden="true">{fallbackLetter(ownSite.name)}</span>
-              )}
-              <div>
-                <p class="own-site-name">{ownSite.name}</p>
-                <a class="own-site-url" href={ownSite.url} target={isExternal(ownSite.url) ? "_blank" : undefined} rel={isExternal(ownSite.url) ? "noopener noreferrer" : undefined}>
-                  {ownSite.url}
-                </a>
-                {ownSite.description && <p class="own-site-desc">{ownSite.description}</p>}
-              </div>
+              <p class="own-site-name">{ownSite.name}</p>
+              <a class="own-site-url" href={ownSite.url} target={isExternal(ownSite.url) ? "_blank" : undefined} rel={isExternal(ownSite.url) ? "noopener noreferrer" : undefined}>
+                {ownSite.url}
+              </a>
+              {ownSite.description && <p class="own-site-desc">{ownSite.description}</p>}
             </div>
           </article>
         )}
@@ -188,27 +177,9 @@ const isExternal = (url: string) => url.startsWith("http");
   /* Layout only — contour/lift come from global .ink-card / .friend-card */
   .friend-card {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
     gap: 1rem;
     align-items: center;
-  }
-
-  .friend-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    object-fit: cover;
-    border: 1px solid var(--card-border);
-    background: var(--chip-bg);
-    display: inline-grid;
-    place-items: center;
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--brand-deep);
-  }
-
-  .friend-avatar-fallback {
-    background: linear-gradient(135deg, var(--grad-hero-a) 0%, var(--grad-hero-b) 100%);
   }
 
   .friend-body h3 {
@@ -245,9 +216,6 @@ const isExternal = (url: string) => url.startsWith("http");
   }
 
   .own-site-row {
-    display: flex;
-    gap: 0.85rem;
-    align-items: flex-start;
     margin-top: 0.75rem;
   }
 
@@ -282,11 +250,10 @@ const isExternal = (url: string) => url.startsWith("http");
 
   @media (max-width: 720px) {
     .friend-card {
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr;
     }
 
     .friend-visit {
-      grid-column: 2;
       justify-self: start;
       white-space: normal;
     }

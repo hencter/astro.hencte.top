@@ -16,7 +16,7 @@ legacyPath: "tech/hugo/menu-params-version.md"
 
 `layouts/_default/single.html`
 
-```go-html-template
+```html
 {{- range site.Menus.main }}
   <a href="{{ .URL }}">
     {{ .Name }}

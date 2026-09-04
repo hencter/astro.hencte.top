@@ -17,7 +17,7 @@ legacyPath: "tech/hugo/diagrams.md"
 
 GoAT 图表可以通过[这个网站](https://arthursonzogni.com/Diagon/#code_area "Diagon: ASCII art diagram generator")生成
 
-```goat
+```text
                                                                              .
     0       3                          P *              Eye /         ^     /
      *-------*      +y                    \                +)          \   /  Reflection

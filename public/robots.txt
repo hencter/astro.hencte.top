@@ -52,4 +52,4 @@ User-agent: Bytespider
 Allow: /
 Disallow: /novel/
 
-Sitemap: https://hencte.top/sitemap-index.xml
+Sitemap: https://hencte.top/sitemap.xml

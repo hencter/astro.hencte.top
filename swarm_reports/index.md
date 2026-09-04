@@ -32,6 +32,16 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-04 | seo | Sitemap 去掉 XSL，仅保留原始 XML | seo-sitemap | [./seo/2026-09-04_sitemap_remove_xsl.md](./seo/2026-09-04_sitemap_remove_xsl.md) |
+| 2026-09-04 | content | Shiki 未知 fence 语言修正 | content-shiki | [./content/2026-09-04_shiki_fence_langs.md](./content/2026-09-04_shiki_fence_langs.md) |
+| 2026-09-04 | seo | Sitemap XML MIME + XSL 浏览器渲染修复（正文本就合法） | seo-sitemap | [./seo/2026-09-04_sitemap_xml_naming.md](./seo/2026-09-04_sitemap_xml_naming.md) |
+| 2026-09-04 | seo | Sitemap 命名规范化 + dev `/sitemap.xml` 中间件 | seo-sitemap | [./seo/2026-09-04_sitemap_xml_naming.md](./seo/2026-09-04_sitemap_xml_naming.md) |
+| 2026-09-04 | content | 友链收录 SeaWave | friend-link | [./content/2026-09-04_friend_link_seawave.md](./content/2026-09-04_friend_link_seawave.md) |
+| 2026-09-04 | ui | 友链模块移除头像 UI | friend-links-no-avatar | [./ui/2026-09-04_friend_links_remove_avatars.md](./ui/2026-09-04_friend_links_remove_avatars.md) |
+| 2026-09-04 | content | 友链收录 HU4NG's Digital Garden | friend-link | [./content/2026-09-04_friend_link_huanggaoxiang.md](./content/2026-09-04_friend_link_huanggaoxiang.md) |
+| 2026-09-04 | ui | Nav 去掉「首页 / Home」（logo 回首页） | nav-remove-home | [./ui/2026-09-04_nav_remove_home.md](./ui/2026-09-04_nav_remove_home.md) |
+| 2026-09-04 | ui | Nav 对比度 + CTA 去卡片壳 | nav-cta-surface | [./ui/2026-09-04_nav_contrast_cta_surface.md](./ui/2026-09-04_nav_contrast_cta_surface.md) |
+| 2026-09-04 | ui | Banner 气氛延伸至 sticky nav 背后 | banner-under-nav | [./ui/2026-09-04_banner_under_nav.md](./ui/2026-09-04_banner_under_nav.md) |
 | 2026-09-03 | seo | Sitemap i18n 路径键修正 + 404/shelf 过滤验证 | seo-sitemap | [./seo/2026-09-03_sitemap.md](./seo/2026-09-03_sitemap.md) |
 | 2026-09-03 | ops | hencte-top.png 朱印「赤」→「亦」修复 | seal-fixer | [./ops/2026-09-03_hencte_top_seal_chi_fix.md](./ops/2026-09-03_hencte_top_seal_chi_fix.md) |
 | 2026-09-03 | content | Section Banner 大气图补齐（home + obsidian） | section-imagery | [./content/2026-09-03_section_imagery.md](./content/2026-09-03_section_imagery.md) |

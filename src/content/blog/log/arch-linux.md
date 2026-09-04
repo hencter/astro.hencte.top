@@ -70,7 +70,7 @@ sudo vim /etc/default/grub
 
 对 `/etc/default/grub` 进行取消注释
 
-```conf
+```ini
 GRUB_DISABLE_OS_PROBER=false
 ```
 
@@ -115,7 +115,7 @@ GRUB_DISABLE_OS_PROBER=false
 
    警告内容如下：
 
-   ```WARNING
+   ```text
    ==> WARNING: Possibly missing firmware for module: wd719x
    ==> WARNING: Possibly missing firmware for module: aic94xx
    ==> WARNING: Possibly missing firmware for module: xhci_pci
@@ -123,7 +123,7 @@ GRUB_DISABLE_OS_PROBER=false
 
    新错误：
 
-   ```WARING
+   ```text
    ==> WARNING: Possibly missing firmware for module: bfa
    ==> WARNING: Possibly missing firmware for module: qed
    ==> WARNING: Possibly missing firmware for module: qla1280
@@ -133,7 +133,7 @@ GRUB_DISABLE_OS_PROBER=false
 
    Arch Linux CN 源 和 4edu 源
 
-   ```conf
+   ```ini
    # file: /etc/pacman.cfg
    [archlinuxcn]
    SigLevel = Optional TrustAll
@@ -287,7 +287,7 @@ external-ui: '/usr/share/yacd'
 
 - `/etc/systemd/system/clash.service`
 
-```service
+```ini
 [Unit]
 Description=Clash daemon, A rule-based proxy in Go.
 After=network.target
