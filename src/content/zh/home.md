@@ -50,7 +50,7 @@ featuredProjects:
     outcome: "GitHub 官方模板，开箱即用，快速迭代中。"
     tags: ["AI Agent", "Obsidian", "Zettelkasten"]
     url: "https://github.com/hencter/Nova"
-    image: "/img/projects/nova.png"
+    image: "/img/projects/nova.webp"
     imageAlt: "Nova 知识库：墨纸底上的青瓷色笔记星图与柔和灯火"
   - stage: "社区运营"
     title: "通天路 tongtianlu.cn"

@@ -31,7 +31,7 @@ featuredProjects:
     result: "Official GitHub template with ~2-minute start; iterating fast."
     tags: ["AI Agent", "Obsidian", "Zettelkasten", "Knowledge Vault"]
     url: "https://github.com/hencter/Nova"
-    image: "/img/projects/nova.png"
+    image: "/img/projects/nova.webp"
     imageAlt: "Nova vault: celadon note constellation on ink-paper ground with soft lamp light"
   - stage: "Community Operations"
     title: "Tongtianlu Community"

@@ -32,6 +32,9 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-04 | perf | Lighthouse 性能修复（字体/大图/LCP/charset） | swarm + converge | [./perf/2026-09-04_lighthouse_remediation.md](./perf/2026-09-04_lighthouse_remediation.md) |
+| 2026-09-04 | ui | HTML 语义/无障碍修复收敛（P0+P1） | convergence | [./ui/2026-09-04_html_a11y_fix_convergence.md](./ui/2026-09-04_html_a11y_fix_convergence.md) |
+| 2026-09-04 | ui | 布局 HTML 语义化 + 无障碍审计（live HTML） | swarm + explore | [./ui/2026-09-04_html_semantics_a11y_audit.md](./ui/2026-09-04_html_semantics_a11y_audit.md) |
 | 2026-09-04 | seo | Sitemap 去掉 XSL，仅保留原始 XML | seo-sitemap | [./seo/2026-09-04_sitemap_remove_xsl.md](./seo/2026-09-04_sitemap_remove_xsl.md) |
 | 2026-09-04 | content | Shiki 未知 fence 语言修正 | content-shiki | [./content/2026-09-04_shiki_fence_langs.md](./content/2026-09-04_shiki_fence_langs.md) |
 | 2026-09-04 | seo | Sitemap XML MIME + XSL 浏览器渲染修复（正文本就合法） | seo-sitemap | [./seo/2026-09-04_sitemap_xml_naming.md](./seo/2026-09-04_sitemap_xml_naming.md) |

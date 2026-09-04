@@ -49,7 +49,7 @@ featuredProjects:
     outcome: "Official GitHub template, ready out of the box."
     tags: ["AI Agent", "Obsidian", "Zettelkasten"]
     url: "https://github.com/hencter/Nova"
-    image: "/img/projects/nova.png"
+    image: "/img/projects/nova.webp"
     imageAlt: "Nova vault: celadon note constellation on ink-paper ground with soft lamp light"
   - stage: "Community Operations"
     title: "Tongtianlu Community"

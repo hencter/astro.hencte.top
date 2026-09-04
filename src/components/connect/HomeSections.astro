@@ -129,9 +129,11 @@ function featuredIcon(title: string): string {
 />
 
 <nav class="hub-jump" aria-label={locale === "en-US" ? "On this page" : "本页导航"}>
-  <a href="#hub-writing" class="hub-chip text-breathe">{strings.hubWriting}</a>
-  <a href="#hub-projects" class="hub-chip text-breathe">{strings.hubProjects}</a>
-  <a href="#contact" class="hub-chip text-breathe">{strings.hubContact}</a>
+  <ul>
+    <li><a href="#hub-writing" class="hub-chip text-breathe">{strings.hubWriting}</a></li>
+    <li><a href="#hub-projects" class="hub-chip text-breathe">{strings.hubProjects}</a></li>
+    <li><a href="#contact" class="hub-chip text-breathe">{strings.hubContact}</a></li>
+  </ul>
 </nav>
 
 <section class="section reveal-on-scroll" id="hub-writing">
@@ -168,7 +170,8 @@ function featuredIcon(title: string): string {
               alt={featuredProjects[0].imageAlt || featuredProjects[0].title}
               width="960"
               height="600"
-              loading="eager"
+              loading="lazy"
+              fetchpriority="low"
               decoding="async"
             />
           ) : (
@@ -265,7 +268,10 @@ function featuredIcon(title: string): string {
 </section>
 
 <style>
-  .hub-jump {
+  .hub-jump ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;

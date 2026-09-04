@@ -199,7 +199,7 @@ a {
   box-shadow: none;
   transition: background 300ms ease, box-shadow 300ms ease,
               transform 360ms cubic-bezier(0.23, 1, 0.32, 1),
-              opacity 300ms ease, visibility 0s;
+              opacity 300ms ease;
 }
 
 /* Scrolled state — hairline + light glass only */
@@ -248,15 +248,22 @@ a {
 /* Reading focus — hide chrome while scrolling down or idle; the
    transform is visual only, so the layout (and centered reading
    column) never shifts. Reveal on scroll-up, pointer near top,
-   keyboard focus (focusin), or an open mobile nav panel.
-   visibility is delayed so focus cannot land on the hidden bar. */
+   keyboard focus (focusin / :focus-within), or an open mobile nav.
+   Keep in tab order (no visibility/display:none) so Tab can focus
+   into the bar and revive it; pointer-events:none blocks mouse only. */
 html.reading-chrome--hidden .site-header {
   opacity: 0;
   transform: translateY(calc(-100% - 1.35rem));
-  visibility: hidden;
+  pointer-events: none;
   transition: background 300ms ease, box-shadow 300ms ease,
               transform 360ms cubic-bezier(0.23, 1, 0.32, 1),
-              opacity 300ms ease, visibility 0s linear 360ms;
+              opacity 300ms ease;
+}
+
+html.reading-chrome--hidden .site-header:focus-within {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
 }
 
 .brand-link {
@@ -395,7 +402,7 @@ html.reading-chrome--hidden .site-header {
 /* ============================================================
    Entrance — quiet, single-timing (no per-section stagger)
    ============================================================ */
-.site-main > section {
+.site-main > .section {
   opacity: 0;
   animation: rise-in 380ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
@@ -842,8 +849,9 @@ html.reading-chrome--hidden .site-header {
 }
 
 .btn-primary {
+  /* Light: brand-deep (#845414) + cream ≥4.5:1 AA (brand gold fails). */
   color: #f8f5ee;
-  background: var(--brand);
+  background: var(--brand-deep);
 }
 
 .btn-secondary {
@@ -855,7 +863,19 @@ html.reading-chrome--hidden .site-header {
 .btn-primary:hover,
 .btn-primary:focus-visible {
   transform: translateY(-2px);
+  background: color-mix(in srgb, var(--brand-deep) 82%, #000);
+}
+
+/* Dark: gold fill + dark ink (cream-on-gold fails badly). */
+:root.dark .btn-primary {
+  color: #19150f;
+  background: var(--brand);
+}
+
+:root.dark .btn-primary:hover,
+:root.dark .btn-primary:focus-visible {
   background: var(--brand-deep);
+  color: #19150f;
 }
 
 .btn-secondary:hover,
@@ -1390,6 +1410,12 @@ html.reading-chrome--hidden .site-header {
    ============================================================ */
 .blog-subnav {
   margin-top: 1.15rem;
+}
+
+.blog-subnav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -1416,6 +1442,11 @@ html.reading-chrome--hidden .site-header {
 .blog-subnav a.is-active {
   color: #f8f5ee;
   border-color: transparent;
+  background: var(--brand-deep);
+}
+
+:root.dark .blog-subnav a.is-active {
+  color: #19150f;
   background: var(--brand);
 }
 
@@ -1660,20 +1691,19 @@ html.reading-chrome--hidden .site-header {
 }
 
 /* Rail fades with the header in reading-focus mode (wide viewports).
-   Visibility delay applies only when hiding; the visible state must
-   not delay visibility, or the fade-in skips a frame. */
+   Opacity/transform only — stay in tab order so keyboard can reach
+   TOC links; pointer-events:none blocks mouse until hover/focus. */
 @media (min-width: 1180px) {
   .post-shell--reading .toc-rail .post-toc {
-    transition: opacity 260ms ease, visibility 0s,
+    transition: opacity 260ms ease,
                 transform 360ms cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   html.reading-chrome--hidden .post-shell--reading .toc-rail .post-toc {
     opacity: 0;
-    visibility: hidden;
     transform: translateX(14px);
     pointer-events: none;
-    transition: opacity 200ms ease, visibility 0s linear 200ms,
+    transition: opacity 200ms ease,
                 transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
   }
 
@@ -1682,7 +1712,6 @@ html.reading-chrome--hidden .site-header {
   html.reading-chrome--hidden .post-shell--reading .toc-rail:hover .post-toc,
   html.reading-chrome--hidden .post-shell--reading .toc-rail:focus-within .post-toc {
     opacity: 1;
-    visibility: visible;
     transform: none;
     pointer-events: auto;
   }
@@ -1691,7 +1720,6 @@ html.reading-chrome--hidden .site-header {
   @media (hover: none) {
     html.reading-chrome--hidden .post-shell--reading .toc-rail .post-toc {
       opacity: 1;
-      visibility: visible;
       transform: none;
       pointer-events: auto;
       top: 5.5rem;
@@ -2158,7 +2186,8 @@ html.reading-chrome--hidden .site-header {
   z-index: 100;
   padding: 0.6rem 1rem;
   border-radius: var(--radius-md);
-  background: var(--brand);
+  /* Same AA pair as .btn-primary — brand gold fails 4.5:1 on cream. */
+  background: var(--brand-deep);
   color: #f8f5ee;
   font-weight: 600;
   font-size: 0.9rem;
@@ -2187,6 +2216,13 @@ html.reading-chrome--hidden .site-header {
 }
 
 .nav-toggle-btn:hover {
+  color: var(--brand-deep);
+  background: var(--nav-hover-bg);
+}
+
+.nav-toggle-btn:focus-visible {
+  outline: 2px solid var(--brand-deep);
+  outline-offset: 2px;
   color: var(--brand-deep);
   background: var(--nav-hover-bg);
 }
