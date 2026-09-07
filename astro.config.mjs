@@ -27,15 +27,15 @@ export default defineConfig({
       filter(page) {
         // 404 pages are not indexable; drafts never reach dist (filtered in getStaticPaths).
         if (/\/404\/?$/.test(new URL(page).pathname)) return false;
-        // Exclude legacy /novel redirect aliases only; /shelf is primary indexable content.
-        if (page.includes("/novel")) return false;
+        // Cite-only sitemap: shelf/novel are noindex (Protect 轨) — never advertise them.
+        if (page.includes("/shelf") || page.includes("/novel")) return false;
         return true;
       },
       // Belt-and-suspenders with filter; return undefined to drop an entry.
       serialize(item) {
         const url = item.url;
         if (/\/404\/?$/.test(new URL(url).pathname)) return undefined;
-        if (url.includes("/novel")) return undefined;
+        if (url.includes("/shelf") || url.includes("/novel")) return undefined;
         return item;
       },
     }),

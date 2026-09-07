@@ -2,6 +2,7 @@
 import { getEntry } from "astro:content";
 import Layout from "../layouts/BaseLayout.astro";
 import AboutSections from "../components/connect/AboutSections.astro";
+import JsonLD from "../components/JsonLD.astro";
 import { getPageAlternates } from "../lib/i18n";
 import { getAboutStrings } from "../lib/ui-strings";
 
@@ -23,5 +24,6 @@ const locale = "zh-CN";
   alternates={getPageAlternates("about")}
   keywords={page.keywords ?? []}
 >
+  <JsonLD type="FAQPage" canonicalPath="/about" />
   <AboutSections page={page} locale={locale} strings={getAboutStrings(locale)} />
 </Layout>

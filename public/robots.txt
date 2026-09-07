@@ -1,55 +1,139 @@
 # robots.txt for https://hencte.top (亦幸小阁)
-# GEO: explicitly allow mainstream AI / generative engine crawlers on public content.
-# Primary bookshelf path /shelf/ is crawlable (matches sitemap).
-# Legacy /novel/ redirect aliases stay disallowed.
+# GEO: allow AI / generative crawlers on public Cite-轨 content.
+# Protect 轨: /shelf/ (四语) + legacy /novel/ aliases are disallowed — matches noindex.
+# Discovery: https://hencte.top/llms.txt | https://hencte.top/llm.txt | https://hencte.top/llms-full.txt | https://hencte.top/rss.xml
 
 User-agent: *
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
-# AI / Generative engines — allow public content including /shelf; block legacy /novel/ aliases
+# AI / Generative engines — same Protect 轨 policy
 User-agent: GPTBot
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: CCBot
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 User-agent: Bytespider
 Allow: /
+Disallow: /shelf/
+Disallow: /en/shelf/
+Disallow: /tw/shelf/
+Disallow: /hk/shelf/
 Disallow: /novel/
+Disallow: /en/novel/
+Disallow: /tw/novel/
+Disallow: /hk/novel/
 
 Sitemap: https://hencte.top/sitemap.xml

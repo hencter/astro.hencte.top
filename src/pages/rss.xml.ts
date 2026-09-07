@@ -17,7 +17,8 @@ export async function GET(_context: APIContext) {
 
   return rss({
     title: "亦幸小阁",
-    description: "个人品牌站点：技术博客（AI 工程实践、论文解读、开发工具链、知识管理）、项目展示、原创小说",
+    description:
+      "个人品牌站点 Cite 轨订阅：技术博客（AI 工程实践、GEO/SEO、论文解读、开发工具链、知识管理）与项目动态。不含 /shelf/ 版权小说正文。",
     site: new URL("https://hencte.top"),
     items: posts.map((entry) => ({
       title: entry.data.title,

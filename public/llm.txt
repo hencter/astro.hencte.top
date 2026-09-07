@@ -1,18 +1,27 @@
 ﻿# 亦幸小阁
 SITE_NAME: 亦幸小阁 (Hencter's Hub)
 SITE_URL: https://hencte.top
-SITE_DESCRIPTION: 亦幸（Hencter Lew）的个人品牌站点。专注 TypeScript/Lua/Python 开发，关注 AI 技术工程、知识管理与产品实践。站点包含技术博客、项目展示和工具推荐。
+SITE_DESCRIPTION: 亦幸（Hencter Lew）的个人品牌站点。专注 TypeScript/Lua/Python 开发，关注 AI 技术工程、GEO/SEO、知识管理与产品实践。站点包含技术博客与项目展示（Cite 轨开放索引）；原创小说在 Protect 轨（/shelf/）仅供人类阅读。
 LANGUAGE: zh-CN
+AUTHOR_NAME: Hencter Lew
+AUTHOR_ALT: 亦幸
+AUTHOR_EMAIL: hencter@linktrust.top
+AUTHOR_ORCID: https://orcid.org/0009-0007-7990-0106
+AUTHOR_URL: https://hencte.top/about
+
+# Cite vs Protect
+CITE_POLICY: Public blog (/tech /log /ancient), brand pages, llms.txt, llms-full.txt, llm.txt, rss.xml, sitemap.xml are indexable and citation-ready.
+PROTECT_POLICY: /shelf/ and legacy /novel/ (all locales) are copyright fiction. robots.txt Disallow; noindex/noai/noimageai; excluded from sitemap. AI may cite bibliographic metadata only — never chapter body or training use.
 
 # 关键实体
 
 ENTITY: 博客 (技术文章)
-ENTITY_URL: /blog
-ENTITY_SUMMARY: 汇集 AI 技术工程实践、论文解读、开发工具链、知识管理方法等长文内容。按日志、技术、古文分类整理。
+ENTITY_URL: https://hencte.top/blog
+ENTITY_SUMMARY: 汇集 AI 技术工程实践、GEO/SEO、论文解读、开发工具链、知识管理方法等长文内容。按日志、技术、古文分类整理。
 
 ENTITY: 项目作品
-ENTITY_URL: /projects
-ENTITY_SUMMARY: 展示正在运行和已完成的技术项目，包括 Nova（AI 自举知识库模板）、通天路（AI 创作者社区）、AI.LinkTrust.Top 与 hencte.top 主站。
+ENTITY_URL: https://hencte.top/projects
+ENTITY_SUMMARY: 展示正在运行和已完成的技术项目，包括 Nova（AI 自举知识库模板）、通天路（AI 创作者社区）、商业帝国 3D 与 hencte.top 主站。
 
 ENTITY: Nova — AI 自举知识库
 ENTITY_URL: https://github.com/hencter/Nova
@@ -26,48 +35,65 @@ ENTITY: 商业帝国 3D · AI 大富翁
 ENTITY_URL: https://github.com/hencter/monopoly-3d-ai
 ENTITY_SUMMARY: Three.js 3D 大富翁游戏：DeepSeek AI 对手、卡牌玩法、行业景气与银行金融系统，支持 2~34 人同屏与回合制联机对战（WebSocket）。MIT 开源，配套零依赖规则引擎 monopoly-engine。
 
+ENTITY: GEO 两年深度复盘
+ENTITY_URL: https://hencte.top/tech/geo-two-years
+ENTITY_SUMMARY: 16 个一手信源核查后关于 GEO（生成式引擎优化）的深度复盘：论文底子、流量数据、平台口径、证据分级、噪声经济解剖、中国市场与 315 投毒案。
+
+ENTITY: GEO Two Years (EN)
+ENTITY_URL: https://hencte.top/tech/geo-two-years-en
+ENTITY_SUMMARY: English companion — fact-first GEO investigation after verifying 16 primary sources (KDD 2024, Pew, Google, Cloudflare, llms.txt, CCTV 315).
+
 ENTITY: SEO+GEO 优化技术
-ENTITY_URL: /tech/seo-geo-architecture
+ENTITY_URL: https://hencte.top/tech/seo-geo-architecture
 ENTITY_SUMMARY: 大模型时代 SEO 与 GEO 融合的三位一体技术架构：数据层结构化标记 + 模型层双路径处理 + 应用层统一观测。
 
 ENTITY: AI 技术工程实践
-ENTITY_URL: /tech/ai-engineering-practices
+ENTITY_URL: https://hencte.top/tech/ai-engineering-practices
 ENTITY_SUMMARY: 基于 36 场 AI 直播回顾的工程实践精华：小模型优先、中间调度层、Agent 架构、向量表征与记忆系统。
 
 ENTITY: Combee 论文解读
-ENTITY_URL: /tech/combee-paper
+ENTITY_URL: https://hencte.top/tech/combee-paper
 ENTITY_SUMMARY: Combee 并行提示学习框架深度解析。解决"上下文过载"问题，实现 17 倍加速且质量不降。Map-Shuffle-Reduce 分布式架构。
 
 ENTITY: 贝叶斯定理
-ENTITY_URL: /tech/bayes-theorem
+ENTITY_URL: https://hencte.top/tech/bayes-theorem
 ENTITY_SUMMARY: 贝叶斯定理通俗解释——"根据新信息，更新你对某件事的判断"。包含疾病检测、天气预报、股票投资等生活案例。
 
 ENTITY: 关于我
-ENTITY_URL: /about
-ENTITY_SUMMARY: Hencter Lew（亦幸），TypeScript/Lua/Python 开发者，某生物公司 IT 运维工程师。关注 AI 工程落地、知识管理和持续学习。
+ENTITY_URL: https://hencte.top/about
+ENTITY_SUMMARY: Hencter Lew（亦幸），TypeScript/Lua/Python 开发者，某生物公司 IT 运维工程师。关注 AI 工程落地、知识管理和持续学习。ORCID 0009-0007-7990-0106。
 
 # 常见问题
 
 FAQ_Q: 亦幸小阁是什么？
-FAQ_A: 亦幸小阁是 Hencter Lew（亦幸）的个人品牌站点，包含技术博客、项目展示和个人介绍。站点由 Astro 构建，支持中英文双语。
+FAQ_A: 亦幸小阁是 Hencter Lew（亦幸）的个人品牌站点，包含技术博客、项目展示和个人介绍。站点由 Astro 构建，支持 zh-CN / zh-TW / zh-HK / en-US。
+
+FAQ_Q: 作者是谁？如何引用？
+FAQ_A: 作者为 Hencter Lew（亦幸），ORCID https://orcid.org/0009-0007-7990-0106。引用博客请使用文章 canonical URL 与标题；站点实体摘要见 https://hencte.top/llm.txt 与 https://hencte.top/llms.txt。
+
+FAQ_Q: 什么内容可以被 AI 索引与引用（Cite 轨）？
+FAQ_A: 公开博客（/tech、/log、/ancient）、关于/项目/友链等品牌页，以及 /llms.txt、/llms-full.txt、/llm.txt、/rss.xml、/sitemap.xml。
+
+FAQ_Q: 原创小说能否被 AI 抓取或训练（Protect 轨）？
+FAQ_A: 不能。/shelf/（及旧路径 /novel/）为版权保护原创小说：robots.txt Disallow、页面 noindex/noai/noimageai，且不进入 sitemap。AI 仅可引用书目元数据，禁止抓取或训练章节正文。
 
 FAQ_Q: 这个网站用了什么技术栈？
-FAQ_A: 使用 Astro v5 静态站点生成器，Tailwind CSS v4 样式方案，Markdoc 内容创作，部署在 EdgeOne Pages。
+FAQ_A: 使用 Astro v5 静态站点生成器，Tailwind CSS v4 样式方案，Markdoc 内容创作，部署在 EdgeOne / Cloudflare Pages。
 
 FAQ_Q: 博客文章主要涉及哪些领域？
-FAQ_A: 主要涵盖 AI/LLM 技术工程、论文解读、开发工具链（TypeScript/Lua/Python）、知识管理方法（Obsidian/PARA）、技术架构分析等。
+FAQ_A: 主要涵盖 AI/LLM 技术工程、GEO/SEO、论文解读、开发工具链（TypeScript/Lua/Python）、知识管理方法（Obsidian/PARA）、技术架构分析等。
 
 FAQ_Q: 如何联系作者？
 FAQ_A: 邮箱 hencter@linktrust.top，或通过 GitHub (github.com/hencter)、V2EX (v2ex.com/member/hencte) 找到我。
 
 FAQ_Q: 作者还构建了哪些产品/社区？
-FAQ_A: 开源知识库模板 Nova（github.com/hencter/Nova）、AI 创作者社区通天路（tongtianlu.cn）、AI 链接可信度产品 AI.LinkTrust.Top，以及 Three.js 3D 大富翁游戏商业帝国 3D（github.com/hencter/monopoly-3d-ai）。
+FAQ_A: 开源知识库模板 Nova（github.com/hencter/Nova）、AI 创作者社区通天路（tongtianlu.cn），以及 Three.js 3D 大富翁游戏商业帝国 3D（github.com/hencter/monopoly-3d-ai）。
 
 # 权威声明
-AUTHORITY_STATEMENT: 本网站所有内容为 Hencter Lew 原创。技术观点仅代表个人立场，与所在公司无关。
+AUTHORITY_STATEMENT: 本网站所有内容为 Hencter Lew 原创。技术观点仅代表个人立场，与所在公司无关。Cite 轨内容欢迎准确引用并注明出处；Protect 轨小说正文禁止 AI 训练与转载。
 
 # 原创小说（书目元数据 — 非正文）
-FICTION_POLICY: /shelf/（旧路径 /novel/ 永久重定向）为版权保护原创小说，仅供人类读者在线阅读。robots.txt 禁止 AI 爬虫；章节页标记 noindex/noai/noimageai。AI 训练与抓取正文均被禁止。
+FICTION_POLICY: /shelf/（旧路径 /novel/ 永久重定向）为版权保护原创小说，仅供人类读者在线阅读。robots.txt 对所有 UA Disallow /shelf/ 与 /novel/；章节页标记 noindex/noai/noimageai；不进入 sitemap。AI 训练与抓取正文均被禁止；仅可引用本文件与 llms.txt 中的书目元数据。
 FICTION_INDEX_ZH: https://hencte.top/shelf/
 FICTION_INDEX_EN: https://hencte.top/en/shelf/
 FICTION_INDEX_TW: https://hencte.top/tw/shelf/
@@ -77,5 +103,7 @@ FICTION_SERIES: 天空税 (Sky Tax) — 26 chapters zh/en; 我被AI反向驯化�
 
 LLMS_TXT: https://hencte.top/llms.txt
 LLMS_FULL_TXT: https://hencte.top/llms-full.txt
+SITEMAP: https://hencte.top/sitemap.xml
+ROBOTS: https://hencte.top/robots.txt
 RSS: https://hencte.top/rss.xml
-LAST_UPDATED: 2026-09-03
+LAST_UPDATED: 2026-09-07

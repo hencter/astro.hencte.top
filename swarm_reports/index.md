@@ -32,6 +32,8 @@ swarm_reports/
 
 | 日期 | 领域 | 标题 | 代理 | 文件 |
 |------|------|------|------|------|
+| 2026-09-07 | seo | Browser SEO 审计 + Cite/Protect GEO 冲刺（sitemap 77、llms/FAQ/JSON-LD） | seo-geo-sprint | [./seo/2026-09-07_browser_seo_geo_sprint.md](./seo/2026-09-07_browser_seo_geo_sprint.md) |
+| 2026-09-07 | seo | Sitemap/robots 踢出 /shelf（Protect 对齐 noindex） | seo-protect | [./seo/2026-09-07_sitemap_shelf_protect.md](./seo/2026-09-07_sitemap_shelf_protect.md) |
 | 2026-09-04 | perf | Lighthouse 性能修复（字体/大图/LCP/charset） | swarm + converge | [./perf/2026-09-04_lighthouse_remediation.md](./perf/2026-09-04_lighthouse_remediation.md) |
 | 2026-09-04 | ui | HTML 语义/无障碍修复收敛（P0+P1） | convergence | [./ui/2026-09-04_html_a11y_fix_convergence.md](./ui/2026-09-04_html_a11y_fix_convergence.md) |
 | 2026-09-04 | ui | 布局 HTML 语义化 + 无障碍审计（live HTML） | swarm + explore | [./ui/2026-09-04_html_semantics_a11y_audit.md](./ui/2026-09-04_html_semantics_a11y_audit.md) |

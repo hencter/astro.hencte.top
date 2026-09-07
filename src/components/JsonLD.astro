@@ -1,5 +1,12 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import {
+  AUTHOR,
+  ORGANIZATION,
+  PERSON_SAME_AS,
+  SITE_FAQS,
+  SITE_URL,
+} from "../lib/geo-site";
 
 interface BookMeta {
   title: string;
@@ -10,8 +17,13 @@ interface BookMeta {
   alternateName?: string;
 }
 
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
 interface Props {
-  type: "Organization" | "WebSite" | "Article" | "BreadcrumbList" | "Book" | "BookCollection";
+  type: "Organization" | "WebSite" | "Article" | "BreadcrumbList" | "Book" | "BookCollection" | "FAQPage";
   article?: CollectionEntry<"blog">;
   breadcrumbs?: { name: string; url: string }[];
   pageTitle?: string;
@@ -23,6 +35,7 @@ interface Props {
   inLanguage?: string;
   book?: BookMeta;
   books?: BookMeta[];
+  faqs?: FaqItem[];
 }
 
 const {
@@ -38,10 +51,30 @@ const {
   inLanguage = "zh-CN",
   book,
   books = [],
+  faqs = SITE_FAQS,
 } = Astro.props;
 
-const siteUrl = "https://hencte.top";
+const siteUrl = SITE_URL;
 const fullUrl = siteUrl + canonicalPath;
+
+const personRef = {
+  "@type": "Person",
+  "@id": AUTHOR.personId,
+  name: AUTHOR.name,
+  alternateName: AUTHOR.alternateName,
+  url: siteUrl,
+};
+
+const orgRef = {
+  "@type": "Organization",
+  "@id": ORGANIZATION.orgId,
+  name: ORGANIZATION.name,
+  url: ORGANIZATION.url,
+  logo: {
+    "@type": "ImageObject",
+    url: ORGANIZATION.logo,
+  },
+};
 
 let jsonLd: Record<string, unknown>;
 
@@ -49,17 +82,14 @@ if (type === "Organization") {
   jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Hencter Lew",
-    alternateName: "亦幸",
+    "@id": AUTHOR.personId,
+    name: AUTHOR.name,
+    alternateName: AUTHOR.alternateName,
     url: siteUrl,
     image: `${siteUrl}/og-image.png`,
-    jobTitle: "IT Operations Engineer",
-    sameAs: [
-      "https://github.com/hencter",
-      "https://gitlab.com/hencter",
-      "https://www.v2ex.com/member/hencte",
-      "https://tongtianlu.cn",
-    ],
+    email: AUTHOR.email,
+    jobTitle: AUTHOR.jobTitle,
+    sameAs: [...PERSON_SAME_AS],
     description: pageDescription || "TypeScript/Lua/Python 开发者，关注 AI、知识管理与产品实践。",
     knowsAbout: [
       "TypeScript",
@@ -78,14 +108,14 @@ if (type === "Organization") {
   jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "亦幸小阁",
+    "@id": `${siteUrl}/#website`,
+    name: ORGANIZATION.name,
     url: siteUrl,
     description: pageDescription || "亦幸（Hencter Lew）的个人品牌站点：技术博客、项目展示与知识管理实践。",
     inLanguage: ["zh-CN", "zh-TW", "zh-HK", "en-US"],
-    author: {
-      "@type": "Person",
-      name: "Hencter Lew",
-    },
+    author: personRef,
+    publisher: orgRef,
+    about: personRef,
   };
 } else if (type === "Article" && article) {
   jsonLd = {
@@ -95,15 +125,11 @@ if (type === "Organization") {
     headline: article.data.title,
     description: article.data.description || `${article.data.title} - 亦幸小阁`,
     author: {
-      "@type": "Person",
-      name: "Hencter Lew",
-      url: siteUrl,
+      ...personRef,
+      url: AUTHOR.aboutUrl,
+      sameAs: [...PERSON_SAME_AS],
     },
-    publisher: {
-      "@type": "Organization",
-      name: "亦幸小阁",
-      url: siteUrl,
-    },
+    publisher: orgRef,
     image: article.data.images?.[0]
       ? new URL(article.data.images[0], siteUrl).toString()
       : `${siteUrl}/og-image.png`,
@@ -113,9 +139,16 @@ if (type === "Organization") {
       "@type": "WebPage",
       "@id": fullUrl,
     },
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: ORGANIZATION.name,
+      url: siteUrl,
+    },
     keywords: (tags.length > 0 ? tags : article.data.tags || [])?.join(", "),
     inLanguage,
     wordCount: (article.body ?? "").replace(/\s+/g, "").length,
+    copyrightHolder: personRef,
   };
 } else if (type === "BreadcrumbList" && breadcrumbs.length > 0) {
   jsonLd = {
@@ -136,12 +169,7 @@ if (type === "Organization") {
     name: book.title,
     ...(book.alternateName ? { alternateName: book.alternateName } : {}),
     description: book.description || pageDescription,
-    author: {
-      "@type": "Person",
-      name: "Hencter Lew",
-      alternateName: "亦幸",
-      url: siteUrl,
-    },
+    author: personRef,
     inLanguage,
     genre: book.genre?.length ? book.genre : ["Fiction"],
     url: fullUrl,
@@ -168,9 +196,23 @@ if (type === "Organization") {
         ...(b.alternateName ? { alternateName: b.alternateName } : {}),
         description: b.description,
         url: `${siteUrl}/shelf/${b.slug}`,
-        author: { "@type": "Person", name: "Hencter Lew" },
+        author: personRef,
         inLanguage,
         ...(b.chapterCount ? { numberOfPages: b.chapterCount } : {}),
+      },
+    })),
+  };
+} else if (type === "FAQPage" && faqs.length > 0) {
+  jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${fullUrl}#faq`,
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
       },
     })),
   };

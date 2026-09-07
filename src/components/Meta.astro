@@ -59,7 +59,9 @@ const hreflangLinks = hreflang
   <link rel="alternate" hreflang={lang} href={href} />
 ))}
 <link rel="alternate" type="application/rss+xml" title="亦幸小阁 RSS" href="https://hencte.top/rss.xml" />
-<link rel="describedby" type="text/plain" href="https://hencte.top/llms.txt" />
+<link rel="describedby" type="text/plain" href="https://hencte.top/llms.txt" title="llms.txt" />
+<link rel="alternate" type="text/plain" title="llm.txt entity FAQ" href="https://hencte.top/llm.txt" />
+<link rel="alternate" type="text/plain" title="llms-full.txt" href="https://hencte.top/llms-full.txt" />
 
 <meta property="og:type" content={ogType} />
 <meta property="og:title" content={title} />
@@ -68,6 +70,7 @@ const hreflangLinks = hreflang
 <meta property="og:site_name" content="亦幸小阁" />
 {canonical && <meta property="og:url" content={canonical} />}
 <meta property="og:image" content={socialImage} />
+{ogType === "article" && <meta property="article:author" content={author} />}
 {ogType === "article" && publishedTime && (
   <meta property="article:published_time" content={publishedTime} />
 )}

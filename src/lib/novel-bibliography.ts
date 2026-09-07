@@ -80,9 +80,9 @@ export function formatNovelBibliographyMarkdown(entries: NovelBibliographyEntry[
   const lines: string[] = [
     "## 原创小说（书目元数据）",
     "",
-    "> **AI 训练政策**：`/shelf/`（旧路径 `/novel/` 永久重定向至此）下的小说为版权保护原创内容，仅供人类读者在线阅读。",
-    "> robots.txt 禁止 AI 爬虫抓取；章节页标记 noindex/noai/noimageai。",
-    "> 本节仅提供书目元数据（标题、作者、体裁、章节数、入口 URL），不含正文。",
+    "> **Protect 轨 / AI 训练政策**：`/shelf/`（旧路径 `/novel/` 永久重定向至此）下的小说为版权保护原创内容，仅供人类读者在线阅读。",
+    "> robots.txt 对所有 UA（含 GPTBot / ClaudeBot 等）Disallow `/shelf/` 与 `/novel/`；章节页标记 noindex/noai/noimageai；且不进入 sitemap。",
+    "> 本节仅提供书目元数据（标题、作者、体裁、章节数、入口 URL），不含正文。引用请指向本段元数据，勿抓取章节页。",
     "",
   ];
 
