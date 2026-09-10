@@ -454,8 +454,9 @@ html.reading-chrome--hidden .site-header:focus-within {
 
 /* ============================================================
    Banner — section / partition atmosphere (not body wallpaper)
-   Text shares --shell-inline with .site-header; imaged media can
-   full-bleed and dissolve into --bg (ink-paper), not a hard crop.
+   Text shares --shell-inline with .site-header; page imaged heroes
+   full-bleed left/right (no side fade gutters); bottom dissolves
+   into --bg (ink-paper).
    ============================================================ */
 .site-banner {
   position: relative;
@@ -561,42 +562,26 @@ html.reading-chrome--hidden .site-header:focus-within {
     );
 }
 
+/* Page heroes: bottom dissolve only — no horizontal mask (that
+   read as left/right gutters against the paper ground). */
 .site-banner--page.site-banner--imaged .site-banner__media {
-  -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      #000 6%,
-      #000 94%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      /* Top stays fully opaque — under-nav band must stay crisp atmosphere */
-      #000 0%,
-      #000 42%,
-      rgba(0, 0, 0, 0.7) 64%,
-      rgba(0, 0, 0, 0.25) 84%,
-      transparent 100%
-    );
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent 0%,
-      #000 6%,
-      #000 94%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 42%,
-      rgba(0, 0, 0, 0.7) 64%,
-      rgba(0, 0, 0, 0.25) 84%,
-      transparent 100%
-    );
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    /* Top stays fully opaque — under-nav band must stay crisp atmosphere */
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.7) 64%,
+    rgba(0, 0, 0, 0.25) 84%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.7) 64%,
+    rgba(0, 0, 0, 0.25) 84%,
+    transparent 100%
+  );
 }
 
 .site-banner__veil {
@@ -613,7 +598,7 @@ html.reading-chrome--hidden .site-header:focus-within {
       color-mix(in srgb, var(--bg) 40%, transparent) 36%,
       transparent 62%
     ),
-    /* Optional side melt (stronger on full-bleed page heroes) */
+    /* Mild side melt for nested/section banners (page heroes omit this) */
     linear-gradient(
       to right,
       color-mix(in srgb, var(--bg) 35%, transparent) 0%,
@@ -631,6 +616,7 @@ html.reading-chrome--hidden .site-header:focus-within {
 }
 
 .site-banner--page.site-banner--imaged .site-banner__veil {
+  /* Bottom dissolve + left-biased readability wash only — no side melt. */
   background:
     linear-gradient(
       to top,
@@ -638,13 +624,6 @@ html.reading-chrome--hidden .site-header:focus-within {
       color-mix(in srgb, var(--bg) 92%, transparent) 16%,
       color-mix(in srgb, var(--bg) 45%, transparent) 40%,
       transparent 68%
-    ),
-    linear-gradient(
-      to right,
-      color-mix(in srgb, var(--bg) 55%, transparent) 0%,
-      transparent 10%,
-      transparent 90%,
-      color-mix(in srgb, var(--bg) 45%, transparent) 100%
     ),
     linear-gradient(
       105deg,
@@ -743,6 +722,13 @@ html.reading-chrome--hidden .site-header:focus-within {
   flex-wrap: wrap;
   gap: 0.85rem 1.25rem;
   align-items: center;
+  list-style: none;
+  padding: 0;
+}
+
+.site-banner__actions > li {
+  margin: 0;
+  padding: 0;
 }
 
 .site-banner__actions--text {
@@ -830,6 +816,13 @@ html.reading-chrome--hidden .site-header:focus-within {
   flex-wrap: wrap;
   gap: 0.75rem;
   position: relative;
+  list-style: none;
+  padding: 0;
+}
+
+.hero-actions > li {
+  margin: 0;
+  padding: 0;
 }
 
 /* ============================================================

@@ -35,6 +35,7 @@ const fontHref =
   "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap";
 ---
 
+<!doctype html>
 <html lang={htmlLang}>
   <head>
     <meta charset="UTF-8" />
@@ -115,6 +116,25 @@ const fontHref =
       .shelf-page {
         max-width: 920px;
         margin: 0 auto;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        z-index: 200;
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        background: var(--brand);
+        color: #f8f5ee;
+        font-weight: 600;
+        font-size: 0.9rem;
+        font-family: system-ui, sans-serif;
+        text-decoration: none;
+        transition: top 200ms ease;
+      }
+      .skip-link:focus {
+        top: 1rem;
       }
 
       .back {
@@ -265,8 +285,12 @@ const fontHref =
       .work:focus-visible {
         transform: translateY(-10px);
         filter: drop-shadow(0 14px 20px color-mix(in srgb, var(--ink-900) 22%, transparent));
-        outline: none;
         z-index: 2;
+      }
+
+      .work:focus-visible {
+        outline: 2px solid var(--brand);
+        outline-offset: 4px;
       }
 
       .work-cover {
@@ -380,6 +404,10 @@ const fontHref =
           transform: none;
           filter: none;
         }
+        .skip-link,
+        .work {
+          transition: none;
+        }
       }
 
       @media (max-width: 640px) {
@@ -405,10 +433,12 @@ const fontHref =
     <ThemeBoot />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
     <div class="shelf-page">
       <a href={homeHref} class="back">&larr; {ui.backHome}</a>
 
-      <header class="library-hero">
+      <main id="main-content">
+      <header class="library-hero" aria-labelledby="library-title">
         <svg
           class="library-seal"
           viewBox="0 0 48 48"
@@ -437,7 +467,7 @@ const fontHref =
             style='font-family: var(--font-display), "Noto Serif SC", serif'>亦</text>
         </svg>
         <p class="library-brand">{ui.libraryBrand}</p>
-        <h1>{ui.libraryTitle}</h1>
+        <h1 id="library-title">{ui.libraryTitle}</h1>
         <p class="sub">{ui.librarySub}</p>
         <div class="lang-row">
           <LocaleSelect links={languageLinks} label={ui.language} />
@@ -520,6 +550,7 @@ const fontHref =
           )
         }
       </section>
+      </main>
     </div>
   </body>
 </html>

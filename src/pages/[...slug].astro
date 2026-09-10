@@ -270,7 +270,7 @@ if (isSectionLanding && !isAncient) {
           { name: post.data.title, url: canonicalPath },
         ]}
       />
-      <section class={headings.length > 0 ? "section post-shell post-shell--reading" : "section post-shell"}>
+      <article class={headings.length > 0 ? "section post-shell post-shell--reading" : "section post-shell"}>
         <header class="post-header">
           <nav class="breadcrumb" aria-label="面包屑">
             <ol>
@@ -298,8 +298,8 @@ if (isSectionLanding && !isAncient) {
 
         {headings.length > 0 && (
           <div class="toc-rail">
-            <aside class="post-toc">
-              <h2>目录</h2>
+            <aside class="post-toc" aria-labelledby="post-toc-heading">
+              <h2 id="post-toc-heading">目录</h2>
               <ul>
                 {headings.filter((item) => item.depth <= 3).map((item) => (
                   <li>
@@ -316,8 +316,8 @@ if (isSectionLanding && !isAncient) {
         </div>
 
         {relatedPosts.length > 0 && (
-          <aside class="related-posts reveal-on-scroll">
-            <h2 class="section-title related-title">相关文章</h2>
+          <aside class="related-posts reveal-on-scroll" aria-labelledby="related-posts-heading">
+            <h2 id="related-posts-heading" class="section-title related-title">相关文章</h2>
             <div class="related-grid">
               {relatedPosts.map((related) => (
                 <article class="related-card">
@@ -331,7 +331,7 @@ if (isSectionLanding && !isAncient) {
             </div>
           </aside>
         )}
-      </section>
+      </article>
       {hasMath && (
         <>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />

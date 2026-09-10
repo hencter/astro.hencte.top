@@ -60,7 +60,7 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} - {novelTitle} | 亦幸小阁</title>
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonical} />
@@ -245,6 +245,25 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
         margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
       }
 
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 1rem;
+        z-index: 200;
+        padding: 0.6rem 1rem;
+        border-radius: 6px;
+        background: var(--nv-brand);
+        color: #f8f5ee;
+        font-weight: 600;
+        font-size: 0.9rem;
+        font-family: system-ui, sans-serif;
+        text-decoration: none;
+        transition: top 200ms ease;
+      }
+      .skip-link:focus {
+        top: 1rem;
+      }
+
       .nv-wechat-widget {
         position: fixed;
         right: 16px;
@@ -326,12 +345,21 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
         .nv-prose { max-width: none; font-size: 17px; }
         .nv-bottom-bar { max-width: 42em; width: 100%; padding: 28px 1.5rem 40px; }
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        .skip-link,
+        .nv-bottom-bar a,
+        .nv-top-bar {
+          transition: none;
+        }
+      }
     </style>
 
     <ThemeBoot />
   </head>
   <body>
-    <nav class="nv-top-bar" aria-label="小说导航">
+    <a class="skip-link" href="#nvContent">{ui.skipToContent}</a>
+    <nav class="nv-top-bar" aria-label={ui.novelNav}>
       <a href={homeHref}>&larr; {ui.home}</a>
       <span class="divider" aria-hidden="true">|</span>
       <a href={novelHref}>{novelTitle}</a>
@@ -346,7 +374,8 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
     </nav>
 
     <main class="nv-content" id="nvContent">
-      <div class="nv-prose">
+      {/* Section heads in chapter markdown should be ## (h2) under this layout h1 — avoid ### which skips a level. */}
+      <article class="nv-prose">
         {!contentOwnTitle && <h1 class="nv-title">{title}</h1>}
         {chapterImage && (
           <figure class="nv-chapter-illustration">
@@ -354,10 +383,10 @@ const canonical = new URL(Astro.url.pathname, Astro.url).toString();
           </figure>
         )}
         {html ? <div set:html={html} /> : Content ? <Content /> : null}
-      </div>
+      </article>
     </main>
 
-    <nav class="nv-bottom-bar" aria-label="章节翻页">
+    <nav class="nv-bottom-bar" aria-label={ui.chapterNav}>
       <div>
         {prevChapter ? (
           <a href={prevChapter.href} class="nv-prev-btn">&larr; {prevChapter.title}</a>
