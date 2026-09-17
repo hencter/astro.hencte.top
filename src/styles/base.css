@@ -1,0 +1,65 @@
+/* ============================================================
+   Reset
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+/* In-page #anchor jumps — CSS-first smooth scroll.
+   prefers-reduced-motion:reduce forces auto via the Reduced Motion block. */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Keep hash targets clear of the sticky .site-header (sitewide). */
+:is(h1, h2, h3, h4, h5, h6, [id]) {
+  scroll-margin-top: var(--scroll-margin-chrome);
+}
+
+body {
+  color: var(--ink-900);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 400ms ease, color 400ms ease;
+  /* Full-bleed banner media uses 100vw; clip any scrollbar-gap overflow */
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================================
+   Ambient Background — the only atmosphere layer. Extended above
+   the fold by 10rem so the restrained scroll parallax (max 120px)
+   never reveals its lower edge. (Noise overlay removed: grain
+   worked against the minimalist reading ground.)
+   ============================================================ */
+.ambient-bg {
+  position: fixed;
+  inset: -10rem 0 0 0;
+  background:
+    radial-gradient(circle at 68% 28%, var(--grad-ambient-a), transparent 28%),
+    radial-gradient(circle at 22% 78%, var(--grad-ambient-b), transparent 24%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ============================================================
+   Shell & Layout
+   ============================================================ */
+.page-shell {
+  width: min(var(--shell-max), calc(100% - (var(--shell-gutter) * 2)));
+  margin: 0 auto;
+  padding: 1.25rem 0 3.25rem;
+}
