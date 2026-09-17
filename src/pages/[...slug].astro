@@ -1,37 +1,31 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AncientPostLayout from "../layouts/FullscreenAncientLayout.astro";
 import BlogSectionLayout from "../layouts/BlogSectionLayout.astro";
 import JsonLD from "../components/JsonLD.astro";
+import {
+  getBlogIndex,
+  inferBlogSection,
+  isBlogIndexPage,
+  byBlogDateDesc,
+} from "../lib/blog-index";
 
 export async function getStaticPaths() {
-  const allowedSections = new Set(["log", "tech", "ancient", "posts"]);
-  const inferSection = (entry: { id: string; data: { section?: string } }) =>
-    entry.data.section || entry.id.split("/")[0] || "blog";
-  const isIndexPage = (entry: { data: { legacyPath?: string } }) =>
-    Boolean(entry.data.legacyPath?.endsWith("_index.md"));
-
-  const allEntries = await getCollection("blog");
-  const publicEntries = allEntries
-    .filter((entry) => !entry.data.draft)
-    .filter((entry) => allowedSections.has(inferSection(entry)));
-
-  const indexEntries = publicEntries.filter((entry) => isIndexPage(entry));
-  const postEntries = publicEntries.filter((entry) => !isIndexPage(entry));
+  const { routed, indexPages, routedPosts } = await getBlogIndex();
 
   const childPostCount = new Map<string, number>();
-  for (const indexEntry of indexEntries) {
+  for (const indexEntry of indexPages) {
     const prefix = `${indexEntry.id}/`;
     childPostCount.set(
       indexEntry.id,
-      postEntries.filter((entry) => entry.id.startsWith(prefix)).length
+      routedPosts.filter((entry) => entry.id.startsWith(prefix)).length
     );
   }
 
-  const posts = publicEntries.filter((entry) => {
-    if (!isIndexPage(entry)) {
+  const posts = routed.filter((entry) => {
+    if (!isBlogIndexPage(entry)) {
       return true;
     }
 
@@ -48,15 +42,8 @@ export async function getStaticPaths() {
   }));
 }
 
-const allowedSections = new Set(["log", "tech", "ancient", "posts"]);
-
-function inferSection(entry: { id: string; data: { section?: string } }): string {
-  return entry.data.section || entry.id.split("/")[0] || "blog";
-}
-
-function isIndexPage(entry: { data: { legacyPath?: string } }): boolean {
-  return Boolean(entry.data.legacyPath?.endsWith("_index.md"));
-}
+const inferSection = inferBlogSection;
+const isIndexPage = isBlogIndexPage;
 
 const { post } = Astro.props as { post: CollectionEntry<"blog"> };
 const { Content, headings } = await render(post);
@@ -88,22 +75,16 @@ if (!isAncient && !isSectionLanding) {
   const truncateExcerpt = (text: string, max = 80): string =>
     text.length > max ? `${text.slice(0, max)}…` : text;
 
-  const allEntries = await getCollection("blog");
+  const { routedPosts } = await getBlogIndex();
   const currentTags = new Set(post.data.tags || []);
   const currentCategories = new Set(post.data.categories || []);
 
-  const relatedCandidates = allEntries.filter((entry) => {
+  const relatedCandidates = routedPosts.filter((entry) => {
     if (entry.id === post.id) return false;
-    if (entry.data.draft) return false;
-    if (isIndexPage(entry)) return false;
     return relatedSectionAllow.has(inferSection(entry));
   });
 
-  const byDateDesc = (a: { data: { date?: Date } }, b: { data: { date?: Date } }): number => {
-    const aTime = a.data.date ? a.data.date.getTime() : 0;
-    const bTime = b.data.date ? b.data.date.getTime() : 0;
-    return bTime - aTime;
-  };
+  const byDateDesc = byBlogDateDesc;
 
   // 打分：共享 tag ×3 + 共享 category ×2 + 同 section +1，取分 >0 的前 3 篇
   const scored = relatedCandidates
@@ -169,14 +150,11 @@ let landingSections: { title: string; href: string; description?: string; count:
 let landingPosts: { title: string; href: string; date?: Date; description?: string; tags?: string[] }[] = [];
 
 if (isSectionLanding && !isAncient) {
-  const allEntries = await getCollection("blog");
-  const publicEntries = allEntries
-    .filter((entry) => !entry.data.draft)
-    .filter((entry) => allowedSections.has(inferSection(entry)));
+  const { routed } = await getBlogIndex();
 
   const prefix = post.id;
   const prefixDepth = prefix.split("/").length;
-  const descendants = publicEntries.filter((entry) => entry.id.startsWith(`${prefix}/`));
+  const descendants = routed.filter((entry) => entry.id.startsWith(`${prefix}/`));
 
   const immediateIndexPages = descendants
     .filter((entry) => isIndexPage(entry))

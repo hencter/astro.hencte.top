@@ -1,19 +1,10 @@
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
+import { getBlogIndex } from "../lib/blog-index";
 
 export async function GET(_context: APIContext) {
-  const posts = (
-    await getCollection(
-      "blog",
-      ({ data }) =>
-        !data.draft && !(data.legacyPath ?? "").endsWith("_index.md")
-    )
-  )
-    .sort(
-      (a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0)
-    )
-    .slice(0, 50);
+  const { posts: allPosts } = await getBlogIndex();
+  const posts = allPosts.slice(0, 50);
 
   return rss({
     title: "亦幸小阁",

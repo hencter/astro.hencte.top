@@ -2,12 +2,12 @@ import { getCollection } from "astro:content";
 import type { SiteLocale } from "./i18n";
 import { getDateLocale } from "./i18n";
 import { getNovelHref } from "./i18n";
+import { getBlogIndex, inferBlogSection, isBlogIndexPage, byBlogDateDesc } from "./blog-index";
 import { entrySlug, hasNovelLocalePrefix, isSeriesLanding, mirrorNovelData } from "./novel-helpers";
 
 const allowedSections = new Set(["log", "tech", "ancient", "novel"]);
 
-const isIndexPage = (entry: { data: { legacyPath?: string } }) =>
-  Boolean(entry.data.legacyPath?.endsWith("_index.md"));
+export { inferBlogSection as inferSection, isBlogIndexPage as isIndexPage, byBlogDateDesc };
 
 /**
  * Temporary English detector until blog schema gains `lang`.
@@ -25,17 +25,10 @@ export function blogIdMatchesLocale(id: string, locale: SiteLocale): boolean {
 }
 
 export async function getLatestPosts(limit = 6, locale: SiteLocale = "zh-CN") {
-  const allEntries = await getCollection("blog");
-  return allEntries
-    .filter((entry) => !entry.data.draft)
+  const { posts } = await getBlogIndex();
+  return posts
     .filter((entry) => allowedSections.has(entry.data.section || entry.id.split("/")[0]))
-    .filter((entry) => !isIndexPage(entry))
     .filter((entry) => blogIdMatchesLocale(entry.id, locale))
-    .sort((a, b) => {
-      const aTime = a.data.date ? a.data.date.getTime() : 0;
-      const bTime = b.data.date ? b.data.date.getTime() : 0;
-      return bTime - aTime;
-    })
     .slice(0, limit);
 }
 
@@ -109,9 +102,8 @@ export async function getBlogIndexData(
   locale: SiteLocale
 ): Promise<BlogIndexData> {
   const allowed = new Set(sectionMeta.map((item) => item.key));
-  const allEntries = await getCollection("blog");
-  const publicEntries = allEntries
-    .filter((entry) => !entry.data.draft)
+  const { posts: routedPosts } = await getBlogIndex();
+  const publicEntries = routedPosts
     .filter((entry) => allowed.has(entry.data.section || entry.id.split("/")[0]))
     .filter((entry) => blogIdMatchesLocale(entry.id, locale));
 
@@ -121,8 +113,6 @@ export async function getBlogIndexData(
   ).length;
 
   const posts = publicEntries
-    .filter((entry) => !isIndexPage(entry))
-    .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
     .map((entry) => ({
       id: entry.id,
       title: entry.data.title,
