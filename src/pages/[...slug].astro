@@ -339,15 +339,64 @@ if (isSectionLanding && !isAncient) {
           </script>
           <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js">
           </script>
-          <script defer>
-            document.addEventListener("DOMContentLoaded", () => { renderMathInElement(document.body, { delimiters: [{ left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }, { left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }] }) })
+          <script>
+            // Bundled module → runs once per session. astro:page-load
+            // fires on first load AND after every ClientRouter swap
+            // (DOMContentLoaded never fires again post-swap).
+            declare global {
+              interface Window {
+                renderMathInElement?: (
+                  el: HTMLElement,
+                  options?: { delimiters?: { left: string; right: string; display: boolean }[] },
+                ) => void;
+              }
+            }
+            document.addEventListener("astro:page-load", () => {
+              if (typeof window.renderMathInElement !== "function") return;
+              window.renderMathInElement(document.body, {
+                delimiters: [
+                  { left: "\\[", right: "\\]", display: true },
+                  { left: "\\(", right: "\\)", display: false },
+                  { left: "$$", right: "$$", display: true },
+                  { left: "$", right: "$", display: false },
+                ],
+              });
+            });
           </script>
         </>
       )}
       {hasMermaid && (
+        <script is:inline>
+          {
+            // is:inline → re-executes on every visit to a mermaid page;
+            // guard the listener so it binds exactly once per session.
+          }
+          if (!window.__mermaidBound) {
+            window.__mermaidBound = true;
+            window.__mermaidRun = function () {
+              var mod = window.mermaid;
+              if (mod && typeof mod.run === "function") {
+                mod.run({ querySelector: ".mermaid" });
+              }
+            };
+            document.addEventListener("astro:page-load", function () {
+              window.__mermaidRun();
+            });
+          }
+        </script>
         <script type="module">
-          import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
-          mermaid.initialize({ startOnLoad: true, theme: "default", securityLevel: "loose" })
+          import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+          declare global {
+            interface Window {
+              mermaid?: { run: (options?: { querySelector?: string }) => Promise<void> };
+              __mermaidBound?: boolean;
+              __mermaidRun?: () => void;
+            }
+          }
+          // startOnLoad covers the first full load; astro:page-load +
+          // mermaid.run covers ClientRouter swaps.
+          mermaid.initialize({ startOnLoad: true, theme: "default", securityLevel: "loose" });
+          window.mermaid = mermaid;
         </script>
       )}
     </BaseLayout>

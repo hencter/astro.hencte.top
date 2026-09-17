@@ -257,6 +257,16 @@ function isNavActive(href: string): boolean {
     <WechatWidget />
 
     <script>
+      // One-shot flags on window for listeners that must bind exactly
+      // once per session (document/window persist across ClientRouter
+      // swaps, while page DOM is replaced).
+      declare global {
+        interface Window {
+          __mobileNavEscBound?: boolean;
+          __readingChromeBound?: boolean;
+        }
+      }
+
       // Theme toggle logic — keep aria-pressed in sync with .dark
       function initThemeToggle() {
         const btn = document.getElementById('theme-toggle');
@@ -277,22 +287,27 @@ function isNavActive(href: string): boolean {
         });
       }
 
-      // Scroll-driven reveal animation via IntersectionObserver
+      // Scroll-driven reveal animation via IntersectionObserver.
+      // The observer is recreated per page (fresh DOM after each swap);
+      // disconnect the previous one so removed elements don't leak.
+      let revealObserver: IntersectionObserver | null = null;
       function initScrollReveal() {
         const els = document.querySelectorAll('.reveal-on-scroll');
+        revealObserver?.disconnect();
+        revealObserver = null;
         if (!els.length) return;
-        const observer = new IntersectionObserver(
+        revealObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
                 entry.target.classList.add('revealed');
-                observer.unobserve(entry.target);
+                revealObserver?.unobserve(entry.target);
               }
             });
           },
           { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
-        els.forEach((el) => observer.observe(el));
+        els.forEach((el) => revealObserver!.observe(el));
       }
 
       // Mobile nav disclosure — sync aria-expanded/label; Esc returns focus
@@ -354,81 +369,94 @@ function isNavActive(href: string): boolean {
       // desktop) while scrolling down or while idle mid-article, so the
       // reader keeps the centered text column without chrome. Revealed
       // on scroll-up or when the pointer approaches the top edge.
-      function initReadingChrome() {
-        if (window.__readingChromeBound) return;
-        const root = document.documentElement;
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduced) return;
+      //
+      // Lifecycle note: window-level listeners bind exactly once (they
+      // survive ClientRouter swaps because `document` persists), while
+      // every DOM lookup happens fresh inside the handlers — the header,
+      // nav panel and ambient layer are replaced on each navigation, so
+      // captured references would go stale after the first swap.
+      let chromeLastY = 0;
+      let chromeIdleTimer: ReturnType<typeof setTimeout> | undefined;
+      let chromeAtTop = true;
+      let chromeTicking = false;
 
-        const HIDE_AFTER = 2400;   // idle ms before chrome retreats
-        const SCROLL_BEGIN = 160;  // px before down-scroll hides chrome
-        const TOP_REVEAL = 96;     // pointer band that reveals chrome
+      const CHROME_HIDE_AFTER = 2400;  // idle ms before chrome retreats
+      const CHROME_SCROLL_BEGIN = 160; // px before down-scroll hides chrome
+      const CHROME_TOP_REVEAL = 96;    // pointer band that reveals chrome
 
-        let lastY = window.scrollY;
-        let idleTimer = 0;
-        let atTop = window.scrollY < SCROLL_BEGIN;
+      function applyChromeHidden(hidden: boolean) {
+        const panel = document.getElementById('primary-nav');
+        const open = panel && panel.classList.contains('is-open');
+        document.documentElement.classList.toggle(
+          'reading-chrome--hidden',
+          hidden && !chromeAtTop && !open
+        );
+      }
 
-        const header = document.querySelector('.site-header');
-        const navPanel = document.getElementById('primary-nav');
+      function armChromeIdle() {
+        clearTimeout(chromeIdleTimer);
+        chromeIdleTimer = setTimeout(() => {
+          if (!chromeAtTop) applyChromeHidden(true);
+        }, CHROME_HIDE_AFTER);
+      }
+
+      // Ambient parallax — restrained: the atmosphere layer drifts a
+      // little slower than the page (max 120px) while scrolling.
+      function driftAmbient(y: number) {
         const ambient = document.querySelector('.ambient-bg');
+        if (ambient instanceof HTMLElement) {
+          ambient.style.transform = 'translateY(' + Math.min(y * -0.04, 120) + 'px)';
+        }
+      }
 
-        const apply = (hidden) => {
-          const open = navPanel && navPanel.classList.contains('is-open');
-          root.classList.toggle('reading-chrome--hidden', hidden && !atTop && !open);
-        };
-
-        const armIdle = () => {
-          clearTimeout(idleTimer);
-          idleTimer = setTimeout(() => {
-            if (!atTop) apply(true);
-          }, HIDE_AFTER);
-        };
-
-        let ticking = false;
-        const onScroll = () => {
-          if (ticking) return;
-          ticking = true;
-          window.requestAnimationFrame(() => {
-            const y = window.scrollY;
-            driftAmbient(y);
-            if (header) header.classList.toggle('is-scrolled', y > 24);
-            atTop = y < SCROLL_BEGIN;
-            if (atTop) {
-              apply(false);
-            } else {
-              const dy = y - lastY;
-              if (Math.abs(dy) > 6) {
-                if (dy > 0) {
-                  apply(true);
-                } else {
-                  apply(false);
-                  armIdle();
-                }
+      function onChromeScroll() {
+        if (chromeTicking) return;
+        chromeTicking = true;
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          driftAmbient(y);
+          const header = document.querySelector('.site-header');
+          if (header) header.classList.toggle('is-scrolled', y > 24);
+          chromeAtTop = y < CHROME_SCROLL_BEGIN;
+          if (chromeAtTop) {
+            applyChromeHidden(false);
+          } else {
+            const dy = y - chromeLastY;
+            if (Math.abs(dy) > 6) {
+              if (dy > 0) {
+                applyChromeHidden(true);
+              } else {
+                applyChromeHidden(false);
+                armChromeIdle();
               }
             }
-            lastY = y;
-            ticking = false;
-          });
-        };
+          }
+          chromeLastY = y;
+          chromeTicking = false;
+        });
+      }
 
-        const onMove = (e) => {
-          if (e.clientY < TOP_REVEAL && !atTop) apply(false);
-        };
+      function initReadingChrome() {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Per-page reset: navigation lands at top with chrome visible.
+        chromeAtTop = window.scrollY < CHROME_SCROLL_BEGIN;
+        chromeLastY = window.scrollY;
+        applyChromeHidden(false);
+        if (reduced) return;
+        armChromeIdle();
 
-        // Keyboard reachability: focusing into the hidden bar reveals it.
-        const onFocusIn = () => apply(false);
-
-        // Ambient parallax — restrained: the atmosphere layer drifts a
-        // little slower than the page (max 120px) while scrolling.
-        const driftAmbient = (y) => {
-          if (ambient) ambient.style.transform = 'translateY(' + Math.min(y * -0.04, 120) + 'px)';
-        };
-
+        if (window.__readingChromeBound) return;
         window.__readingChromeBound = true;
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('mousemove', onMove, { passive: true });
-        if (header) header.addEventListener('focusin', onFocusIn);
-        armIdle();
+        window.addEventListener('scroll', onChromeScroll, { passive: true });
+        window.addEventListener('mousemove', (e) => {
+          if (e.clientY < CHROME_TOP_REVEAL && !chromeAtTop) applyChromeHidden(false);
+        }, { passive: true });
+        // Keyboard reachability: focusing into the hidden bar reveals it.
+        document.addEventListener('focusin', (e) => {
+          if (e.target instanceof Element && e.target.closest('.site-header')) {
+            applyChromeHidden(false);
+          }
+        });
       }
 
       // Hash landing after ClientRouter swaps — native fragment scroll can

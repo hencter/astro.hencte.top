@@ -72,27 +72,46 @@
 </style>
 
 <script>
-  var wxT = document.getElementById('wxToggle');
-  var wxP = document.getElementById('wxPopup');
-  if (wxT && wxP) {
-    function setWxOpen(open) {
-      wxP.classList.toggle('visible', open);
-      wxT.setAttribute('aria-expanded', open ? 'true' : 'false');
+  // Event-delegated bindings that survive View Transitions: ClientRouter
+  // replaces this widget's DOM on every navigation, so handlers must
+  // query the live document instead of capturing element references.
+  // Bound exactly once per session via the window flag.
+  declare global {
+    interface Window {
+      __wxWidgetBound?: boolean;
     }
+  }
 
-    wxT.addEventListener('click', function(e) {
-      e.stopPropagation();
-      setWxOpen(!wxP.classList.contains('visible'));
-    });
-    document.addEventListener('click', function(e) {
-      if (!wxP.contains(e.target) && e.target !== wxT) {
+  if (!window.__wxWidgetBound) {
+    window.__wxWidgetBound = true;
+
+    const setWxOpen = (open: boolean) => {
+      const popup = document.getElementById('wxPopup');
+      const toggle = document.getElementById('wxToggle');
+      if (!popup || !toggle) return;
+      popup.classList.toggle('visible', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const popup = document.getElementById('wxPopup');
+      if (!popup) return;
+      if (target.closest('#wxToggle')) {
+        setWxOpen(!popup.classList.contains('visible'));
+      } else if (!target.closest('#wxPopup')) {
         setWxOpen(false);
       }
     });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && wxP.classList.contains('visible')) {
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      const popup = document.getElementById('wxPopup');
+      const toggle = document.getElementById('wxToggle');
+      if (popup?.classList.contains('visible')) {
         setWxOpen(false);
-        wxT.focus();
+        toggle?.focus();
       }
     });
   }
