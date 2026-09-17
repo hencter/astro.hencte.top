@@ -1,0 +1,46 @@
+---
+import { Picture } from "astro:assets";
+import { getProjectImage } from "../lib/project-images";
+
+/**
+ * Responsive project image: AVIF + WebP srcset via astro:assets when the
+ * src basename maps to src/assets/projects/*; falls back to a plain <img>
+ * for external URLs or unmapped paths.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  variant: "featured" | "thumb";
+  loading?: "eager" | "lazy";
+}
+
+const { src, alt, variant, loading = "lazy" } = Astro.props;
+const image = getProjectImage(src);
+const widths = variant === "featured" ? [640, 960, 1280, 1536] : [480, 640, 960];
+const sizes =
+  variant === "featured" ? "(max-width: 768px) 100vw, 960px" : "(max-width: 768px) 100vw, 640px";
+---
+
+{
+  image ? (
+    <Picture
+      src={image}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      loading={loading}
+      decoding="async"
+    />
+  ) : (
+    <img
+      src={src}
+      alt={alt}
+      width={variant === "featured" ? 960 : 640}
+      height={variant === "featured" ? 600 : 400}
+      loading={loading}
+      decoding="async"
+    />
+  )
+}

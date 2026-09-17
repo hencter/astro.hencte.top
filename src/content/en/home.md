@@ -57,7 +57,7 @@ featuredProjects:
     outcome: "Human management with on-site AI agents."
     tags: ["Community", "AI Creator", "Invite-only"]
     url: "https://tongtianlu.cn"
-    image: "/img/projects/tongtianlu.png"
+    image: "/img/projects/tongtianlu.webp"
     imageAlt: "Tongtianlu: lantern path ascending a night market road toward distant mountains"
   - stage: "Open-source Game"
     title: "Monopoly 3D — AI Business Empire"
@@ -65,7 +65,7 @@ featuredProjects:
     outcome: "MIT open source, actively iterating."
     tags: ["Three.js", "AI", "Multiplayer"]
     url: "https://github.com/hencter/monopoly-3d-ai"
-    image: "/img/projects/monopoly-3d.png"
+    image: "/img/projects/monopoly-3d.webp"
     imageAlt: "Monopoly 3D: elevated view of a stylized city board with warm path lights"
   - stage: "External Product"
     title: "AI.LinkTrust.Top"
@@ -73,7 +73,7 @@ featuredProjects:
     outcome: "Live independent endpoint with real user feedback."
     tags: ["AI", "Product", "Trust"]
     url: "https://ai.linktrust.top"
-    image: "/img/projects/linktrust.png"
+    image: "/img/projects/linktrust.webp"
     imageAlt: "LinkTrust: celadon and gold balance weighing trustworthy link networks"
   - stage: "Main Site"
     title: "hencte.top"
@@ -81,7 +81,7 @@ featuredProjects:
     outcome: "Continuously updated projects + blog platform."
     tags: ["Astro", "Bilingual", "Brand Site"]
     url: "/en/projects"
-    image: "/img/projects/hencte-top.png?v=20260903yi"
+    image: "/img/projects/hencte-top.webp"
     imageAlt: "Yi Xing pavilion: vermilion 亦 seal on cream paper with celadon tea and brush"
   - stage: "Migration Project"
     title: "Hugo to Astro Content Migration"

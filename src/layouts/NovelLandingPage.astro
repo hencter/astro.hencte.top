@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../lib/i18n";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
 import LocaleSelect from "../components/LocaleSelect.astro";
 import JsonLD from "../components/JsonLD.astro";
@@ -35,12 +36,13 @@ const {
 
 const ui = getNovelUiStrings(locale);
 const homeHref = locale === "zh-CN" ? "/" : locale === "en-US" ? "/en" : locale === "zh-TW" ? "/tw" : "/hk";
-const novelIndexHref = getNovelHref(locale);
+const novelIndexHref = getNovelHref(locale, undefined);
 const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 const canonicalPath = Astro.url.pathname;
 const htmlLang = htmlLangForLocale(locale);
 ---
 
+<!doctype html>
 <html lang={htmlLangForLocale(locale)}>
   <head>
     <meta charset="UTF-8" />
@@ -69,6 +71,9 @@ const htmlLang = htmlLangForLocale(locale);
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
       body{font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;background:var(--bg);color:var(--ink);line-height:1.9;padding:40px 24px;max-width:720px;margin:0 auto}
       a{color:var(--brand);text-decoration:none}a:hover{color:var(--accent)}
+      .skip-link{position:absolute;top:-100%;left:1rem;z-index:200;padding:.6rem 1rem;border-radius:6px;background:var(--brand);color:#f8f5ee;font-weight:600;font-size:.9rem;font-family:system-ui,sans-serif;text-decoration:none;transition:top 200ms ease}
+      .skip-link:focus{top:1rem}
+      @media (prefers-reduced-motion:reduce){.skip-link{transition:none}}
       .back{display:inline-block;margin-bottom:24px;font-size:14px}
       .top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px;flex-wrap:wrap}
       h1{font-size:1.8em;margin-bottom:8px}
@@ -87,38 +92,43 @@ const htmlLang = htmlLangForLocale(locale);
     <ThemeBoot />
   </head>
   <body>
-    <div class="top-row">
+    <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
+    <nav class="top-row" aria-label={ui.novelNav}>
       <a href={novelIndexHref} class="back">&larr; {ui.novelIndex}</a>
       <LocaleSelect links={languageLinks} label={ui.language} />
-    </div>
-    <h1>{title}</h1>
-    {cover && (
-      <figure class="series-cover">
-        <img src={cover} alt={imageAlt || title} width="320" height="480" loading="lazy" decoding="async" />
-      </figure>
-    )}
-    {description && <p class="desc">{description}</p>}
-    {comingSoon && (
-      <div class="coming-soon">
-        <p>{ui.comingSoon}</p>
-        <p><a href={getNovelHref("zh-CN", novelSlug)}>{ui.readZh}</a></p>
-      </div>
-    )}
-    {(html || Content) && (
-      <div class="prose">
-        {html ? <div set:html={html} /> : Content ? <Content /> : null}
-      </div>
-    )}
-    {!comingSoon && (
-      <>
-        <div class="pb" id="pb">
-          <p>{ui.lastRead}：<a id="pl" href="#">—</a></p>
+    </nav>
+    <main id="main-content">
+      <h1>{title}</h1>
+      {cover && (
+        <figure class="series-cover">
+          <img src={cover} alt={imageAlt || title} width="320" height="480" loading="lazy" decoding="async" />
+        </figure>
+      )}
+      {description && <p class="desc">{description}</p>}
+      {comingSoon && (
+        <div class="coming-soon">
+          <p>{ui.comingSoon}</p>
+          <p><a href={getNovelHref("zh-CN", novelSlug)}>{ui.readZh}</a></p>
         </div>
-        <ul class="cl">
-          {chapters.map((ch) => <li><a href={ch.href}>{ch.title}</a></li>)}
-        </ul>
-      </>
-    )}
+      )}
+      {(html || Content) && (
+        <div class="prose">
+          {html ? <div set:html={html} /> : Content ? <Content /> : null}
+        </div>
+      )}
+      {!comingSoon && (
+        <>
+          <div class="pb" id="pb">
+            <p>{ui.lastRead}：<a id="pl" href="#">—</a></p>
+          </div>
+          <nav aria-label={ui.chapterList}>
+            <ul class="cl">
+              {chapters.map((ch) => <li><a href={ch.href}>{ch.title}</a></li>)}
+            </ul>
+          </nav>
+        </>
+      )}
+    </main>
     <div id="nvd" hidden data-ns={novelSlug} data-locale={locale}></div>
     <script is:inline define:vars={{ novelSlug, locale, novelIndexHref }}>
       var d = document.getElementById('nvd');

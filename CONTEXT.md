@@ -39,7 +39,7 @@
 | 书架 | Shelf | `/shelf` 作品库索引页：封面朝前，分区含原创与教程钩子 |
 | 连接页 | Connect Page | `src/content/connect/` 下的 i18n 静态页面内容 |
 | 布局 | Layout | `src/layouts/` 下的 Astro 布局组件 |
-| 设计系统 | Design System | `src/styles/global.css` 中定义的 CSS 自定义属性体系 |
+| 设计系统 | Design System | `src/styles/` 下的 CSS 自定义属性体系（global.css 聚合 9 个 partial） |
 | 古籍 | Ancient | `src/content/blog/ancient/` 下的古文内容，使用 Heti 排版 |
 | 品牌手记 | Brand Notes | `/pages` 路由的静态页面 |
 

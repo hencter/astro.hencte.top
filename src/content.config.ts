@@ -7,25 +7,25 @@ const blog = defineCollection({
     pattern: "**/*.md",
     base: "./src/content/blog",
   }),
-  schema: z
-    .object({
-      title: z.string(),
-      description: z.string().optional(),
-      date: z.coerce.date().optional(),
-      publishDate: z.string().optional(),
-      lastmod: z.string().optional(),
-      draft: z.boolean().default(false),
-      tags: z.array(z.string()).default([]),
-      categories: z.array(z.string()).default([]),
-      aliases: z.array(z.string()).optional(),
-      keywords: z.array(z.string()).optional(),
-      images: z.array(z.string()).optional(),
-      toc: z.boolean().optional(),
-      math: z.boolean().optional(),
-      section: z.string().optional(),
-      legacyPath: z.string().optional(),
-    })
-    .passthrough(),
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    date: z.coerce.date().optional(),
+    publishDate: z.string().optional(),
+    lastmod: z.string().optional(),
+    draft: z.boolean().default(false),
+    tags: z.array(z.string()).default([]),
+    categories: z.array(z.string()).default([]),
+    aliases: z.array(z.string()).optional(),
+    keywords: z.array(z.string()).optional(),
+    images: z.array(z.string()).optional(),
+    toc: z.boolean().optional(),
+    math: z.boolean().optional(),
+    // Legacy Hugo slug, kept for reference only — routes derive from the file id.
+    slug: z.string().optional(),
+    section: z.enum(["log", "tech", "ancient", "posts", "about"]).optional(),
+    legacyPath: z.string().optional(),
+  }),
 });
 
 const connect = defineCollection({
@@ -131,6 +131,12 @@ const connect = defineCollection({
         )
         .optional(),
       latestTitle: z.string().optional(),
+      novelSection: z
+        .object({
+          title: z.string(),
+          subtitle: z.string().optional(),
+        })
+        .optional(),
       timeline: z
         .array(
           z.object({
@@ -229,8 +235,7 @@ const connect = defineCollection({
           rules: z.array(z.string()).default([]),
         })
         .optional(),
-    })
-    .passthrough(),
+    }),
 });
 
 const novel = defineCollection({
@@ -256,8 +261,7 @@ const novel = defineCollection({
       cover: z.string().optional(),
       chapterImage: z.string().optional(),
       imageAlt: z.string().optional(),
-    })
-    .passthrough(),
+    }),
 });
 
 export const collections = {

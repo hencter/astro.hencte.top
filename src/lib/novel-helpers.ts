@@ -183,6 +183,10 @@ export function getNovelUiStrings(locale: SiteLocale) {
     comingSoon: "英文版即将推出",
     readZh: "阅读简体中文版",
     language: "语言",
+    skipToContent: "跳转到主内容",
+    novelNav: "小说导航",
+    chapterNav: "章节翻页",
+    chapterList: "章节目录",
   };
   if (locale === "en-US") {
     return {
@@ -207,6 +211,10 @@ export function getNovelUiStrings(locale: SiteLocale) {
       comingSoon: "English edition coming soon",
       readZh: "Read in Simplified Chinese",
       language: "Language",
+      skipToContent: "Skip to content",
+      novelNav: "Novel navigation",
+      chapterNav: "Chapter pagination",
+      chapterList: "Chapter list",
     };
   }
   if (locale === "zh-TW") {

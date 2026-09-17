@@ -57,6 +57,11 @@ export function getPageAlternates(page: ConnectPage): Record<string, string> {
   };
 }
 
+/** Canonical path of a connect page for a locale (single source of truth). */
+export function getConnectPagePath(page: ConnectPage, locale: SiteLocale): string {
+  return PAGE_PATHS[page][locale];
+}
+
 export function localeToVariant(locale: SiteLocale): TraditionalVariant | null {
   if (locale === "zh-TW") return "tw";
   if (locale === "zh-HK") return "hk";

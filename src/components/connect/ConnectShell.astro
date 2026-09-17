@@ -1,0 +1,40 @@
+---
+import Layout from "../../layouts/BaseLayout.astro";
+import JsonLD from "../JsonLD.astro";
+import {
+  getConnectPagePath,
+  getPageAlternates,
+  type ConnectPage,
+  type SiteLocale,
+} from "../../lib/i18n";
+
+/**
+ * Shared shell for connect route pages (home/about/projects/links ×
+ * zh-CN/en-US/zh-TW/zh-HK). Centralizes canonical path, hreflang
+ * alternates and layout wiring so locale shells cannot drift.
+ * Route files only resolve data + render their section component.
+ */
+interface Props {
+  page: { title: string; description?: string; keywords?: string[] };
+  locale: SiteLocale;
+  connectPage: ConnectPage;
+  /** Emit FAQPage JSON-LD (site FAQ is Simplified Chinese — zh/en only). */
+  faqJsonLd?: boolean;
+}
+
+const { page, locale, connectPage, faqJsonLd = false } = Astro.props;
+const canonicalPath = getConnectPagePath(connectPage, locale);
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  locale={locale}
+  canonicalPath={canonicalPath}
+  connectPage={connectPage}
+  alternates={getPageAlternates(connectPage)}
+  keywords={page.keywords ?? []}
+>
+  {faqJsonLd && <JsonLD type="FAQPage" canonicalPath={canonicalPath} />}
+  <slot />
+</Layout>

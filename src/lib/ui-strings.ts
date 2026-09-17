@@ -4,7 +4,7 @@ import type { TraditionalVariant } from "./i18n";
 
 type UiStrings = Record<string, string>;
 
-const HOME_STRINGS_ZH: UiStrings = {
+const HOME_STRINGS_ZH = {
   datePending: "日期待补充",
   readMore: "点击查看全文。",
   startReading: "开始阅读",
@@ -23,7 +23,7 @@ const HOME_STRINGS_ZH: UiStrings = {
   viewAllProjects: "查看全部项目 →",
 };
 
-const ABOUT_STRINGS_ZH: UiStrings = {
+const ABOUT_STRINGS_ZH = {
   leftPanelTitle: "我在做什么",
   rightPanelTitle: "这个站点如何阅读",
   principlesTitle: "三条工作原则",
@@ -34,7 +34,7 @@ const ABOUT_STRINGS_ZH: UiStrings = {
   ctaText: "站点会持续发布新的项目进展和技术文章。",
 };
 
-const PROJECTS_STRINGS_ZH: UiStrings = {
+const PROJECTS_STRINGS_ZH = {
   featuredTitle: "重点项目",
   featuredSubtitle: "对外可访问、可验证、可持续迭代。",
   timelineTitle: "持续迭代节奏",
@@ -43,7 +43,7 @@ const PROJECTS_STRINGS_ZH: UiStrings = {
   viewDetails: "查看详情",
 };
 
-const HOME_STRINGS_EN: UiStrings = {
+const HOME_STRINGS_EN = {
   datePending: "Date pending",
   readMore: "Open to read the full post.",
   startReading: "Start reading",
@@ -62,7 +62,7 @@ const HOME_STRINGS_EN: UiStrings = {
   viewAllProjects: "View all projects →",
 };
 
-const ABOUT_STRINGS_EN: UiStrings = {
+const ABOUT_STRINGS_EN = {
   leftPanelTitle: "What I focus on",
   rightPanelTitle: "How to read this site",
   principlesTitle: "Working Principles",
@@ -73,7 +73,7 @@ const ABOUT_STRINGS_EN: UiStrings = {
   ctaText: "The site will keep publishing project updates and technical notes.",
 };
 
-const PROJECTS_STRINGS_EN: UiStrings = {
+const PROJECTS_STRINGS_EN = {
   featuredTitle: "Featured Projects",
   featuredSubtitle: "Publicly accessible, measurable, and continuously improved.",
   timelineTitle: "Iteration Loop",
@@ -82,7 +82,7 @@ const PROJECTS_STRINGS_EN: UiStrings = {
   viewDetails: "View details",
 };
 
-const LINKS_STRINGS_ZH: UiStrings = {
+const LINKS_STRINGS_ZH = {
   linksTitle: "友链",
   linksSubtitle: "互相看见、彼此链接的站点。",
   visitSite: "访问站点",
@@ -95,7 +95,7 @@ const LINKS_STRINGS_ZH: UiStrings = {
   ctaText: "邮件联系我，附上你的站名、链接与一句简介即可。",
 };
 
-const LINKS_STRINGS_EN: UiStrings = {
+const LINKS_STRINGS_EN = {
   linksTitle: "Friend Links",
   linksSubtitle: "Sites we see, link, and keep in touch with.",
   visitSite: "Visit site",
@@ -108,36 +108,36 @@ const LINKS_STRINGS_EN: UiStrings = {
   ctaText: "Email me with your site name, URL, and a one-line description.",
 };
 
-function convertStrings(strings: UiStrings, variant: TraditionalVariant): UiStrings {
+function convertStrings<T extends UiStrings>(strings: T, variant: TraditionalVariant): T {
   const result: UiStrings = {};
   for (const [key, value] of Object.entries(strings)) {
     result[key] = convertText(value, variant);
   }
-  return result;
+  return result as T;
 }
 
-export function getHomeStrings(locale: SiteLocale): UiStrings {
+export function getHomeStrings(locale: SiteLocale): typeof HOME_STRINGS_ZH {
   if (locale === "en-US") return HOME_STRINGS_EN;
   if (locale === "zh-TW") return convertStrings(HOME_STRINGS_ZH, "tw");
   if (locale === "zh-HK") return convertStrings(HOME_STRINGS_ZH, "hk");
   return HOME_STRINGS_ZH;
 }
 
-export function getAboutStrings(locale: SiteLocale): UiStrings {
+export function getAboutStrings(locale: SiteLocale): typeof ABOUT_STRINGS_ZH {
   if (locale === "en-US") return ABOUT_STRINGS_EN;
   if (locale === "zh-TW") return convertStrings(ABOUT_STRINGS_ZH, "tw");
   if (locale === "zh-HK") return convertStrings(ABOUT_STRINGS_ZH, "hk");
   return ABOUT_STRINGS_ZH;
 }
 
-export function getProjectsStrings(locale: SiteLocale): UiStrings {
+export function getProjectsStrings(locale: SiteLocale): typeof PROJECTS_STRINGS_ZH {
   if (locale === "en-US") return PROJECTS_STRINGS_EN;
   if (locale === "zh-TW") return convertStrings(PROJECTS_STRINGS_ZH, "tw");
   if (locale === "zh-HK") return convertStrings(PROJECTS_STRINGS_ZH, "hk");
   return PROJECTS_STRINGS_ZH;
 }
 
-export function getLinksStrings(locale: SiteLocale): UiStrings {
+export function getLinksStrings(locale: SiteLocale): typeof LINKS_STRINGS_ZH {
   if (locale === "en-US") return LINKS_STRINGS_EN;
   if (locale === "zh-TW") return convertStrings(LINKS_STRINGS_ZH, "tw");
   if (locale === "zh-HK") return convertStrings(LINKS_STRINGS_ZH, "hk");

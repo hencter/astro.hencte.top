@@ -1,31 +1,20 @@
 ---
-import Layout from "../../layouts/BaseLayout.astro";
+import ConnectShell from "../../components/connect/ConnectShell.astro";
 import HomeSections from "../../components/connect/HomeSections.astro";
-import { getPageAlternates } from "../../lib/i18n";
+import { getConnectPageData } from "../../lib/connect-page";
 import { getHomeStrings } from "../../lib/ui-strings";
-import { getMirroredConnect } from "../../lib/connect-mirror";
-import { getLatestPosts, getHomeNovels } from "../../lib/blog-helpers";
+import { getLatestPosts } from "../../lib/blog-helpers";
 
-const home = await getMirroredConnect("home", "hk");
 const locale = "zh-HK";
+const home = await getConnectPageData("home", locale);
 const latestPosts = await getLatestPosts(6, locale);
-const homeNovels = await getHomeNovels(locale);
 ---
 
-<Layout
-  title={home.title}
-  description={home.description}
-  locale={locale}
-  canonicalPath="/hk"
-  connectPage="home"
-  alternates={getPageAlternates("home")}
-  keywords={home.keywords ?? []}
->
+<ConnectShell page={home} locale={locale} connectPage="home">
   <HomeSections
     home={home}
     locale={locale}
     latestPosts={latestPosts}
-    homeNovels={homeNovels}
     strings={getHomeStrings(locale)}
   />
-</Layout>
+</ConnectShell>

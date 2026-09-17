@@ -86,16 +86,19 @@ const hetiScopeId = "heti-ancient";
   keywords={keywords}
 >
   <section class="section post-shell">
-    <nav class="breadcrumb">
-      <a href="/">首页</a>
-      <span class="separator">›</span>
-      <a href="/blog">博客</a>
-      <span class="separator">›</span>
-      <a href="/ancient">古文</a>
-      <span class="separator">›</span>
-      <span class="current">{title}</span>
+    <nav class="breadcrumb" aria-label="面包屑">
+      <ol>
+        <li><a href="/">首页</a></li>
+        <li aria-hidden="true" class="breadcrumb-separator">›</li>
+        <li><a href="/blog">博客</a></li>
+        <li aria-hidden="true" class="breadcrumb-separator">›</li>
+        <li><a href="/ancient">古文</a></li>
+        <li aria-hidden="true" class="breadcrumb-separator">›</li>
+        <li class="breadcrumb-current" aria-current="page">{title}</li>
+      </ol>
     </nav>
 
+    <article>
     <header class="post-header">
       <p class="card-kicker">古文</p>
       <h1>{title}</h1>
@@ -122,8 +125,8 @@ const hetiScopeId = "heti-ancient";
     {
       headings.length > 0 && (
         <div class="heti-scroll-wrapper">
-          <aside class={`post-toc heti ${hetiLayoutClass}`}>
-            <h2>目录</h2>
+          <aside class={`post-toc heti ${hetiLayoutClass}`} aria-labelledby="ancient-toc-heading">
+            <h2 id="ancient-toc-heading">目录</h2>
             <ul>
               {headings
                 .filter((item) => item.depth <= 3)
@@ -146,23 +149,30 @@ const hetiScopeId = "heti-ancient";
         <slot />
       </div>
     </div>
+    </article>
 
     <script src={hetiAddonUrl}></script>
     <script is:inline>
+      // is:inline scripts re-execute on every visit under ClientRouter —
+      // guard the swap listener so it binds exactly once per session.
       function initHeti() {
         document.querySelectorAll(".heti-scroll-wrapper").forEach((wrapper) => {
           wrapper.scrollLeft = wrapper.scrollWidth;
         });
         if (typeof Heti !== "undefined") {
           const el = document.getElementById("heti-ancient");
-          if (el) {
+          if (el && el.dataset.hetiBound !== "1") {
+            el.dataset.hetiBound = "1";
             const heti = new Heti("#heti-ancient");
             heti.autoSpacing();
           }
         }
       }
       initHeti();
-      document.addEventListener("astro:after-swap", initHeti);
+      if (!window.__hetiAncientBound) {
+        window.__hetiAncientBound = true;
+        document.addEventListener("astro:after-swap", initHeti);
+      }
     </script>
   </section>
 </BaseLayout>

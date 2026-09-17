@@ -1,27 +1,13 @@
 ---
-import { getEntry } from "astro:content";
-import Layout from "../layouts/BaseLayout.astro";
+import ConnectShell from "../components/connect/ConnectShell.astro";
 import ProjectsSections from "../components/connect/ProjectsSections.astro";
-import { getPageAlternates } from "../lib/i18n";
+import { getConnectPageData } from "../lib/connect-page";
 import { getProjectsStrings } from "../lib/ui-strings";
 
-const projectsEntry = await getEntry("connect", "zh/projects");
-if (!projectsEntry) {
-  throw new Error("Missing connect content: zh/projects");
-}
-
-const page = projectsEntry.data;
 const locale = "zh-CN";
+const page = await getConnectPageData("projects", locale);
 ---
 
-<Layout
-  title={page.title}
-  description={page.description}
-  locale={locale}
-  canonicalPath="/projects"
-  connectPage="projects"
-  alternates={getPageAlternates("projects")}
-  keywords={page.keywords ?? []}
->
+<ConnectShell page={page} locale={locale} connectPage="projects">
   <ProjectsSections page={page} locale={locale} strings={getProjectsStrings(locale)} />
-</Layout>
+</ConnectShell>

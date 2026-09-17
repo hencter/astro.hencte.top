@@ -1,22 +1,13 @@
 ---
-import Layout from "../../layouts/BaseLayout.astro";
+import ConnectShell from "../../components/connect/ConnectShell.astro";
 import AboutSections from "../../components/connect/AboutSections.astro";
-import { getPageAlternates } from "../../lib/i18n";
+import { getConnectPageData } from "../../lib/connect-page";
 import { getAboutStrings } from "../../lib/ui-strings";
-import { getMirroredConnect } from "../../lib/connect-mirror";
 
-const page = await getMirroredConnect("about", "tw");
 const locale = "zh-TW";
+const page = await getConnectPageData("about", locale);
 ---
 
-<Layout
-  title={page.title}
-  description={page.description}
-  locale={locale}
-  canonicalPath="/tw/about"
-  connectPage="about"
-  alternates={getPageAlternates("about")}
-  keywords={page.keywords ?? []}
->
+<ConnectShell page={page} locale={locale} connectPage="about">
   <AboutSections page={page} locale={locale} strings={getAboutStrings(locale)} />
-</Layout>
+</ConnectShell>

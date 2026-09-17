@@ -1,34 +1,20 @@
 ---
-import { getEntry } from "astro:content";
-import Layout from "../../layouts/BaseLayout.astro";
+import ConnectShell from "../../components/connect/ConnectShell.astro";
 import HomeSections from "../../components/connect/HomeSections.astro";
-import { getPageAlternates } from "../../lib/i18n";
+import { getConnectPageData } from "../../lib/connect-page";
 import { getHomeStrings } from "../../lib/ui-strings";
 import { getLatestPosts } from "../../lib/blog-helpers";
 
-const homeEntry = await getEntry("connect", "en/home");
-if (!homeEntry) {
-  throw new Error("Missing connect content: en/home");
-}
-
-const home = homeEntry.data;
 const locale = "en-US";
+const home = await getConnectPageData("home", locale);
 const latestPosts = await getLatestPosts(6, locale);
 ---
 
-<Layout
-  title={home.title}
-  description={home.description}
-  locale={locale}
-  canonicalPath="/en"
-  connectPage="home"
-  alternates={getPageAlternates("home")}
-  keywords={home.keywords ?? []}
->
+<ConnectShell page={home} locale={locale} connectPage="home">
   <HomeSections
     home={home}
     locale={locale}
     latestPosts={latestPosts}
     strings={getHomeStrings(locale)}
   />
-</Layout>
+</ConnectShell>

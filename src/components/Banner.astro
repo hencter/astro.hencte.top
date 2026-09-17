@@ -54,10 +54,12 @@ const {
   prefetch = false,
 } = Astro.props;
 
-const Tag = variant === "page" ? "header" : "div";
+/** Page hub = header (inside main → not a second banner landmark). Section/CTA = named section. */
+const Tag = variant === "page" ? "header" : "section";
 const HeadingTag = variant === "page" ? "h1" : "h2";
 const hasImage = Boolean(image);
 const hasActions = actions.length > 0;
+const titleDomId = id ? `${id}-banner-title` : `site-banner-${variant}-title`;
 ---
 
 <Tag
@@ -71,6 +73,7 @@ const hasActions = actions.length > 0;
     },
   ]}
   id={id}
+  aria-labelledby={titleDomId}
 >
   {
     hasImage && (
@@ -94,32 +97,34 @@ const hasActions = actions.length > 0;
     <div class="site-banner__copy">
       <slot name="before" />
       {kicker && <p class="site-banner__kicker text-breathe">{kicker}</p>}
-      <HeadingTag class="site-banner__title text-breathe">{title}</HeadingTag>
+      <HeadingTag id={titleDomId} class="site-banner__title text-breathe">{title}</HeadingTag>
       {subtitle && <p class="site-banner__subtitle">{subtitle}</p>}
       {
         hasActions && (
-          <div
+          <ul
             class:list={[
               "site-banner__actions",
               actionStyle === "button" ? "hero-actions" : "site-banner__actions--text",
             ]}
           >
             {actions.map((action, i) => (
-              <a
-                class:list={[
-                  actionStyle === "button"
-                    ? i === 0
-                      ? "btn-primary"
-                      : "btn-secondary"
-                    : "site-banner__link text-breathe",
-                ]}
-                href={action.href}
-                data-astro-prefetch={prefetch ? "hover" : undefined}
-              >
-                {action.label}
-              </a>
+              <li>
+                <a
+                  class:list={[
+                    actionStyle === "button"
+                      ? i === 0
+                        ? "btn-primary"
+                        : "btn-secondary"
+                      : "site-banner__link text-breathe",
+                  ]}
+                  href={action.href}
+                  data-astro-prefetch={prefetch ? "hover" : undefined}
+                >
+                  {action.label}
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         )
       }
       <slot />

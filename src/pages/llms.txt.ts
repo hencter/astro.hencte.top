@@ -1,4 +1,3 @@
-import { getCollection } from "astro:content";
 import {
   formatNovelBibliographyMarkdown,
   getNovelBibliography,
@@ -8,15 +7,10 @@ import {
   SITE_URL,
   formatFaqsMarkdown,
 } from "../lib/geo-site";
+import { getBlogIndex } from "../lib/blog-index";
 
 export async function GET() {
-  const posts = (
-    await getCollection(
-      "blog",
-      ({ data }) =>
-        !data.draft && !(data.legacyPath ?? "").endsWith("_index.md")
-    )
-  ).sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0));
+  const { posts } = await getBlogIndex();
 
   const blogLines = posts.map((post) => {
     const description = post.data.description;

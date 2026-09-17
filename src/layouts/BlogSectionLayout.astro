@@ -118,14 +118,25 @@ const navActive = canonicalPath.replace(/\/+$/, "");
         <li class="breadcrumb-current" aria-current="page">{title}</li>
       </ol>
     </nav>
-    <nav class="blog-subnav" aria-label="Blog navigation">
-      {
-        blogNav.map((link) => (
-          <a class={link.href === navActive ? "is-active" : undefined} href={link.href}>
-            {link.label}
-          </a>
-        ))
-      }
+    <nav class="blog-subnav" aria-label={isEnglish ? "Blog sections" : "博客栏目"}>
+      <ul>
+        {
+          blogNav.map((link) => {
+            const active = link.href === navActive;
+            return (
+              <li>
+                <a
+                  href={link.href}
+                  class={active ? "is-active" : undefined}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
     </nav>
   </Banner>
 

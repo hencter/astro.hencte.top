@@ -5,6 +5,7 @@ import Banner from "../Banner.astro";
 import Card from "../Card.astro";
 import CtaBanner from "../CtaBanner.astro";
 import EditorialListItem from "../EditorialListItem.astro";
+import ProjectImage from "../ProjectImage.astro";
 import SectionHeading from "../SectionHeading.astro";
 import { sectionImage } from "../../lib/section-images";
 
@@ -165,14 +166,10 @@ function featuredIcon(title: string): string {
           class:list={["card-featured-visual", { "card-featured-visual--image": Boolean(featuredProjects[0].image) }]}
         >
           {featuredProjects[0].image ? (
-            <img
+            <ProjectImage
               src={featuredProjects[0].image}
               alt={featuredProjects[0].imageAlt || featuredProjects[0].title}
-              width="960"
-              height="600"
-              loading="lazy"
-              fetchpriority="low"
-              decoding="async"
+              variant="featured"
             />
           ) : (
             <span aria-hidden="true">{featuredIcon(featuredProjects[0].title)}</span>
@@ -209,13 +206,10 @@ function featuredIcon(title: string): string {
             <Card variant="work">
               {project.image && (
                 <figure slot="media" class="ink-card__media project-card-thumb">
-                  <img
+                  <ProjectImage
                     src={project.image}
                     alt={project.imageAlt || project.title}
-                    width="640"
-                    height="400"
-                    loading="lazy"
-                    decoding="async"
+                    variant="thumb"
                   />
                 </figure>
               )}

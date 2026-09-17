@@ -1,16 +1,10 @@
 ---
-import { getCollection } from "astro:content";
+import { getBlogIndex } from "../lib/blog-index";
 import BlogSectionLayout from "../layouts/BlogSectionLayout.astro";
 
-const allEntries = await getCollection("blog");
-const posts = allEntries
-  .filter((entry) => !entry.data.draft)
+const { routedPosts } = await getBlogIndex();
+const posts = routedPosts
   .filter((entry) => (entry.data.section || entry.id.split("/")[0]) === "ancient")
-  .sort((a, b) => {
-    const aTime = a.data.date ? a.data.date.getTime() : 0;
-    const bTime = b.data.date ? b.data.date.getTime() : 0;
-    return bTime - aTime;
-  })
   .map((entry) => ({
     title: entry.data.title,
     href: `/${entry.id}`,

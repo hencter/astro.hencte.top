@@ -107,32 +107,41 @@ astro.hencte.top/
 
 | 维度 | 详情 |
 |------|------|
-| **框架** | Astro v5.15 (SSG, `output: "static"`) |
-| **样式** | Tailwind CSS v4 (`@tailwindcss/vite`) + 自定义 CSS 设计系统 (1118 行 global.css) |
-| **内容** | `@astrojs/markdoc` v0.15 |
-| **i18n** | zh-CN (default, `/`) + en-US (`/en`) |
-| **内容集合** | blog (`log/`, `tech/`, `ancient/`, `posts/`), connect (zh/en), novel |
+| **框架** | Astro v5.18 (SSG, `output: "static"`)，ClientRouter 视图过渡 |
+| **样式** | Tailwind CSS v4 (`@tailwindcss/vite`) + 模块化设计系统（`src/styles/` 9 个 partial：tokens/base/chrome/banner/cards/post/footer/transitions/responsive，由 `global.css` 按原序聚合） |
+| **内容** | `@astrojs/markdoc` v0.15（当前无 .mdoc 内容；`allowHTML` 在 integration 选项中开启）；严格 Zod schema（无 passthrough） |
+| **i18n** | zh-CN (default, `/`) + en-US (`/en`) + zh-TW (`/tw`) + zh-HK (`/hk`，OpenCC 镜像) |
+| **内容集合** | blog (`log/`, `tech/`, `ancient/`, `posts/`), connect (zh/en), novel；统一查询入口 `src/lib/blog-index.ts` |
+| **Connect 路由壳** | `ConnectShell.astro` + `getConnectPageData()` 统一 16 个 locale 壳的 canonical/hreflang/JSON-LD 接线 |
 | **部署** | hencte.top (静态托管) |
 | **分析** | Google Analytics 4 (`G-0YT61J3M3T`) |
-| **包管理** | pnpm / bun (双 lockfile) |
-| **构建并发** | 当前: 1 (可优化) |
+| **包管理** | pnpm |
+| **构建并发** | 4 |
 | **排版** | Heti (中文排版增强) + 农历支持 (lunar-javascript) |
-| **SEO 现状** | 自定义 Meta + JsonLD 组件，无 robots.txt，无 sitemap，无 RSS |
-| **性能现状** | 无 prefetch/preload 策略，无 Service Worker，图片未优化 |
+| **SEO 现状** | 自定义 Meta + JsonLD 组件；`public/robots.txt` ✓；`@astrojs/sitemap` + canonical `/sitemap.xml` ✓；`/rss.xml` ✓；llms.txt/llms-full.txt/llm.txt ✓ |
+| **性能现状** | prefetch hover 策略 ✓；项目图走 `astro:assets` `<Picture>`（AVIF+WebP 响应式，源存 `src/assets/projects/`）；无 Service Worker；小说/博客配图仍为 public 大 PNG（待迁移） |
+| **质量门禁** | `pnpm check` = astro check（0 error 门禁）；`pnpm verify` = check + build；GitHub Actions `.github/workflows/ci.yml` |
+| **客户端脚本纪律** | ClientRouter 下禁止捕获 DOM 引用到常驻闭包：事件委托或每次 fresh query；`astro:page-load` 代替 DOMContentLoaded；常驻监听器用 `window.__*Bound` 单次绑定守卫 |
 
 ## 当前已知待办 (Backlog)
 
 | 优先级 | 领域 | 事项 |
 |--------|------|------|
-| 🔴 P0 | SEO | 添加 robots.txt、sitemap.xml、RSS feed |
-| 🔴 P0 | SEO | 安装 `@astrojs/sitemap`、`@astrojs/rss` |
-| 🟡 P1 | 性能 | Lightouse 审计 + Core Web Vitals 优化 |
-| 🟡 P1 | 性能 | 构建并发优化、图片优化、字体优化 |
-| 🟡 P1 | UI | 设计系统审计、组件提取与标准化 |
-| 🟡 P1 | 内容 | i18n 内容一致性审计 |
+| 🔴 P0 | 性能 | 博客/小说配图（`public/img/blog`、`public/img/novel`、`public/img/2026-07-24`，多张 1–3MB PNG）迁移 astro:assets |
+| 🟡 P1 | 性能 | Lighthouse 审计 + Core Web Vitals 复测（图片优化后） |
+| 🟡 P1 | 性能 | 字体子集化延续、第三方 CDN（KaTeX/Mermaid）按需化评估 |
+| 🟡 P1 | UI | 设计系统审计、`cards.css`（731 行）进一步抽象评估 |
+| 🟡 P1 | 内容 | i18n 内容一致性审计（en 首页无小说区 vs zh/tw/hk 有——`homeNovels` 历史上是死 prop，已移除接线，需产品决策） |
 | 🟢 P2 | 运维 | 死链检测、内容新鲜度审计 |
 | 🟢 P2 | GEO | llms.txt/llms-full.txt 增强 |
-| 🟢 P2 | 安全 | Markdoc 配置修复 (`markdoc.config.mjs` 缺失) |
+| 🟢 P2 | 内容 | Markdoc 实际启用评估（当前无 .mdoc 内容，Callout 组件已修复待用） |
+
+### 已完成（2026-09-17 Sprint）
+- ~~P0 SEO: robots.txt / sitemap.xml / RSS~~（此前 Sprint 完成，本次验证）
+- ~~P0 脚本生命周期: ClientRouter 下 BaseLayout/WechatWidget 旧 DOM 引用与重复绑定~~
+- ~~P0 小说页 DevTools 高频定时器与交互拦截移除~~
+- ~~P1 项目页 1–3MB PNG → astro:assets AVIF/WebP 响应式~~
+- ~~P1 global.css 拆分、Connect 壳抽象、schema 收紧、博客索引、CI 门禁~~
 
 ## 模型选择指南
 

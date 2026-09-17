@@ -1,0 +1,105 @@
+/* ============================================================
+   View Transition — short crossfade, no gap, no blur shimmer
+   Old page fades toward a faint ghost instead of a blank flash,
+   the new page fades in over it: reads as a calm content swap.
+   ============================================================ */
+::view-transition-old(root) {
+  animation: vt-fade-out 160ms ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: vt-fade-in 220ms ease-out both;
+}
+
+@keyframes vt-fade-out {
+  to {
+    opacity: 0.35;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Skip Link & Mobile Nav
+   ============================================================ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  /* Same AA pair as .btn-primary — brand gold fails 4.5:1 on cream. */
+  background: var(--brand-deep);
+  color: #f8f5ee;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: top 200ms ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-btn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink-700);
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+}
+
+.nav-toggle-btn:hover {
+  color: var(--brand-deep);
+  background: var(--nav-hover-bg);
+}
+
+.nav-toggle-btn:focus-visible {
+  outline: 2px solid var(--brand-deep);
+  outline-offset: 2px;
+  color: var(--brand-deep);
+  background: var(--nav-hover-bg);
+}
+
+.nav-toggle-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.nav-panel {
+  display: contents;
+}
+
+@media (min-width: 921px) {
+  .site-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .nav-panel {
+    display: block;
+    justify-self: center;
+  }
+
+  .nav-panel .nav-list {
+    justify-content: center;
+  }
+
+  .header-actions {
+    margin-left: 0;
+  }
+}
