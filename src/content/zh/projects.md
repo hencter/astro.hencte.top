@@ -40,7 +40,7 @@ featuredProjects:
     result: "板块覆盖发现、知识库、技能库与提示词库。Slogan：每一步都算数。"
     tags: ["Community", "AI Creator", "Invite-only"]
     url: "https://tongtianlu.cn"
-    image: "/img/projects/tongtianlu.png"
+    image: "/img/projects/tongtianlu.webp"
     imageAlt: "通天路：夜市山路灯火向上延伸，创作者并肩而行"
   - stage: "开源游戏"
     title: "商业帝国 3D · AI 大富翁"
@@ -48,7 +48,7 @@ featuredProjects:
     result: "MIT 开源，持续迭代中。"
     tags: ["Three.js", "AI", "Multiplayer", "WebSocket"]
     url: "https://github.com/hencter/monopoly-3d-ai"
-    image: "/img/projects/monopoly-3d.png"
+    image: "/img/projects/monopoly-3d.webp"
     imageAlt: "商业帝国 3D：俯瞰三维城市棋盘与暖金路径"
   - stage: "外站产品"
     title: "AI.LinkTrust.Top"
@@ -56,7 +56,7 @@ featuredProjects:
     result: "独立站点长期运行，承接外部访问与产品验证。"
     tags: ["AI", "Web Product", "Trust"]
     url: "https://ai.linktrust.top"
-    image: "/img/projects/linktrust.png"
+    image: "/img/projects/linktrust.webp"
     imageAlt: "LinkTrust：青瓷与金色天平甄别可信链接网络"
   - stage: "品牌主站"
     title: "hencte.top"
@@ -64,7 +64,7 @@ featuredProjects:
     result: "从单页升级为可持续更新的项目 + 博客双栈站点。"
     tags: ["Astro", "Bilingual", "Personal Brand"]
     url: "/"
-    image: "/img/projects/hencte-top.png?v=20260903yi"
+    image: "/img/projects/hencte-top.webp"
     imageAlt: "亦幸小阁：米白宣纸上朱红「亦」印、青瓷茶盏与毛笔"
   - stage: "迁移工程"
     title: "Hugo 内容迁移到 Astro"

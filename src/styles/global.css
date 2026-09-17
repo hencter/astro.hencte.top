@@ -1080,6 +1080,13 @@ html.reading-chrome--hidden .site-header:focus-within {
   object-fit: cover;
 }
 
+/* astro:assets <Picture> wraps <img> in <picture> — keep it layout-transparent */
+.card-featured-visual picture,
+.ink-card__media picture,
+.project-card-thumb picture {
+  display: contents;
+}
+
 .card-featured-visual--image {
   background: color-mix(in srgb, var(--surface) 90%, var(--brand) 10%);
 }
