@@ -1,29 +1,13 @@
 ---
-import { getEntry } from "astro:content";
-import Layout from "../layouts/BaseLayout.astro";
+import ConnectShell from "../components/connect/ConnectShell.astro";
 import AboutSections from "../components/connect/AboutSections.astro";
-import JsonLD from "../components/JsonLD.astro";
-import { getPageAlternates } from "../lib/i18n";
+import { getConnectPageData } from "../lib/connect-page";
 import { getAboutStrings } from "../lib/ui-strings";
 
-const aboutEntry = await getEntry("connect", "zh/about");
-if (!aboutEntry) {
-  throw new Error("Missing connect content: zh/about");
-}
-
-const page = aboutEntry.data;
 const locale = "zh-CN";
+const page = await getConnectPageData("about", locale);
 ---
 
-<Layout
-  title={page.title}
-  description={page.description}
-  locale={locale}
-  canonicalPath="/about"
-  connectPage="about"
-  alternates={getPageAlternates("about")}
-  keywords={page.keywords ?? []}
->
-  <JsonLD type="FAQPage" canonicalPath="/about" />
+<ConnectShell page={page} locale={locale} connectPage="about" faqJsonLd>
   <AboutSections page={page} locale={locale} strings={getAboutStrings(locale)} />
-</Layout>
+</ConnectShell>
