@@ -154,3 +154,9 @@
 - **经验**: ① 每批结构性改动（组件抽取/CSS 清理/内容删除）都以 `pnpm build` + 产物抽查为门，行级重构先核对输出 DOM 类名计数再 commit；② 多文件文本替换易踩 EOL/引号坑——PowerShell 单引号内 `` `n `` 是字面量、`\"` 不成对即截断参数，批量写入后用 git diff 或原始转义复查；③ 删 CSS 死选择器必须先确认模板零引用并按"尾行携带 { 需迁移"处理，用括号平衡校验兜底；④ 工作树可能与另一会话共享，提交前 `git log -1`/`git status` 复查并显式 add。
 - **适用**: 任何批量重构、自动化文本编辑与多会话协作。
 - **参考**: [[swarm_reports/ui/2026-09-03_optimization_sprint.md]]
+
+### 18 [2026-09-17] ClientRouter 生命周期：常驻闭包禁止捕获 DOM
+- **来源**: View Transitions 脚本修复 Sprint
+- **经验**: ① bundled module script 每次会话只执行一次，`document`/`window` 跨 swap 存活而页面 DOM 被整体替换——任何在闭包里捕获 `header`/`panel` 等元素的常驻监听器都会在首次导航后操作"幽灵节点"；正确姿势是 window 级监听绑一次（`window.__*Bound` 守卫）+ 处理器内 fresh query，或事件委托。② `astro:page-load` 取代 `DOMContentLoaded`（swap 后 DOMContentLoaded 不再触发，KaTeX/Mermaid 曾因此失效）。③ 带属性的 `<script>`（如 `type="module"`）被当作 is:inline：不写 TS（`declare global` 会成为浏览器语法错误）、每次访问重执行、需自行加守卫。④ IntersectionObserver 每页重建前必须 `disconnect()`，否则旧 DOM 引用泄漏。⑤ pnpm 下 `astro check` 需 `typescript@5.x`（7.x 无 programmatic API），sharp 需显式装为 devDep（ transitive 不提升）。
+- **适用**: 任何 Astro ClientRouter 站点的客户端脚本编写与审查。
+- **参考**: [[swarm_reports/perf/2026-09-17_architecture_sprint.md]]
