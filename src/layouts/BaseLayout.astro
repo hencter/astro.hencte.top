@@ -319,7 +319,7 @@ function isNavActive(href: string): boolean {
         const labelOpen = btn.getAttribute('data-label-open') || 'Open menu';
         const labelClose = btn.getAttribute('data-label-close') || 'Close menu';
 
-        const setOpen = (open) => {
+        const setOpen = (open: boolean) => {
           const b = document.getElementById('nav-toggle');
           const p = document.getElementById('primary-nav');
           if (!b || !p) return;

@@ -364,15 +364,11 @@ if (isSectionLanding && !isAncient) {
         </script>
         <script type="module">
           import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-          declare global {
-            interface Window {
-              mermaid?: { run: (options?: { querySelector?: string }) => Promise<void> };
-              __mermaidBound?: boolean;
-              __mermaidRun?: () => void;
-            }
-          }
-          // startOnLoad covers the first full load; astro:page-load +
-          // mermaid.run covers ClientRouter swaps.
+          // NOTE: scripts with attributes are treated as is:inline — this
+          // file is plain JS (no TS declarations) and re-executes per
+          // visit; the import is module-cached so the cost is one fetch.
+          // startOnLoad covers the first full load; the guarded companion
+          // script above re-renders .mermaid blocks on astro:page-load.
           mermaid.initialize({ startOnLoad: true, theme: "default", securityLevel: "loose" });
           window.mermaid = mermaid;
         </script>

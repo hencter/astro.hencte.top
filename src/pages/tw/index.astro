@@ -3,12 +3,11 @@ import ConnectShell from "../../components/connect/ConnectShell.astro";
 import HomeSections from "../../components/connect/HomeSections.astro";
 import { getConnectPageData } from "../../lib/connect-page";
 import { getHomeStrings } from "../../lib/ui-strings";
-import { getLatestPosts, getHomeNovels } from "../../lib/blog-helpers";
+import { getLatestPosts } from "../../lib/blog-helpers";
 
 const locale = "zh-TW";
 const home = await getConnectPageData("home", locale);
 const latestPosts = await getLatestPosts(6, locale);
-const homeNovels = await getHomeNovels(locale);
 ---
 
 <ConnectShell page={home} locale={locale} connectPage="home">
@@ -16,7 +15,6 @@ const homeNovels = await getHomeNovels(locale);
     home={home}
     locale={locale}
     latestPosts={latestPosts}
-    homeNovels={homeNovels}
     strings={getHomeStrings(locale)}
   />
 </ConnectShell>

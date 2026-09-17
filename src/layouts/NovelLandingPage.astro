@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from "../lib/i18n";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import { getNovelHref, htmlLangForLocale, getNovelUiStrings } from "../lib/novel-helpers";
 import LocaleSelect from "../components/LocaleSelect.astro";
 import JsonLD from "../components/JsonLD.astro";
@@ -35,7 +36,7 @@ const {
 
 const ui = getNovelUiStrings(locale);
 const homeHref = locale === "zh-CN" ? "/" : locale === "en-US" ? "/en" : locale === "zh-TW" ? "/tw" : "/hk";
-const novelIndexHref = getNovelHref(locale);
+const novelIndexHref = getNovelHref(locale, undefined);
 const canonical = new URL(Astro.url.pathname, Astro.url).toString();
 const canonicalPath = Astro.url.pathname;
 const htmlLang = htmlLangForLocale(locale);

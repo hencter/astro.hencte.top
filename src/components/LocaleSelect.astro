@@ -81,7 +81,7 @@ const hasLinks = links.length > 0;
 <script>
   // Bind once per element; re-runs are safe across View Transitions.
   function bindLocaleSelects() {
-    document.querySelectorAll('select[data-locale-nav]').forEach(function (sel) {
+    document.querySelectorAll<HTMLSelectElement>('select[data-locale-nav]').forEach(function (sel) {
       if (sel.dataset.localeBound === '1') return;
       sel.dataset.localeBound = '1';
       sel.addEventListener('change', function () {

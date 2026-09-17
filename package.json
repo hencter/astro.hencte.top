@@ -7,6 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
+    "verify": "astro check && astro build",
     "migrate:hugo": "py scripts/migrate_hugo_content.py",
     "import:novels": "node scripts/import-novels.mjs"
   },
@@ -29,6 +31,9 @@
     "node": ">=20"
   },
   "devDependencies": {
-    "sharp": "^0.35.4"
+    "@astrojs/check": "^0.9.10",
+    "@types/mdast": "^4.0.4",
+    "sharp": "^0.35.4",
+    "typescript": "^5.9.2"
   }
 }

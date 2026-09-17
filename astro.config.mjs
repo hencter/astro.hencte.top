@@ -20,7 +20,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [
-    markdoc(),
+    markdoc({ allowHTML: true }),
     sitemap({
       // Plain sitemaps.org urlset only — no xmlns:xhtml / <xhtml:link> hreflang.
       // Locale pages (/en, /tw, /hk) are still listed as their own <url><loc> entries.
