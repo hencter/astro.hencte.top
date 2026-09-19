@@ -8,7 +8,11 @@ description: "一位算子工程师宣布把才华埋葬在昨天。这篇不评
 draft: false
 section: "log"
 keywords: ["人工智能", "AI取代", "出题人", "判断力", "品味", "职业发展", "人机协同"]
+images:
+  - "/img/blog/craft-dies-taste-lasts-cover.png"
 ---
+
+![封面](/img/blog/craft-dies-taste-lasts-cover.png)
 
 2026年9月，一位算子工程师发了篇文章，标题叫《我不得不把才华埋葬在昨天》。
 
